@@ -23,6 +23,9 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'warn',
+    'no-param-reassign': 0,
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [
       1,
