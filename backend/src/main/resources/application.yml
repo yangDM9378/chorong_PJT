@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/chorongddara?useSSL=false&useUnicode=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ssafy
+    password: ssafy
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  main:
+    allow-bean-definition-overriding: true
+  #  jwt:
+  #    accessSecret: accessSecret
+  #    refreshSecret: refreshSecret
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+#  servlet:
+#    multipart:
+#      max-file-size: 100MB
+#      max-request-size: 500MB
+
+#logging:
+#  pattern:
+#    file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"
+#  file:
+#    name: ./log/logs.log
+#  level:
+#    root: info
+#    com.idle.gaza: Debug
+
+#redis:
+#  host: host
+#  port: host
+
+#cloud:
+#  aws:
+#    s3:
+#      bucket: ssafy.common.gaza
+#    credentials:
+#      access-key:
+#      secret-key:
+#    region:
+#      static: ap-northeast-2
+#    stack:
+#      auto: false
+#    directory: /gaza
+#
+#session:
+#  store-type:redis
