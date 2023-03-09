@@ -1,6 +1,12 @@
 import React, { useCallback, useState } from 'react';
 
-export default function SignUpModal(): JSX.Element {
+type SignUpModalProps = {
+  onClose: () => void;
+};
+
+export default function SignUpModal({
+  onClose,
+}: SignUpModalProps): JSX.Element {
   const [email, setEmail] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -10,6 +16,7 @@ export default function SignUpModal(): JSX.Element {
     (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
       console.log(email, nickname, password, passwordCheck);
+      onClose();
     },
     [email, nickname, password, passwordCheck],
   );

@@ -2,14 +2,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import SignUpModal from './SignUpModal';
 
 export default function HomeHeader() {
   return (
     <div>
       <S.GameHeader>
         <S.HeaderText>게임</S.HeaderText>
-        <SignUpModal />
       </S.GameHeader>
     </div>
   );
