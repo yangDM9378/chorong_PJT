@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @DynamicUpdate
 public class Star {
     @Id

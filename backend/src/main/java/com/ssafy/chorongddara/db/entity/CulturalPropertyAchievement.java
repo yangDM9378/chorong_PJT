@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 public class CulturalPropertyAchievement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
