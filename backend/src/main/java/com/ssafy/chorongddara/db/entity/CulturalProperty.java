@@ -9,7 +9,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class CulturalProperty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +36,36 @@ public class CulturalProperty {
     private String image;
 
     private String type;
+
+    public void changeNameKo(String nameKo) {
+        this.nameKo = nameKo;
+    }
+
+    public void changeNameCh(String nameCh) {
+        this.nameCh = nameCh;
+    }
+
+    public void changeLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void changeLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void changeAddress(String address) {
+        this.address = address;
+    }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
+
+    public void changeImage(String image) {
+        this.image = image;
+    }
+
+    public void changeType(String type) {
+        this.type = type;
+    }
 }

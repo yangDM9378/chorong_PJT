@@ -30,21 +30,21 @@ public class CulturalPropertySaxHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String name) {
         //끝 태그를 만났을 때,
         if (name.equals("ccbaMnm1")) {
-            culturalProperty.setNameKo(str);
+            culturalProperty.changeNameKo(str);
         } else if (name.equals("ccbaMnm2")) {
-            culturalProperty.setNameCh(str);
+            culturalProperty.changeNameCh(str);
         } else if (name.equals("latitude")) {
-            culturalProperty.setLatitude(Double.parseDouble(str));
+            culturalProperty.changeLatitude(Double.parseDouble(str));
         } else if (name.equals("longitude")) {
-            culturalProperty.setLongitude(Double.parseDouble(str));
+            culturalProperty.changeLongitude(Double.parseDouble(str));
         } else if (name.equals("ccbaLcad")) {
-            culturalProperty.setAddress(str);
+            culturalProperty.changeAddress(str);
         } else if (name.equals("content")) {
-            culturalProperty.setDescription(str);
+            culturalProperty.changeDescription(str);
         } else if (name.equals("imageUrl")) {
-            culturalProperty.setImage(str);
+            culturalProperty.changeImage(str);
         } else if (name.equals("scodeName")) {
-            culturalProperty.setNameCh(str);
+            culturalProperty.changeType(str);
         }
     }
 
@@ -55,7 +55,7 @@ public class CulturalPropertySaxHandler extends DefaultHandler {
     public List<CulturalProperty> getCulturalPropertyInfoList(){
         return culturalPropertyList;
     }
-    public void setCulturalPropertyInfoList(List<CulturalProperty> culturalPropertyList) {
+    public void changeCulturalPropertyInfoList(List<CulturalProperty> culturalPropertyList) {
         this.culturalPropertyList = culturalPropertyList;
     }
 }
