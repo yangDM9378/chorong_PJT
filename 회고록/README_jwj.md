@@ -9,3 +9,6 @@
 - SSAFY logo 데이터 라벨링
 - Yolo 알고리즘을 이용해 데이터 학습
 - Yolo detect를 이용해  SSAFY logo 감지
+
+## 03/10
+- 발표
