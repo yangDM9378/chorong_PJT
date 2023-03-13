@@ -12,3 +12,8 @@
 
 ## 03/10
 - 발표
+
+## 03/11
+- API 설계
+- Pytorch Moldel을 ONNX 형식으로 변환
+- ONNX 형식을 JS형식으로 변환
