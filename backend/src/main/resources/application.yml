@@ -13,6 +13,10 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
   main:
     allow-bean-definition-overriding: true
   #  jwt:
