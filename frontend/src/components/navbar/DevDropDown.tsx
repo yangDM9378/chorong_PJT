@@ -29,7 +29,7 @@ const DevDropDown = () => {
               </li>
               <li>
                 <Link to="/regionmap" onClick={onOptionClicked}>
-                  지도도
+                  지도
                 </Link>
               </li>
               <li>
@@ -40,6 +40,11 @@ const DevDropDown = () => {
               <li>
                 <Link to="/camera" onClick={onOptionClicked}>
                   카메라
+                </Link>
+              </li>
+              <li>
+                <Link to="/categorymap" onClick={onOptionClicked}>
+                  카테고리
                 </Link>
               </li>
             </>

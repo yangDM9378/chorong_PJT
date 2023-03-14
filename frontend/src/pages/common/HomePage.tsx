@@ -3,15 +3,15 @@ import Modal from '@mui/material/Modal';
 import HomeHeader from '../../components/home/HomeHeader';
 import SignUpModal from '../../components/home/SignUpModal';
 
-export default function Home() {
+export default function HomePage() {
   const [flag, setFlag] = useState(false);
 
   function openSignUpModal() {
     return setFlag(true);
   }
-  function closeSignUpModal() {
-    return setFlag(false);
-  }
+  // function closeSignUpModal() {
+  //   return setFlag(false);
+  // }
   return (
     <div>
       <HomeHeader />;<button type="button">로그인하기</button>

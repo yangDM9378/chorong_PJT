@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function SearchCulturalProperty() {
+export default function SearchPage() {
   return <div>SearchCulturalProperty</div>;
 }
