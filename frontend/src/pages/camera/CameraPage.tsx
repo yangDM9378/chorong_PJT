@@ -1,5 +1,10 @@
 import React from 'react';
+import Camera from '../../components/camera/Camera';
 
 export default function CameraPage() {
-  return <div>여긴 카메라 필요해</div>;
+  return (
+    <div>
+      <Camera />
+    </div>
+  );
 }
