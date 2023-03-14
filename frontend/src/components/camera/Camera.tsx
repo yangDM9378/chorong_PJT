@@ -30,7 +30,9 @@ export default function Camera() {
   return (
     <div>
       <video ref={videoRef} />
-      <button onClick={setCamera}>{front ? 'Front' : 'Rear'} camera</button>
+      <button type="button" onClick={setCamera}>
+        {front ? 'Front' : 'Rear'} camera
+      </button>
     </div>
   );
 }
