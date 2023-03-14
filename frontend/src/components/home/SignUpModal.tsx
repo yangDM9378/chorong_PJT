@@ -15,7 +15,6 @@ export default function SignUpModal({
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
-      console.log(email, nickname, password, passwordCheck);
       onClose();
     },
     [email, nickname, password, passwordCheck],

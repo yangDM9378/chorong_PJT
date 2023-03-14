@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function NoMatch() {
+export default function NoMatchPage() {
   const navigate = useNavigate();
   const goBack = useCallback(() => {
     navigate(-1);
