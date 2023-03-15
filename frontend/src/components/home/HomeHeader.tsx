@@ -5,26 +5,42 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import Modal from '@mui/material/Modal';
 import SignInModal from './SignInModal';
+import SignUpModal from './SignUpModal';
 
 export default function HomeHeader() {
-  const [loginFlag, setLoginFlag] = useState(false);
-  function openLoginModal() {
-    return setLoginFlag(true);
+  const [logInFlag, setLogInFlag] = useState(false);
+  const [signUpFlag, setSignUpFlag] = useState(false);
+
+  function openLogInModal() {
+    return setLogInFlag(true);
   }
-  function closeLoginModal() {
-    return setLoginFlag(false);
+  function closeLogInModal() {
+    return setLogInFlag(false);
+  }
+
+  function openSignUpModal() {
+    return setSignUpFlag(true);
+  }
+  function closeSignUpModal() {
+    return setSignUpFlag(false);
   }
   return (
     <div>
       <S.GameHeader>
         <S.HeaderText>게임</S.HeaderText>
-        <button type="button" onClick={openLoginModal}>
+        <button type="button" onClick={openLogInModal}>
           로그인
         </button>
-        <Modal open={loginFlag} onClose={closeLoginModal}>
+        <Modal open={logInFlag} onClose={closeLogInModal}>
           <div>
-            <SignInModal onClose={closeLoginModal} />
+            <SignInModal onClose={closeLogInModal} />
           </div>
+        </Modal>
+        <button type="button" onClick={openSignUpModal}>
+          계정 만들기
+        </button>
+        <Modal open={signUpFlag} onClose={closeSignUpModal}>
+          <SignUpModal onClose={closeSignUpModal} />
         </Modal>
       </S.GameHeader>
     </div>
