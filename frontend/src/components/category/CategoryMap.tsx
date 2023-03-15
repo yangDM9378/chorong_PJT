@@ -1,184 +1,86 @@
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// import React, { useState, useEffect } from 'react';
-// import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+/* eslint-disable */
+import React, { useState } from 'react';
+import { MapContainer, GeoJSON, GeoJSONProps } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import koreaGeoJSON from './korea.json'; // 한국 지도 GeoJSON 데이터 파일
+import { Feature, Geometry, GeoJsonObject } from 'geojson';
+import L, { StyleFunction } from 'leaflet';
 
-// interface Geojson {
-//   type: string;
-//   features: GeoFeature[];
-// }
+interface RegionProperties {
+  name: string;
+}
 
-// interface GeoFeature {
-//   type: string;
-//   properties: any;
-//   geometry: GeoGeometry;
-// }
+const CategoryMap: React.FC = () => {
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
 
-// interface GeoGeometry {
-//   type: string;
-//   coordinates: any;
-// }
+  const handleRegionClick: GeoJSONProps['onEachFeature'] = (feature, layer) => {
+    const regionName = feature.properties.name;
 
-// export default function CategoryMap() {
-//   const [koreaGeojson, setKoreaGeojson] = useState<Geojson | null>(null);
+    layer.on('click', (event) => {
+      setSelectedRegion(regionName);
+      // console.log('선택된 지역:', regionName);
+    });
 
-//   useEffect(() => {
-//     async function fetchGeojson() {
-//       const response = await fetch('/korea.json');
-//       const data: Geojson = await response.json();
-//       setKoreaGeojson(data);
-//     }
-//     fetchGeojson();
-//   }, []);
+    if (layer instanceof L.Polygon) {
+      const regionCenter = layer.getBounds().getCenter();
+      // console.log(regionCenter);
+      const tooltip = new L.Tooltip({
+        permanent: true,
+        direction: 'center',
+      }).setContent(regionName);
+      layer.bindTooltip(tooltip).openTooltip(regionCenter);
+    }
+  };
 
-//   if (!koreaGeojson) {
-//     return <div>Loading...</div>;
-//   }
+  const regionData: { [key: string]: { value: number; color: string } } = {
+    부산광역시: { value: 70, color: 'orange' },
+    대구광역시: { value: 40, color: 'yellow' },
+    서울특별시: { value: 100, color: 'yellow' },
+  };
 
-//   return (
-//     <ComposableMap
-//       projection="geoMercator"
-//       projectionConfig={{
-//         scale: 4500,
-//       }}
-//     >
-//       <Geographies geography={koreaGeojson.features}>
-//         {({ geographies }) =>
-//           geographies.map((geo) => {
-//             return (
-//               <Geography
-//                 key={geo.rsmKey}
-//                 geography={geo}
-//                 fill="#FF5533"
-//                 stroke="#000000"
-//               />
-//             );
-//           })
-//         }
-//       </Geographies>
-//     </ComposableMap>
-//   );
-// }
+  const getColorByValue = (regionName: string): string => {
+    const regionInfo = regionData[regionName];
+    console.log(regionInfo);
+    if (!regionInfo) return 'gray'; // Change to a default color if region data is not available
+    return regionInfo.color;
+  };
 
-import './styles.css';
-import { DataMapsWrapper } from 'react-typescript-datamaps';
-import d3 from 'd3';
+  const regionStyle: StyleFunction<any> = (
+    feature: Feature<Geometry, RegionProperties> | undefined,
+  ) => {
+    const regionName = feature?.properties.name;
+    const regionColor = getColorByValue(regionName!); // add non-null assertion operator
 
-const demoProps = {
-  scope: 'india',
-  geographyConfig: {
-    popupOnHover: true,
-    highlightOnHover: true,
-    borderColor: '#444',
-    borderWidth: 0.5,
-    dataUrl:
-      'https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/india.topo.json',
-  },
-  bubblesConfig: {
-    borderWidth: 2,
-    borderOpacity: 1,
-    borderColor: '#FFFFFF',
-    popupOnHover: true, // True to show the popup while hovering
-    radius: null,
-    popupTemplate: function (geo, data) {
-      return `<div class="hoverinfo">city: ${data.state}, Slums: ${data.radius}%</div>`;
-    },
-    fillOpacity: 0.75,
-    animate: true,
-    highlightOnHover: true,
-    highlightFillColor: '#FC8D59',
-    highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
-    highlightBorderWidth: 2,
-    highlightBorderOpacity: 1,
-    highlightFillOpacity: 0.85,
-    exitDelay: 100, // Milliseconds
-    key: JSON.stringify,
-  },
-  fills: {
-    MAJOR: '#306596',
-    MEDIUM: '#0fa0fa',
-    MINOR: '#bada55',
-    defaultFill: '#dddddd',
-  },
-  data: {
-    JH: { fillKey: 'MINOR' },
-    MH: { fillKey: 'MINOR' },
-  },
-  setProjection: function (element) {
-    var projection = d3.geo
-      .mercator()
-      .center([80, 25])
-      .scale(600)
-      .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-    var path = d3.geo.path().projection(projection);
-    return { path: path, projection: projection };
-  },
+    return {
+      fillColor: regionColor,
+      weight: 1,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.4,
+    };
+  };
+
+  return (
+    <div>
+      <MapContainer
+        center={[36.0, 127.8]}
+        zoom={6.8}
+        minZoom={6.8}
+        maxZoom={6.8}
+        zoomControl={false}
+        dragging={false}
+        doubleClickZoom={false}
+        style={{ height: '85vh', width: '80vw' }}
+      >
+        <GeoJSON
+          data={koreaGeoJSON as unknown as GeoJsonObject}
+          onEachFeature={handleRegionClick}
+          style={regionStyle}
+        />
+      </MapContainer>
+      {selectedRegion && <p>선택된 지역: {selectedRegion}</p>}
+    </div>
+  );
 };
 
-const bubblesDemo = [
-  {
-    centered: 'MH',
-    fillKey: 'MAJOR',
-    radius: 20,
-    state: 'Maharastra',
-  },
-  {
-    centered: 'AP',
-    fillKey: 'MAJOR',
-    radius: 22,
-    state: 'Andhra Pradesh',
-  },
-  {
-    centered: 'TN',
-    fillKey: 'MAJOR',
-    radius: 16,
-    state: 'Tamil Nadu',
-  },
-  {
-    centered: 'WB',
-    fillKey: 'MEDIUM',
-    radius: 15,
-    state: 'West Bengal',
-  },
-  {
-    centered: 'MP',
-    fillKey: 'MEDIUM',
-    radius: 15,
-    state: 'Madhya Pradesh',
-  },
-  {
-    centered: 'UP',
-    fillKey: 'MINOR',
-    radius: 8,
-    state: 'Uttar Pradesh',
-  },
-  {
-    centered: 'RJ',
-    fillKey: 'MINOR',
-    radius: 7,
-    state: 'Rajasthan',
-  },
-];
-
-function Demo() {
-  const [bubbles, setBubbles] = React.useState([]);
-  React.useEffect(() => {
-    setInterval(() => {
-      setBubbles(bubblesDemo);
-    }, 1000);
-  }, []);
-  return (
-    <div style={{ width: '600px', height: '600px' }} className="App">
-      <DataMapsWrapper {...demoProps} bubbles={bubbles} />
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <div className="App">
-      <div className="wrapper">
-        <Demo />
-      </div>
-    </div>
-  );
-}
+export default CategoryMap;
