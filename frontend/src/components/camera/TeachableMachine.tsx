@@ -4,14 +4,21 @@ import * as tmPose from '@teachablemachine/pose';
 
 function TeachableMachinePoseModel() {
   const [front, setFront] = useState<boolean>(false);
+  const [twidth, setWidth] = useState(window.innerWidth);
+  const [theight, setHeight] = useState(window.innerHeight);
 
+  const [avgList, setAvgList] = useState<number[]>([]);
   const setCamera = () => {
     setFront((prev) => !prev);
   };
+  function onWindowResize() {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  }
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const labelContainerRef = useRef<HTMLDivElement>(null);
-  const webcamRef = useRef<tmPose.Webcam>(null);
+  const canvasRef = useRef<HTMLCanvasElement>();
+  const labelContainerRef = useRef<HTMLDivElement>();
+  const webcamRef = useRef<tmPose.Webcam>();
   useEffect(() => {
     const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
     let model: tmPose.CustomPoseNet;
@@ -28,34 +35,37 @@ function TeachableMachinePoseModel() {
       maxPredictions = model.getTotalClasses();
 
       // Convenience function to setup a webcam
-      const size = 300;
-      const flip = true;
+      const size = 400;
+      const flip = front;
       const facing = front ? 'user' : 'environment';
-      webcamRef.current = new tmPose.Webcam(
-        window.innerWidth,
-        window.innerHeight,
-        facing,
-        flip,
-      ); // width, height, flip
+      webcamRef.current = new tmPose.Webcam(size, size, flip); // width, height, flip
 
-      await webcamRef.current.setup(); // request access to the webcam
+      await webcamRef.current.setup({
+        width: twidth,
+        height: theight,
+        facingMode: facing,
+      }); // request access to the webcam
       await webcamRef.current.play();
       window.requestAnimationFrame(loop);
 
       // append/get elements to the DOM
       const canvas = canvasRef.current;
+      if (canvas) {
+        canvas.width = webcamRef.current.width;
+        canvas.height = webcamRef.current.height;
+        ctx = canvas.getContext('2d');
+      }
       console.log(webcamRef.current.width, webcamRef.current.height);
-      canvas.width = webcamRef.current.width;
-      canvas.height = webcamRef.current.height;
-      ctx = canvas.getContext('2d');
+
       labelContainer = labelContainerRef.current;
       for (let i = 0; i < maxPredictions; i += 1) {
         labelContainer.appendChild(document.createElement('div'));
       }
+      window.addEventListener('resize', onWindowResize);
     }
 
     async function loop(timestamp) {
-      webcamRef.current.update(); // update the webcam frame
+      webcamRef.current?.update(); // update the webcam frame
       await predict();
       window.requestAnimationFrame(loop);
     }
@@ -72,10 +82,27 @@ function TeachableMachinePoseModel() {
         ].probability.toFixed(2)}`;
         labelContainer.childNodes[i].textContent = classPrediction;
       }
-
+      const accflag = 0;
       // 활쏘는 자세
       if (prediction[1].probability > 0.98) {
-        alert('카메라 촬영!');
+        // if (accflag === 0) {
+        //   console.log('start');
+        //   let sum = 0;
+        //   let count = 0;
+        //   accflag = 1;
+        //   const interval = setInterval(() => {
+        //     sum += prediction[1].probability;
+        //     count += 1;
+        //     if (count === 3) {
+        //       clearInterval(interval);
+        //       const average = sum / count;
+        //       console.log(`Average: ${average}`);
+        //       if (average > 0.98) {
+        //         alert('사진');
+        //       }
+        //     }
+        //   }, 1000);
+        // }
       }
 
       // finally draw the poses
@@ -98,7 +125,10 @@ function TeachableMachinePoseModel() {
 
     return () => {
       // Cleanup
-      webcamRef.current && webcamRef.current.stop();
+      if (webcamRef.current) {
+        webcamRef.current.stop();
+      }
+      window.removeEventListener('resize', onWindowResize);
     };
   }, [front, webcamRef.current?.height, webcamRef.current?.width]);
 
