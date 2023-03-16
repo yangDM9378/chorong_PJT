@@ -16,7 +16,7 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<? extends BaseResponseBody> join(@RequestBody UserJoinReq userJoinReq){
-
+        userService.join(userJoinReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success" ));
     }
 }
