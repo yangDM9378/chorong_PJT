@@ -19,9 +19,9 @@ spring:
       mode: always
   main:
     allow-bean-definition-overriding: true
-  #  jwt:
-  #    accessSecret: accessSecret
-  #    refreshSecret: refreshSecret
+  jwt:
+    accessSecret: accessSecret
+    refreshSecret: refreshSecret
 #  mvc:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
@@ -39,9 +39,9 @@ spring:
 #    root: info
 #    com.idle.gaza: Debug
 
-#redis:
-#  host: host
-#  port: host
+redis:
+  host: j8c101.p.ssafy.io
+  port: 6379
 
 #cloud:
 #  aws:
