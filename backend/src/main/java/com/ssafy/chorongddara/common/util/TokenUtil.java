@@ -292,16 +292,12 @@ public class TokenUtil {
         System.out.println(getUserIdFromToken(originAccessToken));
 
         // 5. 새로운 토큰 생성
-        String userId = getUserIdFromToken(originAccessToken);
+        String email = getUserIdFromToken(originAccessToken);
 
-        log.debug(userId);
+        log.debug(email);
 
-        User user = userService.searchUserByEmail(userId);
-
-        if(user == null) {
-            throw new RuntimeException("잘못된 유저 정보"); // 잘못된 리프레시 토큰
-        }
-
+        Optional<User> getUser = userService.getUserByEmail(email);
+        User user = getUser.orElseThrow(()->new RuntimeException("잘못된 유저 정보"));
         String newAccessToken = generateAccessToken(user);
         String newRefreshToken = generateRefreshToken(user);
         TokenDto newTokenDto = TokenDto.builder()

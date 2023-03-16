@@ -39,9 +39,9 @@ spring:
 #    root: info
 #    com.idle.gaza: Debug
 
-#redis:
-#  host: host
-#  port: host
+redis:
+  host: j8c101.p.ssafy.io
+  port: 6379
 
 #cloud:
 #  aws:
