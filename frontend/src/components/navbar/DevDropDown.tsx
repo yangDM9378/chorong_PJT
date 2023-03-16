@@ -28,7 +28,7 @@ const DevDropDown = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/regionmap" onClick={onOptionClicked}>
+                <Link to="/categorymap" onClick={onOptionClicked}>
                   지도
                 </Link>
               </li>
