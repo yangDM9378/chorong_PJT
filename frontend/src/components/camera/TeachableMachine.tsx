@@ -4,26 +4,19 @@ import * as tmPose from '@teachablemachine/pose';
 
 function TeachableMachinePoseModel() {
   const [front, setFront] = useState<boolean>(false);
-  const [twidth, setWidth] = useState(window.innerWidth);
-  const [theight, setHeight] = useState(window.innerHeight);
 
-  const [avgList, setAvgList] = useState<number[]>([]);
   const setCamera = () => {
     setFront((prev) => !prev);
   };
-  function onWindowResize() {
-    setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
-  }
 
   const canvasRef = useRef<HTMLCanvasElement>();
   const labelContainerRef = useRef<HTMLDivElement>();
   const webcamRef = useRef<tmPose.Webcam>();
   useEffect(() => {
     const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
-    let model: tmPose.CustomPoseNet;
-    let ctx: CanvasRenderingContext2D;
-    let labelContainer: HTMLDivElement;
+    let model: tmPose.CustomPoseNet | null;
+    let ctx: CanvasRenderingContext2D | null;
+    let labelContainer: HTMLDivElement | undefined;
     let maxPredictions: number;
 
     async function init() {
@@ -41,8 +34,6 @@ function TeachableMachinePoseModel() {
       webcamRef.current = new tmPose.Webcam(size, size, flip); // width, height, flip
 
       await webcamRef.current.setup({
-        width: twidth,
-        height: theight,
         facingMode: facing,
       }); // request access to the webcam
       await webcamRef.current.play();
@@ -55,13 +46,10 @@ function TeachableMachinePoseModel() {
         canvas.height = webcamRef.current.height;
         ctx = canvas.getContext('2d');
       }
-      console.log(webcamRef.current.width, webcamRef.current.height);
-
       labelContainer = labelContainerRef.current;
       for (let i = 0; i < maxPredictions; i += 1) {
         labelContainer.appendChild(document.createElement('div'));
       }
-      window.addEventListener('resize', onWindowResize);
     }
 
     async function loop(timestamp) {
@@ -128,7 +116,6 @@ function TeachableMachinePoseModel() {
       if (webcamRef.current) {
         webcamRef.current.stop();
       }
-      window.removeEventListener('resize', onWindowResize);
     };
   }, [front, webcamRef.current?.height, webcamRef.current?.width]);
 
