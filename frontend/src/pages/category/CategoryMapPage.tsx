@@ -1,5 +1,10 @@
 import React from 'react';
+import CategoryMap from '../../components/category/CategoryMap';
 
-export default function CategoryMap() {
-  return <div>여긴 지도</div>;
+export default function CategoryMapPage() {
+  return (
+    <div>
+      <CategoryMap />
+    </div>
+  );
 }
