@@ -1,5 +1,13 @@
 import React from 'react';
+import Camera from '../../components/camera/Camera';
+import TeachableMachine from '../../components/camera/TeachableMachine';
+import VideoPoseModel from '../../components/camera/VideoPoseModel';
 
 export default function CameraPage() {
-  return <div>여긴 카메라 필요해</div>;
+  return (
+    <div>
+      <VideoPoseModel />
+      <TeachableMachine />
+    </div>
+  );
 }
