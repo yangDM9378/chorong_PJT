@@ -16,7 +16,11 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     cleanRemote: false,
-                                    excludes: '', execCommand: 'docker-compose build',
+                                    excludes: '',
+                                    execCommand: '
+                                        cd ~/deploy
+                                        docker-compose build
+                                    ',
                                     execTimeout: 120000,
                                     flatten: false,
                                     makeEmptyDirs: false,
