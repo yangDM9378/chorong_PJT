@@ -19,6 +19,7 @@ pipeline {
                                     excludes: '',
                                     execCommand: '''
                                         cd /jenkins/workspace/chorongddara
+                                        pwd
                                         sudo docker-compose build
                                     ''',
                                     execTimeout: 120000,
@@ -50,7 +51,10 @@ pipeline {
                                 sshTransfer(
                                     cleanRemote: false,
                                     excludes: '',
-                                    execCommand: 'sudo docker-compose up -d',
+                                    execCommand: '''
+                                        pwd
+                                        sudo docker-compose up -d
+                                    ''',
                                     execTimeout: 120000,
                                     flatten: false,
                                     makeEmptyDirs: false,
