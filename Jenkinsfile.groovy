@@ -29,7 +29,7 @@ pipeline {
                                     remoteDirectory: 'deploy',
                                     remoteDirectorySDF: false,
                                     removePrefix: 'chorongddara',
-                                    sourceFiles: 'chorongddara/**'
+                                    sourceFiles: 'chorongddara/**/*'
                                 )
                             ],
                             usePromotionTimestamp: false,
