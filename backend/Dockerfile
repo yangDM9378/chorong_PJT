@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim AS builder
+FROM adoptopenjdk/openjdk11 AS builder
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
