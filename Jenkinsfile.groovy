@@ -18,7 +18,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
-                                        cd ~/deploy
+                                        cd /jenkins/workspace/chorongddara
                                         sudo docker-compose build
                                     ''',
                                     execTimeout: 120000,
@@ -59,7 +59,7 @@ pipeline {
                                     remoteDirectory: 'deploy',
                                     remoteDirectorySDF: false,
                                     removePrefix: 'chorongddara',
-                                    sourceFiles: 'chorongddara/**')
+                                    sourceFiles: 'chorongddara/**/*')
                             ],
                             usePromotionTimestamp: false,
                             useWorkspaceInPromotion: false,
