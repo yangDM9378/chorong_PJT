@@ -26,7 +26,7 @@ pipeline {
                                     makeEmptyDirs: false,
                                     noDefaultExcludes: false,
                                     patternSeparator: '[, ]+',
-                                    remoteDirectory: 'deploy',
+                                    remoteDirectory: '',
                                     remoteDirectorySDF: false,
                                     removePrefix: 'chorongddara',
                                     sourceFiles: 'chorongddara/**/*'
@@ -56,7 +56,7 @@ pipeline {
                                     makeEmptyDirs: false,
                                     noDefaultExcludes: false,
                                     patternSeparator: '[, ]+',
-                                    remoteDirectory: 'deploy',
+                                    remoteDirectory: '',
                                     remoteDirectorySDF: false,
                                     removePrefix: 'chorongddara',
                                     sourceFiles: 'chorongddara/**/*')
