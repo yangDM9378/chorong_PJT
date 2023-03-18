@@ -20,7 +20,7 @@ pipeline {
                                     execCommand: '''
                                         cd /jenkins/workspace/chorongddara
                                         pwd
-                                        sudo docker-compose build .
+                                        sudo docker-compose build
                                     ''',
                                     execTimeout: 120000,
                                     flatten: false,
@@ -53,7 +53,7 @@ pipeline {
                                     excludes: '',
                                     execCommand: '''
                                         pwd
-                                        sudo docker-compose up . -d
+                                        sudo docker-compose up -d
                                     ''',
                                     execTimeout: 120000,
                                     flatten: false,
