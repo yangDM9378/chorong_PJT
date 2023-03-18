@@ -52,6 +52,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
+                                        cd /jenkins/workspace/chorongddara
                                         pwd
                                         sudo docker-compose up -d
                                     ''',
