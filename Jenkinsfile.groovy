@@ -2,9 +2,38 @@ pipeline {
     agent any
     
     stages() {
-        stage('Test') {
+        stage('Prepare') {
             steps {
-                echo 'Testing..'
+                echo 'Preparing..'
+            }
+        }
+        stage('Build') {
+            steps {
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: 'chorongddaraDeploy',
+                            transfers: [
+                                sshTransfer(
+                                    cleanRemote: false,
+                                    excludes: '', execCommand: 'docker-compose build',
+                                    execTimeout: 120000,
+                                    flatten: false,
+                                    makeEmptyDirs: false,
+                                    noDefaultExcludes: false,
+                                    patternSeparator: '[, ]+',
+                                    remoteDirectory: 'deploy',
+                                    remoteDirectorySDF: false,
+                                    removePrefix: 'chorongddara',
+                                    sourceFiles: 'chorongddara/**'
+                                )
+                            ],
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false,
+                            verbose: false
+                        )
+                    ]
+                )
             }
         }
         stage('Deploy') {
@@ -17,16 +46,16 @@ pipeline {
                                 sshTransfer(
                                     cleanRemote: false,
                                     excludes: '',
-                                    execCommand: 'docker-compose up --build -d',
+                                    execCommand: 'docker-compose up -d',
                                     execTimeout: 120000,
                                     flatten: false,
                                     makeEmptyDirs: false,
                                     noDefaultExcludes: false,
                                     patternSeparator: '[, ]+',
-                                    remoteDirectory: '',
+                                    remoteDirectory: 'deploy',
                                     remoteDirectorySDF: false,
-                                    removePrefix: '',
-                                    sourceFiles: '/README.md')
+                                    removePrefix: 'chorongddara',
+                                    sourceFiles: 'chorongddara/**')
                             ],
                             usePromotionTimestamp: false,
                             useWorkspaceInPromotion: false,
