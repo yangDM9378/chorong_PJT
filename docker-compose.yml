@@ -9,6 +9,8 @@ services:
     volumes:
       - /app/node_modules
       - ./frontend:/app
+    ports:
+      - "3000:3000"
     stdin_open: true
 
   nginx:
@@ -16,6 +18,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./nginx
+    container_name: nginx
     ports:
       - "80:80"
 
@@ -24,6 +27,8 @@ services:
       dockerfile: Dockerfile
       context: ./backend
     container_name: backend
+    ports:
+      - "8080:8080"
     volumes:
       - ./backend:/app
 
