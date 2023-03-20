@@ -1,9 +1,10 @@
+/* eslint-disable import/no-useless-path-segments */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import Modal from '@mui/material/Modal';
-import SignInModal from './SignInModal';
-import SignUpModal from './SignUpModal';
+import SignInModal from '../home/SignInModal';
+import SignUpModal from '../home/SignUpModal';
 
 export default function HomeHeader() {
   const [logInFlag, setLogInFlag] = useState(false);
