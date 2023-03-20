@@ -1,12 +1,12 @@
 import React from 'react';
 import QuizHeader from '../../components/quiz/QuizHeader';
-import QuizProblem from '../../components/quiz/QuizProblem';
+import QuizSection from '../../components/quiz/QuizSection';
 
 export default function QuizPage() {
   return (
     <div>
       <QuizHeader />
-      <QuizProblem />
+      <QuizSection />
     </div>
   );
 }
