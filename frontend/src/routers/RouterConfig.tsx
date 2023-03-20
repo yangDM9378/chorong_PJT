@@ -23,7 +23,7 @@ const RouterConfig = createBrowserRouter([
       { path: '/achievement', element: <AchievementPage /> },
       { path: '/camera', element: <CameraPage /> },
       { path: '/categorymap', element: <CategoryMapPage /> },
-      { path: '/categoryregion/:regionName', element: <CategoryRegionPage /> },
+      { path: '/categoryregion', element: <CategoryRegionPage /> },
       { path: '/categorydetail', element: <CategoryDetailPage /> },
       { path: '/diary', element: <DiaryPage /> },
       { path: '/quiz', element: <QuizPage /> },

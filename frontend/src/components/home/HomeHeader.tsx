@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
