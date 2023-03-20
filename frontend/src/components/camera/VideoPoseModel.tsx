@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 
@@ -22,7 +23,9 @@ function VideoPoseModel() {
       .takePhoto()
       .then((blob: any) => createImageBitmap(blob))
       .then((imageBitmap: any) => {
-        drawCanvas(captureRef.current, imageBitmap);
+        if (captureRef.current) {
+          drawCanvas(captureRef.current, imageBitmap);
+        }
       })
       .catch((error: Error) => console.error(error));
   }
@@ -37,21 +40,22 @@ function VideoPoseModel() {
     const x = (canvas.width - img.width * ratio) / 2;
     const y = (canvas.height - img.height * ratio) / 2;
 
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    canvas
-      .getContext('2d')
-      .drawImage(
-        img,
-        0,
-        0,
-        img.width,
-        img.height,
-        x,
-        y,
-        img.width * ratio,
-        img.height * ratio,
-      );
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      img.width,
+      img.height,
+      x,
+      y,
+      img.width * ratio,
+      img.height * ratio,
+    );
   }
+
   useEffect(() => {
     const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
 
@@ -59,6 +63,7 @@ function VideoPoseModel() {
     let ctx: CanvasRenderingContext2D | null;
     let labelContainer: HTMLDivElement | null;
     let maxPredictions: number;
+
     async function init() {
       const modelURL = `${URL}model.json`;
       const metadataURL = `${URL}metadata.json`;
@@ -66,28 +71,31 @@ function VideoPoseModel() {
       // load the model and metadata
       model = await tmPose.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
-      if (videoRef.current) {
-        videoRef.current.width = twidth;
-        videoRef.current.height = theight;
+      if (!videoRef.current) return;
+      videoRef.current.width = twidth;
+      videoRef.current.height = theight;
 
-        navigator.mediaDevices
-          .getUserMedia({
-            video: { facingMode: front ? 'user' : 'environment' },
-          })
-          .then(function (stream) {
-            if (videoRef.current) {
-              videoRef.current.srcObject = stream;
-              videoRef.current.play();
-            }
+      navigator.mediaDevices
+        .getUserMedia({
+          video: {
+            height: theight,
+            width: twidth,
+            facingMode: front ? 'user' : 'environment',
+          },
+        })
+        .then(function (stream) {
+          if (!videoRef.current) return;
 
-            const track = stream.getVideoTracks()[0];
-            imageCapture = new ImageCapture(track);
-            window.requestAnimationFrame(loop);
-          })
-          .catch(function (err) {
-            console.log(`An error occurred: ${err}`);
-          });
-      }
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+
+          const track = stream.getVideoTracks()[0];
+          imageCapture = new ImageCapture(track);
+          window.requestAnimationFrame(loop);
+        })
+        .catch(function (err) {
+          console.log(`An error occurred: ${err}`);
+        });
 
       const canvas = canvasRef.current;
       if (canvas) {
@@ -105,20 +113,35 @@ function VideoPoseModel() {
       }
     }
 
-    async function loop(timestamp) {
+    async function loop(timestamp: any) {
       await predict();
       window.requestAnimationFrame(loop);
     }
 
     async function predict() {
+      let img: any = null;
+      if (!model) return;
+      if (!videoRef.current) return;
+      if (!imageCapture) return;
+      imageCapture
+        .takePhoto()
+        .then((blob: any) => createImageBitmap(blob))
+        .then((imageBitmap: any) => {
+          img = imageBitmap;
+        });
       const { pose, posenetOutput } = await model.estimatePose(
         videoRef.current,
+        true,
       );
+      console.log('start');
       const prediction = await model.predict(posenetOutput);
+      console.log(prediction);
       for (let i = 0; i < maxPredictions; i += 1) {
         const classPrediction = `${prediction[i].className}: ${prediction[
           i
         ].probability.toFixed(2)}`;
+        if (!labelContainer) return;
+        console.log(classPrediction);
         labelContainer.childNodes[i].textContent = classPrediction;
       }
       if (prediction[1].probability > 0.9) {
@@ -128,18 +151,16 @@ function VideoPoseModel() {
           onTakePhotoButtonClick();
           setIsRunning(false);
         }
-      } else {
       }
-
-      drawPose(pose);
     }
 
-    function drawPose(pose) {
+    function drawPose(pose: any) {
       const canvas = canvasRef.current;
+      if (!canvas) return;
 
       ctx = canvas.getContext('2d');
 
-      if (videoRef.current) {
+      if (videoRef.current && ctx) {
         ctx.drawImage(videoRef.current, 0, 0);
         if (pose) {
           const minPartConfidence = 0.5;
@@ -154,7 +175,7 @@ function VideoPoseModel() {
     }
 
     init();
-  }, [front, labelRef]);
+  }, [front]);
 
   return (
     <div>
@@ -162,7 +183,7 @@ function VideoPoseModel() {
         <video ref={videoRef} muted />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
-      <div ref={labelRef} />
+      <span ref={labelRef} />
       <div>
         <canvas ref={captureRef} />
       </div>
