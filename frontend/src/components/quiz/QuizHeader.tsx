@@ -1,5 +1,11 @@
 import React from 'react';
 
 export default function QuizHeader() {
-  return <div>QuizHeader</div>;
+  return (
+    <div>
+      Q1.
+      <hr />
+      게이지바
+    </div>
+  );
 }
