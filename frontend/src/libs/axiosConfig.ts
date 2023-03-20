@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import axios, { AxiosInstance } from 'axios';
 
 const BASE_URL = 'https://example.com/api';
@@ -26,3 +27,9 @@ authApi.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+const quizApi: AxiosInstance = axios.create({
+  baseURL: BASE_URL,
+});
+
+export { authApi, quizApi };
