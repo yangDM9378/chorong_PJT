@@ -37,6 +37,10 @@ public class CulturalProperty {
 
     private String type;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stageId")
+    private Stage stage;
+
     public void changeNameKo(String nameKo) {
         this.nameKo = nameKo;
     }
