@@ -20,7 +20,7 @@ services:
       context: ./nginx
     container_name: nginx
     volumes:
-      - /etc/letsencrypt/live/j8c101.p.ssafy.io:/etc/letsencrypt/live/j8c101.p.ssafy.io
+      - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
       - "80:80"
       - "443:443"
