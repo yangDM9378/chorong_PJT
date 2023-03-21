@@ -60,7 +60,7 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
 
         // 별 모두 채워졌으면 업적?
         if(star.getStarPose() == 1 && star.getStarQuiz() == 1 && star.getStarAr() == 1){
-
+            
         }
     }
 }
