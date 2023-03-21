@@ -1,8 +1,11 @@
+/* eslint-disable no-console */
 import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
 import * as C from '../../store/quiz';
+import { AppState } from '../../store';
+import { setSelectOption } from '../../store/quiz';
 // import useQuiz from '../../hooks/queries/useQuiz';
 // import getQuiz from '../../api/getQuiz';
 
@@ -32,8 +35,8 @@ export default function QuizSection() {
   // }
 
   // axios값 가져오기
-  // const quizData: Quiz[] = awit getQuiz();
-  const quizData: Quiz[] = [
+  // const quizDatas: Quiz[] = awit getQuiz();
+  const quizDatas: Quiz[] = [
     {
       question: '1번문제',
       options: ['1', '2', '3', '4'],
@@ -54,32 +57,55 @@ export default function QuizSection() {
     },
   ];
 
+  const quizCnt = useSelector<AppState, C.State>(({ quiz }) => quiz);
+  const opt = useSelector<AppState, C.Option>(({ option }) => option);
   const dispatch = useDispatch();
-  const quizCnt = useSelector<AppState, C.State>(({ quizcnt }) => quizcnt);
+  // 더하는 부분 모달로 옮기기
   const quizCntPlus = useCallback(() => dispatch(C.quizCntPlus()), [dispatch]);
-  const quizCntMinus = useCallback(
-    () => dispatch(C.quizCntMinus()),
-    [dispatch],
-  );
+
+  const answerCheck = () => {
+    dispatch(setSelectOption(''));
+
+    if (opt === quizDatas[quizCnt].answer) {
+      console.log(`잘했다 지원아 와~`);
+    } else console.log('틀렸다 지성아 에휴');
+  };
+
+  // 맞을 시 정답입니다 리덕스에 correctCnt 생성 후 모달 틀릴시 정답이 아닙니다+해설
+
+  const navigate = useNavigate();
+  const goQuizCard = useCallback(() => {
+    navigate('/quizscore');
+  }, [navigate]);
+
   return (
     <div>
-      {quizCnt}
-      {quizData.map((quiz, index) => (
-        <QuizProblem key={quiz.question} quiz={quiz} index={index} />
+      {quizDatas.map((quizData, index) => (
+        <QuizProblem
+          key={quizData.question}
+          quizData={quizData}
+          index={index}
+        />
       ))}
-      <button
-        type="button"
-        className="px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700"
-        onClick={quizCntMinus}
-      >
-        이전 문제
-      </button>
+      {quizCnt < 3 ? (
+        <button
+          type="button"
+          className="px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700"
+          onClick={answerCheck}
+        >
+          정답확인
+        </button>
+      ) : (
+        <button type="button" onClick={goQuizCard}>
+          결과보기
+        </button>
+      )}
       <button
         type="button"
         className="px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700"
         onClick={quizCntPlus}
       >
-        다음 문제
+        다음문제
       </button>
     </div>
   );

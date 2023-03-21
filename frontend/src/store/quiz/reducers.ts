@@ -5,10 +5,26 @@ import * as T from './types';
 
 const initialState: T.State = 0;
 
-export const reducer = (state: T.State = initialState, action: T.Actions) => {
+export const cntReducer = (
+  state: T.State = initialState,
+  action: T.Actions,
+) => {
   switch (action.type) {
     case '@quiz/setQuizCnt':
       return state + action.payload;
   }
   return state;
+};
+
+const initialOption: T.Option = '';
+
+export const optionReducer = (
+  option: T.Option = initialOption,
+  action: T.Actions,
+) => {
+  switch (action.type) {
+    case '@quiz/setOption':
+      return action.payload;
+  }
+  return option;
 };

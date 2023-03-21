@@ -4,5 +4,6 @@ import { combineReducers } from 'redux';
 import * as Quiz from './quiz';
 
 export const rootReducer = combineReducers({
-  quiz: Quiz.reducer,
+  quiz: Quiz.cntReducer,
+  option: Quiz.optionReducer,
 });
