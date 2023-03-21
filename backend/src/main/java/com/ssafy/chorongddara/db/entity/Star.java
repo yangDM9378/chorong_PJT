@@ -1,9 +1,6 @@
 package com.ssafy.chorongddara.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -12,7 +9,8 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamicUpdate
+@Setter
+@Getter
 public class Star {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +20,7 @@ public class Star {
 
     private Integer starQuiz;
 
-    private Integer starReview;
+    private Integer starAr;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
