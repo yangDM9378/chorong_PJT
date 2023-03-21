@@ -28,3 +28,16 @@ export const optionReducer = (
   }
   return option;
 };
+
+const initialCorrectCnt: T.CorrectCnt = 0;
+
+export const correctCntReducer = (
+  correctCnt: T.CorrectCnt = initialCorrectCnt,
+  action: T.Actions,
+) => {
+  switch (action.type) {
+    case '@quiz/setCorrectCnt':
+      return correctCnt + action.payload;
+  }
+  return correctCnt;
+};

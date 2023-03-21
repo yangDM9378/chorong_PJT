@@ -6,4 +6,5 @@ import * as Quiz from './quiz';
 export const rootReducer = combineReducers({
   quiz: Quiz.cntReducer,
   option: Quiz.optionReducer,
+  correctCnt: Quiz.correctCntReducer,
 });

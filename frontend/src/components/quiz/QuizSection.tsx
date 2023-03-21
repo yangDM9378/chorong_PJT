@@ -45,13 +45,13 @@ export default function QuizSection() {
     },
     {
       question: '2번문제',
-      options: ['1', '2', '3', '4'],
+      options: ['1]3', '2', '312', '4'],
       answer: '2',
       explanation: '1231121323123',
     },
     {
       question: '3번문제',
-      options: ['1', '2', '3', '4'],
+      options: ['1', '2', '321321', '4'],
       answer: '1',
       explanation: '11111',
     },
@@ -59,19 +59,28 @@ export default function QuizSection() {
 
   const quizCnt = useSelector<AppState, C.State>(({ quiz }) => quiz);
   const opt = useSelector<AppState, C.Option>(({ option }) => option);
+  const corCnt = useSelector<AppState, C.CorrectCnt>(
+    ({ correctCnt }) => correctCnt,
+  );
+
   const dispatch = useDispatch();
+
   // 더하는 부분 모달로 옮기기
   const quizCntPlus = useCallback(() => dispatch(C.quizCntPlus()), [dispatch]);
 
+  // 맞은거 갯수 올리기
+  // const correctCntPlus = useCallback(
+  //   () => dispatch(C.correctCntPlus()),
+  //   [dispatch],
+  // );
+
   const answerCheck = () => {
     dispatch(setSelectOption(''));
-
+    console.log(corCnt);
     if (opt === quizDatas[quizCnt].answer) {
       console.log(`잘했다 지원아 와~`);
-    } else console.log('틀렸다 지성아 에휴');
+    } else console.log('틀렸다 지성아 에휴~');
   };
-
-  // 맞을 시 정답입니다 리덕스에 correctCnt 생성 후 모달 틀릴시 정답이 아닙니다+해설
 
   const navigate = useNavigate();
   const goQuizCard = useCallback(() => {
