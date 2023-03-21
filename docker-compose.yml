@@ -19,8 +19,11 @@ services:
       dockerfile: Dockerfile
       context: ./nginx
     container_name: nginx
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
       - "80:80"
+      - "443:443"
 
   backend:
     build:
