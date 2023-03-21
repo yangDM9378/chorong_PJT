@@ -1,6 +1,11 @@
 /* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react';
 import * as tmPose from '@teachablemachine/pose';
+import Modal from 'react-modal';
+import ReactModal from 'react-modal';
+import CachedIcon from '@mui/icons-material/Cached';
+import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function VideoPoseModel() {
   let imageCapture: any;
@@ -176,7 +181,10 @@ function VideoPoseModel() {
 
     init();
   }, [front]);
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const handleClose = () => {
+    setModalIsOpen(false);
+  };
   return (
     <div>
       <div>
@@ -187,12 +195,19 @@ function VideoPoseModel() {
       <div>
         <canvas ref={captureRef} />
       </div>
-      <button type="button" onClick={setCamera}>
-        {front ? 'Front' : 'Rear'} camera
-      </button>
-      <button type="button" onClick={onTakePhotoButtonClick}>
-        capture
-      </button>
+      <CachedIcon onClick={setCamera} />
+      <CameraRoundedIcon onClick={onTakePhotoButtonClick}></CameraRoundedIcon>
+
+      <InfoOutlinedIcon
+        onClick={() => {
+          setModalIsOpen(true);
+        }}
+      ></InfoOutlinedIcon>
+      {modalIsOpen && (
+        <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
+          img
+        </ReactModal>
+      )}
     </div>
   );
 }
