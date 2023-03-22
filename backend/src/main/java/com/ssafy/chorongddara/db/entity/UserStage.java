@@ -3,7 +3,6 @@ package com.ssafy.chorongddara.db.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,17 +10,16 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAchievement {
+public class UserStage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userAchievementId;
+    private Integer stageCulturalPropertyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
+    @JoinColumn(name = "stage_id")
+    private Stage stage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "achievementId")
-    private Achievement achievement;
-
+    @JoinColumn(name = "culturalProperty_id")
+    private CulturalProperty culturalProperty;
 }

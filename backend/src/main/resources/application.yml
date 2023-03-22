@@ -12,15 +12,11 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
   main:
     allow-bean-definition-overriding: true
   jwt:
