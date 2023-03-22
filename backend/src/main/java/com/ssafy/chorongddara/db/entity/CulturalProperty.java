@@ -35,11 +35,15 @@ public class CulturalProperty {
 
     private String image;
 
-    private String type;
+    private String pinImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stageId")
+    @JoinColumn(name = "stage_id")
     private Stage stage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pose_id")
+    private Pose pose;
 
     public void changeNameKo(String nameKo) {
         this.nameKo = nameKo;
@@ -69,7 +73,9 @@ public class CulturalProperty {
         this.image = image;
     }
 
-    public void changeType(String type) {
-        this.type = type;
+    public void changePinImage(String pinImage) {
+        this.pinImage = pinImage;
     }
+
+    public void changePose(Pose pose) { this.pose = pose; }
 }

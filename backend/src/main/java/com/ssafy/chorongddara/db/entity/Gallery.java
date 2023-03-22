@@ -10,23 +10,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Diary {
+public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer diaryId;
+    private Integer galleryId;
 
     private String picture;
-
-    private String review;
 
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "culturalPropertyId")
+    @JoinColumn(name = "cultural_property_id")
     private CulturalProperty culturalProperty;
 }
