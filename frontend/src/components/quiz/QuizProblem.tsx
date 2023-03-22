@@ -2,8 +2,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store';
-import * as C from '../../store/quiz';
-import { setSelectOption } from '../../store/quiz';
+import { QuizState, setSelectOption } from '../../store/quiz/slice';
 
 interface Quiz {
   question: string;
@@ -18,16 +17,18 @@ interface QuizProblemProps {
 }
 
 export default function QuizProblem({ quizData, index }: QuizProblemProps) {
-  const quizCnt = useSelector<AppState, C.State>(({ quiz }) => quiz);
-
+  const quizCnt = useSelector<AppState, QuizState['quizCnt']>(
+    (state) => state.quiz.quizCnt,
+  );
   // selectoption 옵션 선택 내용 redux쪽으로 올리기
   const dispatch = useDispatch();
 
+  const selectedOption = useSelector<AppState, string>(
+    ({ quiz }) => quiz.selectOption,
+  );
   const selectOption = (option: string) => {
     dispatch(setSelectOption(option));
   };
-
-  const opt = useSelector<AppState, C.Option>(({ option }) => option);
 
   if (index !== quizCnt) return null;
   return (
@@ -38,7 +39,9 @@ export default function QuizProblem({ quizData, index }: QuizProblemProps) {
           <button
             type="button"
             className={`px-4 py-2 font-bold text-white rounded ${
-              option === opt ? 'bg-blue-700' : 'bg-mainred hover:bg-blue-700'
+              option === selectedOption
+                ? 'bg-blue-700'
+                : 'bg-mainred hover:bg-blue-700'
             }`}
             onClick={() => {
               selectOption(option);

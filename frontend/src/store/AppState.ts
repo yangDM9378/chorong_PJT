@@ -1,7 +1,5 @@
-import * as Quiz from './quiz';
+import { QuizState } from './quiz/slice';
 
 export type AppState = {
-  quiz: Quiz.State;
-  option: Quiz.Option;
-  correctCnt: Quiz.CorrectCnt;
+  quiz: QuizState;
 };

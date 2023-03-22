@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
-import * as C from '../../store/quiz';
 import { AppState } from '../../store';
-import { setSelectOption } from '../../store/quiz';
+import { QuizState, setQuizCnt } from '../../store/quiz/slice';
+import QuizModal from './QuizModal';
+
 // import useQuiz from '../../hooks/queries/useQuiz';
 // import getQuiz from '../../api/getQuiz';
 
@@ -56,36 +57,34 @@ export default function QuizSection() {
       explanation: '11111',
     },
   ];
-
-  const quizCnt = useSelector<AppState, C.State>(({ quiz }) => quiz);
-  const opt = useSelector<AppState, C.Option>(({ option }) => option);
-  const corCnt = useSelector<AppState, C.CorrectCnt>(
-    ({ correctCnt }) => correctCnt,
+  const quizCnt = useSelector<AppState, QuizState['quizCnt']>(
+    (state) => state.quiz.quizCnt,
+  );
+  const selectOption = useSelector<AppState, QuizState['selectOption']>(
+    (state) => state.quiz.selectOption,
   );
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  // 더하는 부분 모달로 옮기기
-  const quizCntPlus = useCallback(() => dispatch(C.quizCntPlus()), [dispatch]);
-
-  // 맞은거 갯수 올리기
-  // const correctCntPlus = useCallback(
-  //   () => dispatch(C.correctCntPlus()),
-  //   [dispatch],
-  // );
-
-  const answerCheck = () => {
-    dispatch(setSelectOption(''));
-    console.log(corCnt);
-    if (opt === quizDatas[quizCnt].answer) {
-      console.log(`잘했다 지원아 와~`);
-    } else console.log('틀렸다 지성아 에휴~');
-  };
+  // const quizCntPlus = useCallback(() => {
+  //   dispatch(setQuizCnt(1));
+  // }, [dispatch]);
 
   const navigate = useNavigate();
   const goQuizCard = useCallback(() => {
     navigate('/quizscore');
   }, [navigate]);
+
+  // 모달부분
+  const [modalCorrect, setModalCorrect] = useState(false);
+  const [modalWrong, setModalWrong] = useState(false);
+  const openModalClick = () => {
+    if (selectOption === quizDatas[quizCnt].answer) {
+      setModalCorrect(true);
+    } else {
+      setModalWrong(true);
+    }
+  };
 
   return (
     <div>
@@ -96,25 +95,29 @@ export default function QuizSection() {
           index={index}
         />
       ))}
-      {quizCnt < 3 ? (
-        <button
-          type="button"
-          className="px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700"
-          onClick={answerCheck}
-        >
-          정답확인
-        </button>
-      ) : (
-        <button type="button" onClick={goQuizCard}>
-          결과보기
-        </button>
-      )}
+
+      {/* 모달부분 */}
+      <QuizModal
+        isOpen={modalCorrect}
+        close={() => {
+          setModalCorrect(false);
+        }}
+        text="맞았습니다"
+      />
+
+      <QuizModal
+        isOpen={modalWrong}
+        close={() => {
+          setModalWrong(false);
+        }}
+        text="틀렸어요"
+      />
       <button
         type="button"
         className="px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700"
-        onClick={quizCntPlus}
+        onClick={openModalClick}
       >
-        다음문제
+        정답확인
       </button>
     </div>
   );
