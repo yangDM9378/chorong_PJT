@@ -33,7 +33,7 @@ logging:
    name: ./log/logs.log
  level:
    root: info
-   com.idle.gaza: Debug
+   com.ssafy.chorongddara: Debug
 
 redis:
   host: j8c101.p.ssafy.io
