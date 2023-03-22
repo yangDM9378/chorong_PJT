@@ -16,8 +16,8 @@ spring:
   main:
     allow-bean-definition-overriding: true
   jwt:
-    accessSecret: accessSecret
-    refreshSecret: refreshSecret
+    accessSecret: accesschorongddarachorongddarachorongddarachorongddarachorongddara
+    refreshSecret: refreshchorongddarachorongddarachorongddarachorongddarachorongddara
 #  mvc:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
