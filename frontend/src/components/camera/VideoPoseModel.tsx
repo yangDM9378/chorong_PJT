@@ -198,6 +198,7 @@ function VideoPoseModel() {
           setModalIsOpen(true);
         }}
       ></InfoOutlinedIcon>
+      <button type="button" onClick={downloadImg}></button>
       {modalIsOpen && (
         <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
           img
