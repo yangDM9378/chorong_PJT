@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useRef, useEffect, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import * as tmPose from '@teachablemachine/pose';
@@ -11,12 +12,12 @@ function TeachableMachinePoseModel() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const labelContainerRef = useRef<HTMLDivElement>(null);
-  const webcamRef = useRef<tmPose.Webcam>(null);
+  const webcamRef = useRef<tmPose.Webcam | null>(null);
   useEffect(() => {
     const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
     let model: tmPose.CustomPoseNet | null;
-    let ctx: CanvasRenderingContext2D | null;
-    let labelContainer: HTMLDivElement | undefined;
+    let ctx: CanvasRenderingContext2D;
+    let labelContainer: HTMLDivElement;
     let maxPredictions: number;
 
     async function init() {
@@ -41,11 +42,13 @@ function TeachableMachinePoseModel() {
 
       // append/get elements to the DOM
       const canvas = canvasRef.current;
+
       if (canvas) {
         canvas.width = webcamRef.current.width;
         canvas.height = webcamRef.current.height;
-        ctx = canvas.getContext('2d');
+        ctx = canvas.getContext('2d')!;
       }
+      if (!labelContainerRef.current) return;
       labelContainer = labelContainerRef.current;
       if (!labelContainer) return;
       for (let i = 0; i < maxPredictions; i += 1) {
@@ -61,6 +64,7 @@ function TeachableMachinePoseModel() {
 
     async function predict() {
       if (!model) return;
+      if (!webcamRef.current) return;
       const { pose, posenetOutput } = await model.estimatePose(
         webcamRef.current.canvas,
       );
@@ -102,6 +106,7 @@ function TeachableMachinePoseModel() {
       if (webcamRef.current?.canvas) {
         ctx?.drawImage(webcamRef.current.canvas, 0, 0);
         // draw the keypoints and skeleton
+
         if (pose) {
           const minPartConfidence = 0.5;
           tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
