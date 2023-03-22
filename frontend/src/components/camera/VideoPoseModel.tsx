@@ -18,6 +18,10 @@ function VideoPoseModel() {
   const [theight, setHeight] = useState(window.innerHeight);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
+  const setSize = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
   const setCamera = () => {
     setFront((prev) => !prev);
   };
@@ -30,6 +34,7 @@ function VideoPoseModel() {
       .then((imageBitmap: any) => {
         if (captureRef.current) {
           drawCanvas(captureRef.current, imageBitmap);
+          setIsRunning(true);
         }
       })
       .catch((error: Error) => console.error(error));
@@ -52,12 +57,12 @@ function VideoPoseModel() {
       img,
       0,
       0,
-      img.width,
-      img.height,
+      twidth,
+      theight,
       x,
       y,
-      img.width * ratio,
-      img.height * ratio,
+      twidth * ratio,
+      theight * ratio,
     );
   }
 
@@ -95,6 +100,9 @@ function VideoPoseModel() {
           videoRef.current.play();
 
           const track = stream.getVideoTracks()[0];
+          let { width, height } = track.getSettings();
+          setWidth(width!);
+          setHeight(height!);
           imageCapture = new ImageCapture(track);
           window.requestAnimationFrame(loop);
         })
@@ -103,11 +111,10 @@ function VideoPoseModel() {
         });
 
       const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.width = videoRef.current.width;
-        canvas.height = videoRef.current.height;
-        ctx = canvas.getContext('2d');
-      }
+      if (!canvas) return;
+      canvas.width = videoRef.current.width;
+      canvas.height = videoRef.current.height;
+      ctx = canvas.getContext('2d');
       // ctx = canvas.getContext('2d');
       labelContainer = labelRef.current;
       if (labelContainer) {
@@ -133,24 +140,16 @@ function VideoPoseModel() {
         videoRef.current,
         true,
       );
-      console.log('start');
       const prediction = await model.predict(posenetOutput);
-      console.log(prediction);
       for (let i = 0; i < maxPredictions; i += 1) {
         const classPrediction = `${prediction[i].className}: ${prediction[
           i
         ].probability.toFixed(2)}`;
         if (!labelContainer) return;
-        console.log(classPrediction);
         labelContainer.childNodes[i].textContent = classPrediction;
       }
       if (prediction[1].probability > 0.9) {
-        if (!isRunning) {
-          setIsRunning(true);
-          console.log('start');
-          onTakePhotoButtonClick();
-          setIsRunning(false);
-        }
+        onTakePhotoButtonClick();
       }
     }
 
@@ -175,6 +174,7 @@ function VideoPoseModel() {
     }
 
     init();
+    setSize();
   }, [front]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const handleClose = () => {
@@ -188,7 +188,7 @@ function VideoPoseModel() {
       </div>
       <span ref={labelRef} />
       <div>
-        <canvas ref={captureRef} />
+        <canvas ref={captureRef} width={twidth} height={theight} />
       </div>
       <CachedIcon onClick={setCamera} />
       <CameraRoundedIcon onClick={onTakePhotoButtonClick}></CameraRoundedIcon>
