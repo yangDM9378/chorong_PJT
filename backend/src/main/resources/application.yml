@@ -1,7 +1,3 @@
-server:
-  servlet:
-    context-path: /api/v1
-
 spring:
   datasource:
     url: jdbc:mysql://j8c101.p.ssafy.io:3306/chorongddara?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
