@@ -32,7 +32,7 @@ public class apiTest {
     @Test
     @WithMockUser
     public void test가_리턴된다() throws Exception {
-        mvc.perform(get("/api/v1/quiz/경주/첨성대"))
+        mvc.perform(get("/quiz/경주/첨성대"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());

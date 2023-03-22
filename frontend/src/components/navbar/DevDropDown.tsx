@@ -28,13 +28,8 @@ const DevDropDown = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/regionmap" onClick={onOptionClicked}>
-                  지도
-                </Link>
-              </li>
-              <li>
-                <Link to="/searchculturalproperty" onClick={onOptionClicked}>
-                  검색
+                <Link to="/main" onClick={onOptionClicked}>
+                  메인
                 </Link>
               </li>
               <li>
@@ -43,8 +38,13 @@ const DevDropDown = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/categorymap" onClick={onOptionClicked}>
-                  카테고리
+                <Link to="/culturalpropertydetail" onClick={onOptionClicked}>
+                  문화재정보
+                </Link>
+              </li>
+              <li>
+                <Link to="/quiz" onClick={onOptionClicked}>
+                  퀴즈
                 </Link>
               </li>
             </>

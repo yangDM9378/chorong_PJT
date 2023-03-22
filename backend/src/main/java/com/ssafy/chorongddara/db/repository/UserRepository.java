@@ -1,7 +1,12 @@
 package com.ssafy.chorongddara.db.repository;
 
+import com.ssafy.chorongddara.db.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByEmail(String email);
 }
