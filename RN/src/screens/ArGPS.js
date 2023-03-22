@@ -1,25 +1,3 @@
-// import React, { Component } from 'react';
-// import { View, Text } from "react-native";
-// import { ViroScene, ViroText } from '@viro-community/react-viro';
-
-// const App = () =>{
-//     return (
-//         // <ViroScene>
-//         //   <ViroText text="Hello World" position={[0, -.1, -1]} />
-//         // </ViroScene>
-//         <View>
-//             <Text>
-//                 my name is 유경 왜 안대냐 저거 
-//             </Text>
-//         </View>
-//       );
-// }
-
-
-
-// export default App;
-
-
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {
