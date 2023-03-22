@@ -128,12 +128,7 @@ function VideoPoseModel() {
       if (!model) return;
       if (!videoRef.current) return;
       if (!imageCapture) return;
-      imageCapture
-        .takePhoto()
-        .then((blob: any) => createImageBitmap(blob))
-        .then((imageBitmap: any) => {
-          img = imageBitmap;
-        });
+
       const { pose, posenetOutput } = await model.estimatePose(
         videoRef.current,
         true,
