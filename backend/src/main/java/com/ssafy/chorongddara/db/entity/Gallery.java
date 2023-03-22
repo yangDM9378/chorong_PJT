@@ -17,9 +17,6 @@ public class Gallery {
 
     private String picture;
 
-    @Column(updatable = false, nullable = false)
-    private LocalDateTime createdDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
