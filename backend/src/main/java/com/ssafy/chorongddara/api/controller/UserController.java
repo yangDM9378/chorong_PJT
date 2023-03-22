@@ -1,5 +1,6 @@
 package com.ssafy.chorongddara.api.controller;
 
+import com.ssafy.chorongddara.api.dto.TokenDto;
 import com.ssafy.chorongddara.api.request.UserJoinReq;
 import com.ssafy.chorongddara.api.request.UserUpdateReq;
 import com.ssafy.chorongddara.api.service.UserService;
@@ -84,4 +85,17 @@ public class UserController {
             return new ResponseEntity<>(ar, HttpStatus.OK);
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Object>> logout(@RequestBody TokenDto tokenDto) {
+        tokenUtil.logout(tokenDto);
+
+        ApiResponse<Object> ar = ApiResponse.builder()
+                .result(null)
+                .resultCode(200)
+                .resultMsg("로그아웃 되었습니다.")
+                .build();
+        return new ResponseEntity<>(ar, HttpStatus.OK);
+    }
+
 }
