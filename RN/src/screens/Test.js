@@ -36,8 +36,8 @@ const Test = () => {
     const [place, setPlace] = useState([{
       id: 1, 
       title: 'ssafy',
-      lat: 35.2052709,
-      lng: 126.811752,
+      lat: 35.205255,
+      lng: 126.811731,
       icon: ''
     }])
     const [compassHeading, setCompassHeading] = useState(0)
@@ -46,7 +46,7 @@ const Test = () => {
       CompassHeading.start(3, (heading) => {
         setCompassHeading(heading);
       });
-
+      
       PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -61,7 +61,7 @@ const Test = () => {
         },
         {
           enableHighAccuracy: true,
-          distanceFilter: 10,
+          distanceFilter: 5,
           interval: 5000,
           fastestInterval: 2000,
         },
@@ -70,8 +70,9 @@ const Test = () => {
       return () => {
         if (_watchId) {
           Geolocation.clearWatch(_watchId);
+          CompassHeading.stop();
+
         }
-        CompassHeading.stop();
       };
 
 
@@ -94,8 +95,6 @@ const Test = () => {
       const latMobile = location.latitude
       const lngMobile = location.longitude
 
-      console.log(latMobile, lngMobile)
-
       const deviceObjPoint = latLongToMerc(latObj, lngObj)
       const mobilePoint = latLongToMerc(latMobile, lngMobile)
 
@@ -115,7 +114,6 @@ const Test = () => {
       const ARTargets = place.map((item) => {
       const coords = transformGpsToAR(item.lat, item.lng)
       const scale = Math.abs(Math.round(coords.z/15))
-      console.log(location)
       const distance = distanceBetweenPoints(location, {latitude: item.lat, longitude: item.lng})
 
       return (
@@ -165,6 +163,7 @@ const styles = StyleSheet.create({
   export default () => {
     return (
       <ViroARSceneNavigator
+      worldAlignment={'GravityAndHeading'}
         autofocus={true}
         initialScene={{
           scene: Test,
