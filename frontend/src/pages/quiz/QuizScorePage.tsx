@@ -1,13 +1,20 @@
 import React from 'react';
-import QuizCard from '../../components/quiz/QuizCard';
+import tw from 'twin.macro';
+import styled from 'styled-components';
+import QuizScore from '../../components/quiz/QuizScore';
+import QuizScoreButtons from '../../components/quiz/QuizScoreButtons';
 
 export default function QuizScorePage() {
   return (
-    <div>
-      <QuizCard />
-      {/* 여기 버튼 컴퍼넌트 들어갈곳 */}
-      <button type="button">다시풀기</button>
-      <button type="button">갤러리</button>
-    </div>
+    <S.QuizScoreRed>
+      <QuizScore />
+      <QuizScoreButtons />
+    </S.QuizScoreRed>
   );
 }
+
+const S = {
+  QuizScoreRed: styled.div`
+    ${tw`bg-quizbg w-[100vw] h-[100vh] py-[8vh] px-[4vw]`}
+  `,
+};
