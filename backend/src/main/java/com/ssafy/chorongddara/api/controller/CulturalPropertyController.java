@@ -1,6 +1,8 @@
 package com.ssafy.chorongddara.api.controller;
 
 import com.ssafy.chorongddara.api.request.StarUpdateReq;
+import com.ssafy.chorongddara.api.response.CulturalPropertyDetailRes;
+import com.ssafy.chorongddara.api.response.StageListRes;
 import com.ssafy.chorongddara.api.service.CulturalPropertyService;
 import com.ssafy.chorongddara.api.service.UserService;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
@@ -32,9 +34,14 @@ public class CulturalPropertyController {
     private TokenUtil tokenUtil;
 
     @GetMapping("/stage")
-    public ResponseEntity<ApiResponse<Object>> getStageList() {
+    public ResponseEntity<ApiResponse<Object>> getStageList(@RequestHeader("Authorization") String accessToken) {
+        String token = tokenUtil.getTokenFromHeader(accessToken);
+        String email = tokenUtil.getUserIdFromToken(token);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(()->new BusinessExceptionHandler("유저가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
+        int userId = user.getUserId();
 
-        List<Stage> stageList = culturalPropertyService.getStageList();
+        List<StageListRes> stageList = culturalPropertyService.getStageList(userId);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(stageList)
                 .resultCode(SuccessCode.SELECT.getStatus())
@@ -56,11 +63,16 @@ public class CulturalPropertyController {
     }
 
     @GetMapping("/{cultural_property_id}")
-    public ResponseEntity<ApiResponse<Object>> getCulturalProperty(@PathVariable int cultural_property_id) {
+    public ResponseEntity<ApiResponse<Object>> getCulturalProperty(@RequestHeader("Authorization") String accessToken, @PathVariable int cultural_property_id) {
+        String token = tokenUtil.getTokenFromHeader(accessToken);
+        String email = tokenUtil.getUserIdFromToken(token);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(()->new BusinessExceptionHandler("유저가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
+        int userId = user.getUserId();
 
-        CulturalProperty culturalProperty = culturalPropertyService.getCulturalProperty(cultural_property_id);
+        CulturalPropertyDetailRes culturalPropertyDetail = culturalPropertyService.getCulturalProperty(userId, cultural_property_id);
         ApiResponse<Object> ar = ApiResponse.builder()
-                .result(culturalProperty)
+                .result(culturalPropertyDetail)
                 .resultCode(SuccessCode.SELECT.getStatus())
                 .resultMsg(SuccessCode.SELECT.getMessage())
                 .build();

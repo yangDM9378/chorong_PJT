@@ -20,4 +20,5 @@ public class Stage {
     @Column(nullable = false)
     private String characterImage;
     private String description;
+    private Integer targetStarCount;
 }
