@@ -2,8 +2,9 @@ package com.ssafy.chorongddara;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude={MultipartAutoConfiguration.class})
 public class ChorongddaraApplication {
 
     public static void main(String[] args) {
