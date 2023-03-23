@@ -1,11 +1,14 @@
 /* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react';
+import DeviceDetector from 'device-detector-js';
+import { useDispatch } from 'react-redux';
+import { setImg } from '../../store/camera/slice';
 import * as tmPose from '@teachablemachine/pose';
-import Modal from 'react-modal';
 import ReactModal from 'react-modal';
 import CachedIcon from '@mui/icons-material/Cached';
 import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Link } from 'react-router-dom';
 
 function VideoPoseModel() {
   let imageCapture: any;
@@ -17,6 +20,7 @@ function VideoPoseModel() {
   const [twidth, setWidth] = useState(window.innerWidth);
   const [theight, setHeight] = useState(window.innerHeight);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const setSize = () => {
     setWidth(window.innerWidth);
@@ -30,7 +34,11 @@ function VideoPoseModel() {
     if (!imageCapture) return;
     imageCapture
       .takePhoto()
-      .then((blob: any) => createImageBitmap(blob))
+      .then((blob: any) => {
+        createImageBitmap(blob);
+
+        dispatch(setImg(URL.createObjectURL(blob)));
+      })
       .then((imageBitmap: any) => {
         if (captureRef.current) {
           drawCanvas(captureRef.current, imageBitmap);
@@ -194,7 +202,9 @@ function VideoPoseModel() {
           setModalIsOpen(true);
         }}
       ></InfoOutlinedIcon>
-      <button type="button"></button>
+      <button type="button">
+        <Link to="/camera/after">after</Link>
+      </button>
       {modalIsOpen && (
         <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
           img
