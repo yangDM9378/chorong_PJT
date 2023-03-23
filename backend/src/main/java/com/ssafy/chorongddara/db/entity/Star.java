@@ -23,10 +23,10 @@ public class Star {
     private Integer starAr;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "culturalPropertyId")
+    @JoinColumn(name = "cultural_property_id")
     private CulturalProperty culturalProperty;
 }

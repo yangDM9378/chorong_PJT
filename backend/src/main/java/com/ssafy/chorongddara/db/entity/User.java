@@ -11,7 +11,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +19,13 @@ public class User {
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
     @Column(unique = true, nullable = false)
     private String nickname;
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

@@ -34,6 +34,7 @@ services:
       - "8080:8080"
     volumes:
       - ./backend:/app
+      - /home/ubuntu/chorongddara/upload/:/home/ubuntu/chorongddara/upload/
 
   mysql:
     build: ./mysql

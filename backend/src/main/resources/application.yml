@@ -1,7 +1,3 @@
-server:
-  servlet:
-    context-path: /api/v1
-
 spring:
   datasource:
     url: jdbc:mysql://j8c101.p.ssafy.io:3306/chorongddara?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
@@ -12,20 +8,16 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
   main:
     allow-bean-definition-overriding: true
   jwt:
-    accessSecret: accessSecret
-    refreshSecret: refreshSecret
+    accessSecret: accesschorongddarachorongddarachorongddarachorongddarachorongddara
+    refreshSecret: refreshchorongddarachorongddarachorongddarachorongddarachorongddara
 #  mvc:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
@@ -34,14 +26,19 @@ spring:
 #      max-file-size: 100MB
 #      max-request-size: 500MB
 
-#logging:
-#  pattern:
-#    file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"
-#  file:
-#    name: ./log/logs.log
-#  level:
-#    root: info
-#    com.idle.gaza: Debug
+file:
+  upload:
+    path:
+      /home/ubuntu/chorongddara/upload/
+
+logging:
+ pattern:
+   file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"
+ file:
+   name: ./log/logs.log
+ level:
+   root: info
+   com.ssafy.chorongddara: Debug
 
 redis:
   host: j8c101.p.ssafy.io

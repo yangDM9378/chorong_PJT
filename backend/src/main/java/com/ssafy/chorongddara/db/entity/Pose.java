@@ -12,18 +12,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Achievement {
+public class Pose {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer achievementId;
-
+    private Integer poseId;
+    @Column(nullable = false, length = 50)
+    private String poseName;
     @Column(nullable = false)
-    private String achievementName;
-
-    @Column(nullable = false)
-    private String characterImage;
-
-    private String description;
-
-    private Integer targetStarCount;
+    private String posePicture;
 }

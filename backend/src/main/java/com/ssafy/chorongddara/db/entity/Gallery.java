@@ -1,27 +1,27 @@
 package com.ssafy.chorongddara.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAchievement {
+@Getter
+public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userAchievementId;
+    private Integer galleryId;
+
+    private String picture;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "achievementId")
-    private Achievement achievement;
-
+    @JoinColumn(name = "cultural_property_id")
+    private CulturalProperty culturalProperty;
 }
