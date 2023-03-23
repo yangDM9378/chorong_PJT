@@ -9,6 +9,7 @@ services:
     volumes:
       - /app/node_modules
       - ./frontend:/app
+      - /home/ubuntu/chorongddara/upload/:/home/ubuntu/chorongddara/upload/
     ports:
       - "3000:3000"
     stdin_open: true
