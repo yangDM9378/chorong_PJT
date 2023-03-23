@@ -26,7 +26,7 @@ export default function HomeHeader() {
   return (
     <div>
       <S.GameHeader>
-        <S.HeaderText>게임</S.HeaderText>
+        <S.HeaderText>ㄲㅈ</S.HeaderText>
         <button type="button" onClick={openLogInModal}>
           로그인
         </button>
