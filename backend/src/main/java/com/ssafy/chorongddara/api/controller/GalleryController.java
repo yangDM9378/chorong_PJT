@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import static com.ssafy.chorongddara.common.util.TokenUtil.userService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/gallerys")
 public class GalleryController {
