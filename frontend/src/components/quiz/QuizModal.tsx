@@ -9,9 +9,17 @@ type ModalProps = {
   isOpen: boolean;
   close: () => void;
   text: string;
+  explanation: string;
+  answer: string;
 };
 
-export default function quizModal({ isOpen, close, text }: ModalProps) {
+export default function quizModal({
+  isOpen,
+  close,
+  text,
+  explanation,
+  answer,
+}: ModalProps) {
   // quizCnt 값이 2보다 클경우 모달에 다른 버튼 띄우기 위해 사용
   const quizCnt = useSelector<AppState, QuizState['quizCnt']>(
     (state) => state.quiz.quizCnt,
@@ -52,6 +60,8 @@ export default function quizModal({ isOpen, close, text }: ModalProps) {
   return (
     <Modal isOpen={isOpen} onRequestClose={() => close()} ariaHideApp={false}>
       <div>{text}</div>
+      <div>{explanation}</div>
+      <div>{answer}</div>
       {quizCnt < 2 ? (
         <button type="button" onClick={nextProblem}>
           다음문제

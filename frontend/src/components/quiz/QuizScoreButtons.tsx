@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import { useCallback } from 'react';
+import tw from 'twin.macro';
+import styled from 'styled-components';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
@@ -37,13 +39,22 @@ export default function QuizScoreButtons() {
   };
 
   return (
-    <div>
-      <button type="button" onClick={returnSolveClick}>
+    <S.QuizScoreButtons>
+      <S.QuizScoreButton type="button" onClick={returnSolveClick}>
         다시풀기
-      </button>
-      <button type="button" onClick={quizFinish}>
-        갤러리로 이동
-      </button>
-    </div>
+      </S.QuizScoreButton>
+      <S.QuizScoreButton type="button" onClick={quizFinish}>
+        갤러리
+      </S.QuizScoreButton>
+    </S.QuizScoreButtons>
   );
 }
+
+const S = {
+  QuizScoreButtons: styled.div`
+    ${tw`flex items-center justify-between h-[15vh]`}
+  `,
+  QuizScoreButton: styled.button`
+    ${tw`w-[45vw] h-[6vh] bg-[#5C1F1F] rounded-full text-white text-[2vh]`}
+  `,
+};

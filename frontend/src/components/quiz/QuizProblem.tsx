@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { QuizState, setSelectOption } from '../../store/quiz/slice';
@@ -31,18 +33,18 @@ export default function QuizProblem({ quizData, index }: QuizProblemProps) {
   // index값과 quizCnt 값이 같은 경우만 보이기
   if (index !== quizCnt) return null;
   return (
-    <div key={quizData.question}>
-      <h3>{quizData.question}</h3>
+    <S.QuizProblemContainer key={quizData.question}>
+      <S.QuizProblemQuestion>{quizData.question}</S.QuizProblemQuestion>
       {/* 문제 보기 뿌리기 */}
       {quizData.options.map((option) => (
-        <div key={option} className="m-2">
+        <div key={option}>
           <button
             type="button"
-            className={`px-4 py-2 font-bold text-white rounded ${
+            className={`w-[85vw] h-[7vh] my-[1vh] text-[1.5vh] font-bold rounded-full text-white  ${
               // 선택된 옵션에 대해 CSS 표시
               option === selectedOption
-                ? 'bg-blue-700'
-                : 'bg-mainred hover:bg-blue-700'
+                ? 'bg-[#707DAC]'
+                : 'bg-[#D9D9D9] text-[#611d1d]'
             }`}
             onClick={() => {
               selectOption(option);
@@ -52,8 +54,16 @@ export default function QuizProblem({ quizData, index }: QuizProblemProps) {
           </button>
         </div>
       ))}
-      <div>정답: {quizData.answer} </div>
-      <div>해설: {quizData.explanation}</div>
-    </div>
+      {/* <div>정답: {quizData.answer} </div>
+      <div>해설: {quizData.explanation}</div> */}
+    </S.QuizProblemContainer>
   );
 }
+const S = {
+  QuizProblemContainer: styled.div`
+    ${tw`flex flex-col items-center justify-center`}
+  `,
+  QuizProblemQuestion: styled.div`
+    ${tw`h-[22vh] flex items-center text-[2vh]`}
+  `,
+};
