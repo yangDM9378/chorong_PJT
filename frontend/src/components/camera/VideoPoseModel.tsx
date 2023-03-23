@@ -36,8 +36,8 @@ function VideoPoseModel() {
       .takePhoto()
       .then((blob: any) => {
         createImageBitmap(blob);
-
-        dispatch(setImg(URL.createObjectURL(blob)));
+        let file = new File([blob], 'test.jpg');
+        dispatch(setImg(file));
       })
       .then((imageBitmap: any) => {
         if (captureRef.current) {
