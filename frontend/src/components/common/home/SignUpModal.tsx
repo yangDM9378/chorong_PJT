@@ -1,12 +1,12 @@
+import Modal from 'react-modal';
 import React, { useCallback, useState } from 'react';
 
-type SignUpModalProps = {
-  onClose: () => void;
+type ModalProps = {
+  isOpen: boolean;
+  close: () => void;
 };
 
-export default function SignUpModal({
-  onClose,
-}: SignUpModalProps): JSX.Element {
+export default function SignUpModal({ isOpen, close }: ModalProps) {
   const [email, setEmail] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -15,13 +15,13 @@ export default function SignUpModal({
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
-      onClose();
+      close();
     },
     [email, nickname, password, passwordCheck],
   );
 
   return (
-    <div>
+    <Modal isOpen={isOpen} onRequestClose={() => close()} ariaHideApp={false}>
       <div>회원 가입</div>
       <form onSubmit={onSubmit}>
         <span>이메일 주소</span>
@@ -69,6 +69,6 @@ export default function SignUpModal({
         </div>
         <button type="submit">확인</button>
       </form>
-    </div>
+    </Modal>
   );
 }

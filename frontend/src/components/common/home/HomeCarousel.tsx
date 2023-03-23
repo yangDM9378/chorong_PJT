@@ -1,9 +1,9 @@
+/* eslint-disable consistent-return */
 import React, { useState, useEffect, useRef } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {
   SlideRenderProps,
   SlideRendererCallback,
-  autoPlay,
   virtualize,
 } from 'react-swipeable-views-utils';
 
@@ -12,50 +12,37 @@ interface ImageProps {
 }
 
 const images: ImageProps[] = [
-  { url: 'https://placeimg.com/640/480/any' },
+  { url: '/carousel/1.jpg' },
   { url: 'https://placeimg.com/640/480/animals' },
   { url: 'https://placeimg.com/640/480/architecture' },
   { url: 'https://placeimg.com/640/480/people' },
   { url: 'https://placeimg.com/640/480/nature' },
 ];
 
-const AutoplaySwipeableViews = autoPlay(SwipeableViews);
 const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 interface CardProps {
   image: ImageProps;
-  index: number;
-  onClick: (index: number) => void;
 }
 
-function Card({ image, index, onClick }: CardProps): JSX.Element {
+function Card({ image }: CardProps) {
   return (
-    <button
-      type="button"
-      onClick={() => onClick(index)}
+    <div
       style={{
         backgroundImage: `url(${image.url})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        borderRadius: '10px',
-        cursor: 'pointer',
-        height: '240px',
-        width: '320px',
+        height: '100vh',
       }}
     >
-      button
-    </button>
+      <div>초롱따라</div>
+    </div>
   );
 }
 
-function HomeCarousel(): JSX.Element {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function HomeCarousel() {
   const [virtualIndex, setVirtualIndex] = useState(0);
   const autoPlayTimeout = useRef<NodeJS.Timeout | null>(null);
-
-  function handleCardClick(index: number) {
-    setCurrentIndex(index);
-  }
 
   function handleVirtualIndexChange(index: number) {
     setVirtualIndex(index);
@@ -75,14 +62,24 @@ function HomeCarousel(): JSX.Element {
 
   const slideRenderer: SlideRendererCallback = ({
     index,
-  }: SlideRenderProps) => (
-    <Card
-      image={images[index]}
-      key={index}
-      index={index}
-      onClick={handleCardClick}
-    />
-  );
+  }: SlideRenderProps) => <Card image={images[index]} key={index} />;
+
+  // componentDidUpdate() 함수로 변경
+  useEffect(() => {
+    if (virtualIndex !== images.length - 1) {
+      return;
+    }
+
+    autoPlayTimeout.current = setInterval(() => {
+      setVirtualIndex(0);
+    }, 1000000);
+
+    return () => {
+      if (autoPlayTimeout.current) {
+        clearInterval(autoPlayTimeout.current);
+      }
+    };
+  }, []);
 
   return (
     <VirtualizeSwipeableViews
@@ -93,5 +90,3 @@ function HomeCarousel(): JSX.Element {
     />
   );
 }
-
-export default HomeCarousel;
