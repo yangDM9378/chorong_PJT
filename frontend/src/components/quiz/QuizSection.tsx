@@ -1,14 +1,10 @@
 /* eslint-disable no-console */
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
 import { AppState } from '../../store';
-import { QuizState, setQuizCnt } from '../../store/quiz/slice';
+import { QuizState, setCorrectCnt } from '../../store/quiz/slice';
 import QuizModal from './QuizModal';
-
-// import useQuiz from '../../hooks/queries/useQuiz';
-// import getQuiz from '../../api/getQuiz';
 
 interface Quiz {
   question: string;
@@ -64,30 +60,39 @@ export default function QuizSection() {
     (state) => state.quiz.selectOption,
   );
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const quizCntPlus = useCallback(() => {
-  //   dispatch(setQuizCnt(1));
-  // }, [dispatch]);
-
-  const navigate = useNavigate();
-  const goQuizCard = useCallback(() => {
-    navigate('/quizscore');
-  }, [navigate]);
+  const correctCntPlus = useCallback(() => {
+    dispatch(setCorrectCnt(1));
+  }, [dispatch]);
 
   // 모달부분
-  const [modalCorrect, setModalCorrect] = useState(false);
-  const [modalWrong, setModalWrong] = useState(false);
+  const [scoreModal, setscoreModal] = useState(false);
+  const [modalText, setModalText] = useState('');
+
   const openModalClick = () => {
+    // 정답일때 아닐때
     if (selectOption === quizDatas[quizCnt].answer) {
-      setModalCorrect(true);
+      setscoreModal(true);
+      correctCntPlus();
+      setModalText('맞았당');
     } else {
-      setModalWrong(true);
+      setscoreModal(true);
+      setModalText('바보자슥아');
     }
   };
 
   return (
     <div>
+      {/* 모달부분 */}
+      <QuizModal
+        isOpen={scoreModal}
+        close={() => {
+          setscoreModal(false);
+        }}
+        text={modalText}
+      />
+      {/* 전체 데이터를 넣기 */}
       {quizDatas.map((quizData, index) => (
         <QuizProblem
           key={quizData.question}
@@ -95,27 +100,15 @@ export default function QuizSection() {
           index={index}
         />
       ))}
-
-      {/* 모달부분 */}
-      <QuizModal
-        isOpen={modalCorrect}
-        close={() => {
-          setModalCorrect(false);
-        }}
-        text="맞았습니다"
-      />
-
-      <QuizModal
-        isOpen={modalWrong}
-        close={() => {
-          setModalWrong(false);
-        }}
-        text="틀렸어요"
-      />
+      {/* 정답인지 아닌지 모달 띄우기 */}
       <button
         type="button"
-        className="px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700"
+        className={`px-4 py-2 font-bold text-white rounded bg-mainred hover:bg-blue-700 ${
+          // 선택된 옵션에 대해 CSS 표시
+          selectOption === '' ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
         onClick={openModalClick}
+        disabled={!selectOption}
       >
         정답확인
       </button>
