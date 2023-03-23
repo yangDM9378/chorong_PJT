@@ -34,7 +34,6 @@ function VideoPoseModel() {
       .then((imageBitmap: any) => {
         if (captureRef.current) {
           drawCanvas(captureRef.current, imageBitmap);
-          setIsRunning(true);
         }
       })
       .catch((error: Error) => console.error(error));
@@ -100,9 +99,6 @@ function VideoPoseModel() {
           videoRef.current.play();
 
           const track = stream.getVideoTracks()[0];
-          let { width, height } = track.getSettings();
-          setWidth(width!);
-          setHeight(height!);
           imageCapture = new ImageCapture(track);
           window.requestAnimationFrame(loop);
         })
@@ -198,7 +194,7 @@ function VideoPoseModel() {
           setModalIsOpen(true);
         }}
       ></InfoOutlinedIcon>
-      <button type="button" onClick={downloadImg}></button>
+      <button type="button"></button>
       {modalIsOpen && (
         <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
           img
