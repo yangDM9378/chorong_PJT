@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
 public class Star {
     @Id
@@ -29,4 +28,16 @@ public class Star {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cultural_property_id")
     private CulturalProperty culturalProperty;
+
+    public void completePose() {
+        this.starPose = 1;
+    }
+
+    public void completeQuiz() {
+        this.starQuiz = 1;
+    }
+
+    public void completeAr() {
+        this.starAr = 1;
+    }
 }

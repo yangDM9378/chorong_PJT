@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface GalleryRepository extends JpaRepository<Gallery, Integer> {
-    @Query(value = "SELECT picture FROM gallery WHERE user_id=:user_id", nativeQuery = true)
-    List<String> findByUserId(@Param("user_id") Integer userId);
+    @Query(value = "SELECT picture FROM gallery WHERE user_id=:userId", nativeQuery = true)
+    List<String> findByUserId(@Param("userId") Integer userId);
 }

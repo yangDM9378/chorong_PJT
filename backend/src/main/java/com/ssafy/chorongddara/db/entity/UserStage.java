@@ -3,6 +3,8 @@ package com.ssafy.chorongddara.db.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -10,16 +12,24 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class UserStage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer stageCulturalPropertyId;
+    private Integer user_stage_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stage_id")
     private Stage stage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "culturalProperty_id")
-    private CulturalProperty culturalProperty;
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private Integer starCount;
+
+    public void increaseStarCount() {
+        this.starCount++;
+    }
 }

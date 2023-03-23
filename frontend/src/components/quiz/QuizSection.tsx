@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+// import { useNavigate } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
 import { AppState } from '../../store';
-import { QuizState, setQuizCnt } from '../../store/quiz/slice';
+import { QuizState } from '../../store/quiz/slice';
 import QuizModal from './QuizModal';
 
 // import useQuiz from '../../hooks/queries/useQuiz';
@@ -70,10 +70,10 @@ export default function QuizSection() {
   //   dispatch(setQuizCnt(1));
   // }, [dispatch]);
 
-  const navigate = useNavigate();
-  const goQuizCard = useCallback(() => {
-    navigate('/quizscore');
-  }, [navigate]);
+  // const navigate = useNavigate();
+  // const goQuizCard = useCallback(() => {
+  //   navigate('/quizscore');
+  // }, [navigate]);
 
   // 모달부분
   const [modalCorrect, setModalCorrect] = useState(false);
