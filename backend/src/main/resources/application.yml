@@ -26,6 +26,11 @@ spring:
 #      max-file-size: 100MB
 #      max-request-size: 500MB
 
+file:
+  upload:
+    path:
+      /home/ubuntu/chorongddara/upload/
+
 logging:
  pattern:
    file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"

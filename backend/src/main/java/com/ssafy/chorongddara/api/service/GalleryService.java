@@ -1,7 +1,9 @@
 package com.ssafy.chorongddara.api.service;
 
-import com.ssafy.chorongddara.api.request.GalleryCreateReq;
+import java.util.List;
 
 public interface GalleryService {
-    void makeGallery(GalleryCreateReq galleryCreateReq, Integer userId);
+    void makeGallery(Integer culturalPropertyId, String pictureName, Integer userId);
+
+    List<String> getGallery(Integer userId);
 }
