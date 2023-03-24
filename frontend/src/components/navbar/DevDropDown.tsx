@@ -47,6 +47,11 @@ const DevDropDown = () => {
                   퀴즈
                 </Link>
               </li>
+              <li>
+                <Link to="/quizsocre" onClick={onOptionClicked}>
+                  퀴즈점수
+                </Link>
+              </li>
             </>
           )}
         </ul>

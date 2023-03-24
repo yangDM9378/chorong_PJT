@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         mainred: '#941E34',
         maingreen: '#326E6C',
+        quizbg: '#A72F2F',
       },
     },
     // 기존에 없는 거 추가하기
