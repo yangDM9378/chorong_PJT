@@ -15,14 +15,21 @@ export default function CaptureImg() {
 
   const submitImg = (e: any) => {
     const formData = new FormData();
+    const culturalPropertyId = {
+      culturPropertyId: 1,
+    };
+    const payload = {
+      culturalPropertyId: JSON.stringify(culturalPropertyId),
+      picture: img,
+    };
     formData.append('culturalPropertyId', culturalId);
     formData.append('picture', img!);
-    console.log(formData.get('culturalPropertyId'));
+    console.log();
     e.preventDefault();
     axios({
       method: 'post',
-      url: `https://j8c101.p.ssafy.io/api/v1/gallerys/`,
-      data: formData,
+      url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
+      data: payload,
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${Token}`,
@@ -30,10 +37,9 @@ export default function CaptureImg() {
     })
       .then((result) => {
         console.log(result);
-        console.log('요청 성공');
       })
       .catch((error) => {
-        console.log('요청 실패');
+        console.error(error);
       });
   };
 
