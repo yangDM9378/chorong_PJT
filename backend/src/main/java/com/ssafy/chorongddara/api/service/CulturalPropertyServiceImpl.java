@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,21 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
 
     @Override
     public List<StageListRes> getStageList(Integer userId) {
-        return stageRepository.getStages(userId);
+        List<StageListRes> stageList = new ArrayList<>();
+
+        List<Stage> stages = stageRepository.findAll();
+
+        for(int i = 0; i < stageList.size(); i++) {
+            Optional<UserStage> userStage = userStageRepository.findByUser_UserIdAndStage_StageId(userId, stages.get(i).getStageId());
+
+            if(userStage.isPresent()) {
+                stageList.add(new StageListRes(stages.get(i), userStage.get().getStarCount()));
+            } else {
+                stageList.add(new StageListRes(stages.get(i), 0));
+            }
+        }
+
+        return stageList;
     }
 
     @Override

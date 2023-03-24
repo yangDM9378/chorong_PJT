@@ -1,6 +1,5 @@
 package com.ssafy.chorongddara.api.controller;
 
-import com.ssafy.chorongddara.api.request.GalleryInsertReq;
 import com.ssafy.chorongddara.api.service.GalleryService;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
 import com.ssafy.chorongddara.common.codes.SuccessCode;
