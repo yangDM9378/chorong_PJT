@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import Modal from 'react-modal';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 
 const customStyles = {
   content: {
@@ -20,23 +22,30 @@ type ModalProps = {
   close: () => void;
 };
 
+type SignUpFormData = {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordCheck: string;
+};
+
 export default function SignUpModal({ isOpen, close }: ModalProps) {
-  console.clear();
+  const {
+    register,
+    handleSubmit,
+    // formState: { errors },
+    watch,
+  } = useForm<SignUpFormData>();
 
-  const logInRef = useRef<HTMLDivElement>(null);
-  const signUpRef = useRef<HTMLDivElement>(null);
-
-  const [email, setEmail] = useState<string>('');
-  const [nickname, setNickname] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const password = useRef({});
+  password.current = watch('password', '');
 
   const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>): void => {
-      e.preventDefault();
+    // (formData: SignUpFormData): void
+    () => {
       close();
     },
-    [email, nickname, password, passwordCheck],
+    [close],
   );
 
   return (
@@ -53,36 +62,48 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
           </h1>
         </div>
 
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             type="email"
-            placeholder="Email Addres"
+            placeholder="Email Address"
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /\S+@\S+.\S+/,
+                message: 'Entered value does not match email format',
+              },
+            })}
             className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
           <input
             type="text"
             placeholder="Name"
+            {...register('nickname', { required: 'Nickname is required' })}
             className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
           <input
             type="password"
             placeholder="Password"
+            {...register('password', { required: 'Password is required' })}
             className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
           <input
             type="password"
             placeholder="Password Check"
+            {...register('passwordCheck', {
+              required: 'Password check is required',
+            })}
             className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
-        </div>
-        <div className="text-center mt-6">
-          <button
-            type="submit"
-            className="py-3 w-64 text-xl text-white bg-mainred rounded-2xl"
-          >
-            Create Account
-          </button>
-        </div>
+          <div className="text-center mt-6">
+            <button
+              type="submit"
+              className="py-3 w-64 text-xl text-white bg-mainred rounded-2xl"
+            >
+              Create Account
+            </button>
+          </div>
+        </form>
       </div>
     </Modal>
   );
