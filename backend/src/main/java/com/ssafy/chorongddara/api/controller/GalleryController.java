@@ -1,5 +1,6 @@
 package com.ssafy.chorongddara.api.controller;
 
+import com.ssafy.chorongddara.api.request.GalleryInsertReq;
 import com.ssafy.chorongddara.api.service.GalleryService;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
 import com.ssafy.chorongddara.common.codes.SuccessCode;
@@ -35,7 +36,7 @@ public class GalleryController {
     String rootpath;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestBody Integer culturalPropertyId,
+    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestPart(value="culturalPropertyId") GalleryInsertReq culturalPropertyId,
                                                            @RequestPart(value = "picture", required = false) MultipartFile pictureFile,
                                                            @RequestHeader("Authorization") String accessToken) {
         String token = tokenUtil.getTokenFromHeader(accessToken);
