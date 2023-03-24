@@ -20,6 +20,7 @@ function TeachableMachinePoseModel() {
     let labelContainer: HTMLDivElement;
     let maxPredictions: number;
 
+    function onTakePhotoButtonClick() {}
     async function init() {
       const modelURL = `${URL}model.json`;
       const metadataURL = `${URL}metadata.json`;
@@ -124,24 +125,6 @@ function TeachableMachinePoseModel() {
       }
     };
   }, [front, webcamRef.current?.height, webcamRef.current?.width]);
-
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => webcamRef.current && webcamRef.current.play()}
-      >
-        Start
-      </button>
-      <div>
-        <canvas ref={canvasRef} />
-      </div>
-      <div ref={labelContainerRef} />
-      <button type="button" onClick={setCamera}>
-        {front ? 'Front' : 'Rear'} camera
-      </button>
-    </div>
-  );
 }
 
 export default TeachableMachinePoseModel;
