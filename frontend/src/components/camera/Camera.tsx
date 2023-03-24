@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
