@@ -36,7 +36,7 @@ public class GalleryController {
     String rootpath;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestPart(value="culturalPropertyId") GalleryInsertReq culturalPropertyId,
+    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestParam(value="culturalPropertyId") Integer culturalPropertyId,
                                                            @RequestPart(value = "picture", required = false) MultipartFile pictureFile,
                                                            @RequestHeader("Authorization") String accessToken) {
         String token = tokenUtil.getTokenFromHeader(accessToken);
@@ -61,7 +61,7 @@ public class GalleryController {
             e.printStackTrace();
         }
 
-        galleryService.makeGallery(culturalPropertyId.getCulturalPropertyId(), pictureName, userId);
+        galleryService.makeGallery(culturalPropertyId, pictureName, userId);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(null)
                 .resultCode(SuccessCode.INSERT.getStatus())
