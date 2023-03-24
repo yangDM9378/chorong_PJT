@@ -8,6 +8,7 @@ import CulturalPropertyDetailPage from '../pages/culturalpropertydetail/Cultural
 import QuizPage from '../pages/quiz/QuizPage';
 import QuizScorePage from '../pages/quiz/QuizScorePage';
 import MainPage from '../pages/common/MainPage';
+import AfterCameraPage from '../pages/camera/AfterCameraPage';
 
 const RouterConfig = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const RouterConfig = createBrowserRouter([
       { index: true, path: '/', element: <HomePage /> },
       { path: '/main', element: <MainPage /> },
       { path: '/camera', element: <CameraPage /> },
+      { path: '/camera/after', element: <AfterCameraPage /> },
       {
         path: '/culturalpropertydetail',
         element: <CulturalPropertyDetailPage />,
