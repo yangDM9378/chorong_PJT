@@ -10,6 +10,7 @@ import com.ssafy.chorongddara.db.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,11 +31,11 @@ public class GalleryController {
     @Autowired
     private TokenUtil tokenUtil;
 
-    @Value("${file.upload.path")
+    @Value("${file.upload.path}")
     String rootpath;
 
-    @PostMapping()
-    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestPart("culturalPropertyId") Integer culturalPropertyId,
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestPart(value = "culturalPropertyId") Integer culturalPropertyId,
                                                            @RequestPart(value = "picture", required = false) MultipartFile pictureFile,
                                                            @RequestHeader("Authorization") String accessToken) {
         String token = tokenUtil.getTokenFromHeader(accessToken);
@@ -42,6 +43,8 @@ public class GalleryController {
         User user = userService.getUserByEmail(email)
                 .orElseThrow(()->new BusinessExceptionHandler("유저가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
         Integer userId = user.getUserId();
+
+        System.out.println(rootpath);
 
         // 내가 업로드 파일을 저장할 경로
         String uploadFolder = rootpath + "gallery" + "/";
