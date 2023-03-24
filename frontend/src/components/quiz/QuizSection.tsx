@@ -127,6 +127,6 @@ export default function QuizSection() {
 
 const S = {
   QuizSectionContainer: styled.div`
-    ${tw`mx-[3vh] mt-[1vh] h-[75vh] `}
+    ${tw`mx-[3vh] mt-[1vh] h-[75vh] flex flex-col items-center`}
   `,
 };
