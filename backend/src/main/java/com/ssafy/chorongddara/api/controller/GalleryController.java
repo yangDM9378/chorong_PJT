@@ -23,7 +23,7 @@ import static com.ssafy.chorongddara.common.util.TokenUtil.userService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/gallerys")
+@RequestMapping("/galleries")
 public class GalleryController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class GalleryController {
     String rootpath;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestPart(value = "culturalPropertyId") Integer culturalPropertyId,
+    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestBody Integer culturalPropertyId,
                                                            @RequestPart(value = "picture", required = false) MultipartFile pictureFile,
                                                            @RequestHeader("Authorization") String accessToken) {
         String token = tokenUtil.getTokenFromHeader(accessToken);
