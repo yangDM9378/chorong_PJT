@@ -61,7 +61,7 @@ public class GalleryController {
             e.printStackTrace();
         }
 
-        galleryService.makeGallery(culturalPropertyId, pictureName, userId);
+        galleryService.makeGallery(culturalPropertyId.getCulturalPropertyId(), pictureName, userId);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(null)
                 .resultCode(SuccessCode.INSERT.getStatus())
