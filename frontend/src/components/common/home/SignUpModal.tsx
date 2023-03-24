@@ -1,5 +1,19 @@
 import Modal from 'react-modal';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+
+const customStyles = {
+  content: {
+    border: '1px solid #ccc',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '5%',
+    padding: '5%',
+  },
+};
 
 type ModalProps = {
   isOpen: boolean;
@@ -7,6 +21,11 @@ type ModalProps = {
 };
 
 export default function SignUpModal({ isOpen, close }: ModalProps) {
+  console.clear();
+
+  const logInRef = useRef<HTMLDivElement>(null);
+  const signUpRef = useRef<HTMLDivElement>(null);
+
   const [email, setEmail] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -21,54 +40,50 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
   );
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={() => close()} ariaHideApp={false}>
-      <div>회원 가입</div>
-      <form onSubmit={onSubmit}>
-        <span>이메일 주소</span>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={() => close()}
+      ariaHideApp={false}
+      style={customStyles}
+    >
+      <div className="mjustify-center items-center">
         <div>
+          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">
+            회원가입
+          </h1>
+        </div>
+
+        <div className="space-y-4">
           <input
             type="email"
-            name="email"
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
+            placeholder="Email Addres"
+            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
-        </div>
-        <span>이름</span>
-        <div>
           <input
-            name="nickname"
-            value={nickname}
-            onChange={(event) => {
-              setNickname(event.target.value);
-            }}
+            type="text"
+            placeholder="Name"
+            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
-        </div>
-        <span>비밀번호</span>
-        <div>
           <input
             type="password"
-            name="password"
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
+            placeholder="Password"
+            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
-        </div>
-        <span>비밀번호 체크</span>
-        <div>
           <input
             type="password"
-            name="passwordCheck"
-            value={passwordCheck}
-            onChange={(event) => {
-              setPasswordCheck(event.target.value);
-            }}
+            placeholder="Password Check"
+            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
         </div>
-        <button type="submit">확인</button>
-      </form>
+        <div className="text-center mt-6">
+          <button
+            type="submit"
+            className="py-3 w-64 text-xl text-white bg-mainred rounded-2xl"
+          >
+            Create Account
+          </button>
+        </div>
+      </div>
     </Modal>
   );
 }
