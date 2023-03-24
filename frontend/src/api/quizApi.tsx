@@ -1,7 +1,7 @@
-import { quizApi } from '../libs/axiosConfig';
+import { authApi } from '../libs/axiosConfig';
 
 const getQuiz = async (region: string, culturalProperty: string) => {
-  const { data } = await quizApi.get(
+  const { data } = await authApi.get(
     `/api/v1/quiz/${region}/${culturalProperty}`,
   );
   return data;
