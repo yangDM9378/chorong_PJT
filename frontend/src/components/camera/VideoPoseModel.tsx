@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react';
-import DeviceDetector from 'device-detector-js';
 import { useDispatch } from 'react-redux';
 import { setImg } from '../../store/camera/slice';
 import * as tmPose from '@teachablemachine/pose';
@@ -36,8 +35,8 @@ function VideoPoseModel() {
       .takePhoto()
       .then((blob: any) => {
         createImageBitmap(blob);
-        let file = new File([blob], 'test.jpg');
-        dispatch(setImg(file));
+        // let file = new File([blob], 'test.jpg');
+        dispatch(setImg(blob));
       })
       .then((imageBitmap: any) => {
         if (captureRef.current) {
