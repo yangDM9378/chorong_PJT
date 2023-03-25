@@ -1,6 +1,10 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 import Modal from 'react-modal';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signIn } from '../../../api/userApi';
 // import styled from 'styled-components';
 // import tw from 'twin.macro';
 
@@ -9,7 +13,12 @@ type ModalProps = {
   close: () => void;
 };
 
-interface LoginFormValues {
+type SignInFormData = {
+  email: string;
+  password: string;
+};
+
+interface SignInData {
   email: string;
   password: string;
 }
@@ -19,22 +28,48 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>();
+    reset,
+  } = useForm<SignInFormData>();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = () => {
-    close();
-  };
+  // 로그인 성공시 main으로 이동
+  const navigate = useNavigate();
+  const gomain = useCallback(() => {
+    navigate('/main');
+  }, [navigate]);
+
+  // 로그인 통신부분
+  const onSubmit = useCallback(
+    async (formData: SignInFormData) => {
+      const data: SignInData = {
+        email: formData.email,
+        password: formData.password,
+      };
+      const accesstoken = await signIn(data);
+      if (accesstoken) {
+        localStorage.setItem('accesstoken', accesstoken);
+        gomain();
+        close();
+        alert('로그인 성공');
+      } else {
+        alert('로그인 실패');
+      }
+    },
+    [close],
+  );
 
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={() => close()}
+      onRequestClose={() => {
+        reset();
+        close();
+      }}
       ariaHideApp={false}
       style={customStyles}
     >
-      <div className="justify-center items-center">
+      <div className="items-center justify-center">
         <div>
-          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">
+          <h1 className="mb-4 text-3xl font-bold text-center cursor-pointer">
             로그인
           </h1>
         </div>
@@ -43,30 +78,33 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
           <input
             type="email"
             id="email"
+            autoComplete="new-password"
             placeholder="Email Addres"
-            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+            className="block w-full px-4 py-3 text-sm border rounded-lg outline-none"
             {...register('email', { required: true })}
           />
           {errors.email && errors.email.type === 'required' && (
-            <div className="text-sm py-3 px-1 rounded-lg w-full">
+            <span className="px-[1vw] text-red-500">
               이메일을 입력해 주세요!
-            </div>
+            </span>
           )}
 
           <input
             type="password"
             id="password"
+            autoComplete="new-password"
             placeholder="Password"
-            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+            className="block w-full px-4 py-3 text-sm border rounded-lg outline-none"
             {...register('password', { required: true })}
           />
-
-          <button
-            type="submit"
-            className="py-3 w-64 text-xl text-white bg-mainred rounded-2xl"
-          >
-            Submit
-          </button>
+          <div className="text-center">
+            <button
+              type="submit"
+              className="w-64 py-3 text-xl text-white bg-mainred rounded-2xl"
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </Modal>
