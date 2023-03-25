@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { authApi } from '../libs/axiosConfig';
 
 interface UserData {
@@ -15,6 +15,18 @@ interface User {
   nickname: string;
 }
 
+interface SignUpData {
+  email: string;
+  password: string;
+  nickname: string;
+}
+
+// 회원가입
+export async function signUp(data: SignUpData): Promise<void> {
+  await axios.post('/users/join', data);
+}
+
+// 사용자 정보
 export async function getMe(): Promise<UserData | null> {
   try {
     const response: AxiosResponse<UserData> = await authApi.get('/users/');
