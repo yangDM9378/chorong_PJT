@@ -1,21 +1,9 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 import Modal from 'react-modal';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-
-const customStyles = {
-  content: {
-    border: '1px solid #ccc',
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: '5%',
-    padding: '5%',
-  },
-};
+import { signUp } from '../../../api/userApi';
 
 type ModalProps = {
   isOpen: boolean;
@@ -29,21 +17,39 @@ type SignUpFormData = {
   passwordCheck: string;
 };
 
+interface SignUpData {
+  email: string;
+  password: string;
+  nickname: string;
+}
+
 export default function SignUpModal({ isOpen, close }: ModalProps) {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
-    watch,
+    formState: { errors },
+    // watch,
+    reset,
   } = useForm<SignUpFormData>();
 
-  const password = useRef({});
-  password.current = watch('password', '');
+  // const password = useRef({});
+  // password.current = watch('password', '');
 
   const onSubmit = useCallback(
-    // (formData: SignUpFormData): void
-    () => {
+    async (formData: SignUpFormData) => {
+      if (formData.password !== formData.passwordCheck) {
+        alert('비밀번호를 다시 확인해주세요');
+        return;
+      }
+      const data: SignUpData = {
+        email: formData.email,
+        password: formData.password,
+        nickname: formData.nickname,
+      };
+      await signUp(data);
+      reset();
       close();
+      alert('회원가입이 완료되었습니다');
     },
     [close],
   );
@@ -51,13 +57,16 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={() => close()}
+      onRequestClose={() => {
+        reset();
+        close();
+      }}
       ariaHideApp={false}
       style={customStyles}
     >
-      <div className="mjustify-center items-center">
+      <div className="items-center mjustify-center">
         <div>
-          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">
+          <h1 className="mb-4 text-3xl font-bold text-center cursor-pointer">
             회원가입
           </h1>
         </div>
@@ -73,32 +82,59 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
                 message: 'Entered value does not match email format',
               },
             })}
-            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+            className="block w-full px-4 py-3 text-sm border rounded-lg outline-none"
           />
+          {errors.email && (
+            <span className="px-[1vw] text-red-500">
+              {errors.email.message}
+            </span>
+          )}
+
           <input
             type="text"
             placeholder="Name"
+            autoComplete="new-password"
             {...register('nickname', { required: 'Nickname is required' })}
-            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+            className="block w-full px-4 py-3 text-sm border rounded-lg outline-none"
           />
+          {errors.nickname && (
+            <span className="px-[1vw] text-red-500">
+              {errors.nickname.message}
+            </span>
+          )}
+
           <input
             type="password"
             placeholder="Password"
+            autoComplete="new-password"
             {...register('password', { required: 'Password is required' })}
-            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+            className="block w-full px-4 py-3 text-sm border rounded-lg outline-none"
           />
+          {errors.password && (
+            <span className="px-[1vw] text-red-500">
+              {errors.password.message}
+            </span>
+          )}
+
           <input
             type="password"
             placeholder="Password Check"
+            autoComplete="new-password"
             {...register('passwordCheck', {
               required: 'Password check is required',
             })}
-            className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+            className="block w-full px-4 py-3 text-sm border rounded-lg outline-none"
           />
-          <div className="text-center mt-6">
+          {errors.passwordCheck && (
+            <span className="px-[1vw] text-red-500">
+              {errors.passwordCheck.message}
+            </span>
+          )}
+
+          <div className="mt-6 text-center">
             <button
               type="submit"
-              className="py-3 w-64 text-xl text-white bg-mainred rounded-2xl"
+              className="w-64 py-3 text-xl text-white bg-mainred rounded-2xl"
             >
               Create Account
             </button>
@@ -108,3 +144,17 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
     </Modal>
   );
 }
+
+const customStyles = {
+  content: {
+    border: '1px solid #ccc',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '5%',
+    padding: '5%',
+  },
+};
