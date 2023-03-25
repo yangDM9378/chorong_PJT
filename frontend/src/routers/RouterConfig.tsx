@@ -9,6 +9,8 @@ import QuizPage from '../pages/quiz/QuizPage';
 import QuizScorePage from '../pages/quiz/QuizScorePage';
 import MainPage from '../pages/common/MainPage';
 import AfterCameraPage from '../pages/camera/AfterCameraPage';
+import SsafyStagePage from '../pages/stage/SsafyStagePage';
+import GwangjuStagePage from '../pages/stage/GwangjustagePage';
 
 const RouterConfig = createBrowserRouter([
   {
@@ -18,10 +20,12 @@ const RouterConfig = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <HomePage /> },
       { path: '/main', element: <MainPage /> },
+      { path: '/gwanjustage', element: <GwangjuStagePage /> },
+      { path: '/ssafystage', element: <SsafyStagePage /> },
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
       {
-        path: '/culturalpropertydetail',
+        path: '/culturalpropertydetail/:name',
         element: <CulturalPropertyDetailPage />,
       },
       { path: '/quiz', element: <QuizPage /> },
