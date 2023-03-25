@@ -131,7 +131,7 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
             </span>
           )}
 
-          <div className="mt-6 text-center">
+          <div className="text-center ">
             <button
               type="submit"
               className="w-64 py-3 text-xl text-white bg-mainred rounded-2xl"

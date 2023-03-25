@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { authApi } from '../libs/axiosConfig';
 
 interface UserData {
@@ -21,9 +21,25 @@ interface SignUpData {
   nickname: string;
 }
 
+interface SignInData {
+  email: string;
+  password: string;
+}
+
 // 회원가입
 export async function signUp(data: SignUpData): Promise<void> {
-  await axios.post('/users/join', data);
+  await authApi.post('/users/join', data);
+}
+
+// 로그인
+export async function signIn(data: SignInData): Promise<string | null> {
+  try {
+    const response = await authApi.post('/users/login', data);
+    return response.data.accessToken;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 // 사용자 정보
