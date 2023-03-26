@@ -33,8 +33,13 @@ const DevDropDown = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/gwanjustage" onClick={onOptionClicked}>
+                <Link to="/map/0" onClick={onOptionClicked}>
                   광주맵
+                </Link>
+              </li>
+              <li>
+                <Link to="/map/1" onClick={onOptionClicked}>
+                  싸피맵
                 </Link>
               </li>
               <li>

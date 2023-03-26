@@ -11,7 +11,7 @@ interface User {
   nickname: string;
 }
 
-export default function MainTheme() {
+export default function MainHeader() {
   const [userMe, setUserMe] = useState<User | null>(null);
 
   useEffect(() => {
