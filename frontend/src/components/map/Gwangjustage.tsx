@@ -1,19 +1,44 @@
 /* eslint-disable */
-// import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapContainer, GeoJSON, GeoJSONProps, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import gwangjugeojson from './Gwangju.json'; // 한국 지도 GeoJSON 데이터 파일
 import { Feature, Geometry, GeoJsonObject } from 'geojson';
 import L, { StyleFunction, Icon, LatLngTuple } from 'leaflet';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { getMapData } from '../../api/mapApi';
 
 interface RegionProperties {
   name: string;
 }
 
-const Gwangjustage: React.FC = () => {
-  const navigate = useNavigate();
+interface MapResult {
+  culturalPropertyId: number;
+  nameKo: string;
+  latitude: number;
+  longitude: number;
+  pinImage: string;
+}
 
+export default function Gwangjustage() {
+  // 데이터 가져오기
+  const [mapDatas, setMapDatas] = useState<MapResult[] | null>([]);
+  const location = useLocation();
+  const { stageNum } = location.state;
+
+  useEffect(() => {
+    console.log(stageNum);
+    if (stageNum === undefined) return;
+    const getMapDatas = async () => {
+      const response = await getMapData(stageNum);
+      if (response) {
+        setMapDatas(response.result);
+      }
+    };
+    getMapDatas();
+  }, [stageNum]);
+
+  // 지역별 스타일 지정
   const regionStyle: StyleFunction<any> = (
     feature: Feature<Geometry, RegionProperties> | undefined,
   ) => {
@@ -26,24 +51,8 @@ const Gwangjustage: React.FC = () => {
     };
   };
 
-  const markers = [
-    {
-      name: '양',
-      position: [35.14891073, 126.9330876] as LatLngTuple,
-      imageUrl: '/stage/marker/ssafy.png',
-    },
-    {
-      name: '동',
-      position: [35.17, 126.86] as LatLngTuple,
-      imageUrl: '/stage/marker/ssafy.png',
-    },
-    {
-      name: '민',
-      position: [35.18, 126.87] as LatLngTuple,
-      imageUrl: '/stage/marker/ssafy.png',
-    },
-  ];
-
+  // 마커 클릭시 페이지 이동 ->
+  const navigate = useNavigate();
   return (
     <div>
       <MapContainer
@@ -60,22 +69,22 @@ const Gwangjustage: React.FC = () => {
           data={gwangjugeojson as unknown as GeoJsonObject}
           style={regionStyle}
         />
-        {markers.map((marker, index) => {
+        {mapDatas?.map((mapData, index) => {
           const customIcon = new Icon({
-            iconUrl: marker.imageUrl,
+            iconUrl: `/stage${mapData.pinImage}.png`,
             iconSize: [50, 50],
           });
 
           return (
             <Marker
               key={index}
-              position={marker.position}
+              position={[mapData.latitude, mapData.longitude] as LatLngTuple}
               icon={customIcon}
               eventHandlers={{
                 click: () => {
-                  navigate(`/culturalpropertydetail/${marker.name}`, {
-                    // someParam: 'someValue',
-                  });
+                  navigate(
+                    `/culturalpropertydetail/${mapData.culturalPropertyId}`,
+                  );
                 },
               }}
             />
@@ -85,6 +94,4 @@ const Gwangjustage: React.FC = () => {
       111
     </div>
   );
-};
-
-export default Gwangjustage;
+}

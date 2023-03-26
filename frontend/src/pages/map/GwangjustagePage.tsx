@@ -1,6 +1,6 @@
 import React from 'react';
-import Gwangjustage from '../../components/stage/Gwangjustage';
-import StageHeader from '../../components/stage/StageHeader';
+import Gwangjustage from '../../components/map/Gwangjustage';
+import StageHeader from '../../components/map/StageHeader';
 
 export default function GwangjustagePage() {
   return (

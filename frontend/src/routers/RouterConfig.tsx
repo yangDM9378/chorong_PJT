@@ -7,10 +7,10 @@ import CameraPage from '../pages/camera/CameraPage';
 import CulturalPropertyDetailPage from '../pages/culturalpropertydetail/CulturalPropertyDetailPage';
 import QuizPage from '../pages/quiz/QuizPage';
 import QuizScorePage from '../pages/quiz/QuizScorePage';
-import MainPage from '../pages/common/MainPage';
+import StagePage from '../pages/stage/StagePage';
 import AfterCameraPage from '../pages/camera/AfterCameraPage';
-import SsafyStagePage from '../pages/stage/SsafyStagePage';
-import GwangjuStagePage from '../pages/stage/GwangjustagePage';
+import SsafyStagePage from '../pages/map/SsafyStagePage';
+import GwangjuStagePage from '../pages/map/GwangjustagePage';
 
 const RouterConfig = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ const RouterConfig = createBrowserRouter([
     errorElement: <NoMatchPage />,
     children: [
       { index: true, path: '/', element: <HomePage /> },
-      { path: '/main', element: <MainPage /> },
+      { path: '/stage', element: <StagePage /> },
       { path: '/map/1', element: <GwangjuStagePage /> },
       { path: '/map/2', element: <SsafyStagePage /> },
       { path: '/camera', element: <CameraPage /> },

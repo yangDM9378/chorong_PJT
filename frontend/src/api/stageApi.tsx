@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import { authApi } from '../libs/axiosConfig';
 
 interface StageData {
-  resultcode: number;
+  resultCode: number;
   resultMsg: string;
   result: StageResult[];
 }

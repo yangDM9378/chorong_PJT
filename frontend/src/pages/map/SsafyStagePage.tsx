@@ -1,6 +1,6 @@
 import React from 'react';
-import SsafyStage from '../../components/stage/SsafyStage';
-import StageHeader from '../../components/stage/StageHeader';
+import SsafyStage from '../../components/map/SsafyStage';
+import StageHeader from '../../components/map/StageHeader';
 
 export default function SsafyStagePage() {
   return (

@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import { authApi } from '../libs/axiosConfig';
 
 interface UserData {
-  resultcode: number;
+  resultCode: number;
   resultMsg: string;
   result: User; // result 속성 추가
 }
