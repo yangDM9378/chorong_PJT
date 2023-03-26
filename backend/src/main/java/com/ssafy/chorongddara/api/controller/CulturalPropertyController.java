@@ -2,6 +2,7 @@ package com.ssafy.chorongddara.api.controller;
 
 import com.ssafy.chorongddara.api.request.StarUpdateReq;
 import com.ssafy.chorongddara.api.response.CulturalPropertyDetailRes;
+import com.ssafy.chorongddara.api.response.CulturalPropertyInStageRes;
 import com.ssafy.chorongddara.api.response.StageListRes;
 import com.ssafy.chorongddara.api.service.CulturalPropertyService;
 import com.ssafy.chorongddara.api.service.UserService;
@@ -43,6 +44,7 @@ public class CulturalPropertyController {
         int userId = user.getUserId();
 
         List<StageListRes> stageList = culturalPropertyService.getStageList(userId);
+
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(stageList)
                 .resultCode(SuccessCode.SELECT.getStatus())
@@ -54,7 +56,7 @@ public class CulturalPropertyController {
     @GetMapping("/stage/{stage_id}")
     public ResponseEntity<ApiResponse<Object>> getCulturalPropertyList(@PathVariable int stage_id) {
 
-        List<CulturalProperty> culturalPropertyList = culturalPropertyService.getCulturalPropertyList(stage_id);
+        List<CulturalPropertyInStageRes> culturalPropertyList = culturalPropertyService.getCulturalPropertyList(stage_id);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(culturalPropertyList)
                 .resultCode(SuccessCode.SELECT.getStatus())
@@ -72,6 +74,7 @@ public class CulturalPropertyController {
         int userId = user.getUserId();
 
         CulturalPropertyDetailRes culturalPropertyDetail = culturalPropertyService.getCulturalProperty(userId, cultural_property_id);
+
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(culturalPropertyDetail)
                 .resultCode(SuccessCode.SELECT.getStatus())
@@ -82,7 +85,6 @@ public class CulturalPropertyController {
 
     @PostMapping("/star")
     public ResponseEntity<ApiResponse<Object>> updateStar(@RequestBody StarUpdateReq starUpdateReq, @RequestHeader("Authorization") String accessToken) {
-
         String token = tokenUtil.getTokenFromHeader(accessToken);
         String email = tokenUtil.getUserIdFromToken(token);
         User user = userService.getUserByEmail(email)
@@ -91,8 +93,8 @@ public class CulturalPropertyController {
         culturalPropertyService.updateStar(starUpdateReq, userId);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(null)
-                .resultCode(SuccessCode.INSERT.getStatus())
-                .resultMsg(SuccessCode.INSERT.getMessage())
+                .resultCode(SuccessCode.UPDATE.getStatus())
+                .resultMsg(SuccessCode.UPDATE.getMessage())
                 .build();
         return new ResponseEntity<>(ar, HttpStatus.OK);
     }
