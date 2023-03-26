@@ -1,6 +1,7 @@
 package com.ssafy.chorongddara.common.util;
 
 import com.ssafy.chorongddara.api.dto.TokenDto;
+import com.ssafy.chorongddara.api.dto.UserDetailsDto;
 import com.ssafy.chorongddara.api.service.UserService;
 import com.ssafy.chorongddara.db.entity.User;
 import io.jsonwebtoken.*;
@@ -8,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -38,12 +40,12 @@ public class TokenUtil {
     @Value("${spring.jwt.refreshSecret}")
     private String REFRESH_TOKEN_SECRET_KEY;
 
-    public static UserService userService;
-
-    @Autowired
-    public TokenUtil(UserService userService) {
-        this.userService = userService;
-    }
+//    public static UserService userService;
+//
+//    @Autowired
+//    public TokenUtil(UserService userService) {
+//        this.userService = userService;
+//    }
 
     public String generateAccessToken(User user) {
         return generateJwtToken(user, TOKEN_VALIDATION_SECOND, "access");
@@ -67,6 +69,18 @@ public class TokenUtil {
                 .setSubject(String.valueOf(user.getEmail()))        // Payload - Subject 구성
                 .signWith(SignatureAlgorithm.HS256, createSignature(type))  // Signature 구성
                 .setExpiration(createExpiredDate(expireTime));                    // Expired Date 구성
+        return builder.compact();
+    }
+
+    public String generateJwtToken(Authentication authentication) {
+        UserDetailsDto userDetailsDto = (UserDetailsDto) authentication.getPrincipal();
+        // 사용자 시퀀스를 기준으로 JWT 토큰을 발급하여 반환해줍니다.
+        JwtBuilder builder = Jwts.builder()
+                .setHeader(createHeader())                              // Header 구성
+                .setClaims(createClaims(userDetailsDto.getUser()))                       // Payload - Claims 구성
+                .setSubject(String.valueOf(userDetailsDto.getUser().getEmail()))        // Payload - Subject 구성
+                .signWith(SignatureAlgorithm.HS256, createSignature("access"))  // Signature 구성
+                .setExpiration(createExpiredDate(TOKEN_VALIDATION_SECOND));                    // Expired Date 구성
         return builder.compact();
     }
 
@@ -271,47 +285,47 @@ public class TokenUtil {
 
      */
 
-    public TokenDto reissue(TokenDto tokenDto) {
-        /*
-         *  accessToken 은 JWT Filter 에서 검증되고 옴
-         * */
-        String originAccessToken = tokenDto.getAccessToken();
-        String originRefreshToken = tokenDto.getRefreshToken();
-
-        // refreshToken 검증
-        String refreshTokenFlag = RedisUtil.getData(originRefreshToken);
-
-        log.debug("refreshTokenFlag = {}", refreshTokenFlag);
-
-        //refreshToken 검증하고 상황에 맞는 오류를 내보낸다.
-        if (refreshTokenFlag == null) {
-            throw new RuntimeException("잘못된 리프레시 토큰"); // 잘못된 리프레시 토큰
-        }
-
-        System.out.println(getUserIdFromToken(originAccessToken));
-
-        // 5. 새로운 토큰 생성
-        String email = getUserIdFromToken(originAccessToken);
-
-        log.debug(email);
-
-        Optional<User> getUser = userService.getUserByEmail(email);
-        User user = getUser.orElseThrow(()->new RuntimeException("잘못된 유저 정보"));
-        String newAccessToken = generateAccessToken(user);
-        String newRefreshToken = generateRefreshToken(user);
-        TokenDto newTokenDto = TokenDto.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(newRefreshToken)
-                .build();
-
-        log.debug("refresh Origin = {}",originRefreshToken);
-        log.debug("refresh New = {} ",newRefreshToken);
-        // 6. 저장소 정보 업데이트 (dirtyChecking으로 업데이트)
-        RedisUtil.setDataExpire(newRefreshToken, user.getEmail(), getExpiration(originRefreshToken, REFRESH_TOKEN_NAME));
-
-        // 토큰 발급
-        return newTokenDto;
-    }
+//    public TokenDto reissue(TokenDto tokenDto) {
+//        /*
+//         *  accessToken 은 JWT Filter 에서 검증되고 옴
+//         * */
+//        String originAccessToken = tokenDto.getAccessToken();
+//        String originRefreshToken = tokenDto.getRefreshToken();
+//
+//        // refreshToken 검증
+//        String refreshTokenFlag = RedisUtil.getData(originRefreshToken);
+//
+//        log.debug("refreshTokenFlag = {}", refreshTokenFlag);
+//
+//        //refreshToken 검증하고 상황에 맞는 오류를 내보낸다.
+//        if (refreshTokenFlag == null) {
+//            throw new RuntimeException("잘못된 리프레시 토큰"); // 잘못된 리프레시 토큰
+//        }
+//
+//        System.out.println(getUserIdFromToken(originAccessToken));
+//
+//        // 5. 새로운 토큰 생성
+//        String email = getUserIdFromToken(originAccessToken);
+//
+//        log.debug(email);
+//
+//        Optional<User> getUser = userService.getUserByEmail(email);
+//        User user = getUser.orElseThrow(()->new RuntimeException("잘못된 유저 정보"));
+//        String newAccessToken = generateAccessToken(user);
+//        String newRefreshToken = generateRefreshToken(user);
+//        TokenDto newTokenDto = TokenDto.builder()
+//                .accessToken(newAccessToken)
+//                .refreshToken(newRefreshToken)
+//                .build();
+//
+//        log.debug("refresh Origin = {}",originRefreshToken);
+//        log.debug("refresh New = {} ",newRefreshToken);
+//        // 6. 저장소 정보 업데이트 (dirtyChecking으로 업데이트)
+//        RedisUtil.setDataExpire(newRefreshToken, user.getEmail(), getExpiration(originRefreshToken, REFRESH_TOKEN_NAME));
+//
+//        // 토큰 발급
+//        return newTokenDto;
+//    }
 
     public void logout(TokenDto tokenDto) {
         // 1. Access Token 검증

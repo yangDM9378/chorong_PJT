@@ -31,13 +31,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 사용자 정보가 존재하지 않는 경우
         if (id == null || id.equals("")) {
             return userService.getUserByEmail(id)
-                    .map(u -> new UserDetailsDto(u, Collections.singleton(new SimpleGrantedAuthority(u.getEmail()))))
+                    .map(u -> UserDetailsDto.create(u))
                     .orElseThrow(() -> new AuthenticationServiceException(id));
         }
         // 비밀번호가 맞지 않는 경우
         else {
             return userService.getUserByEmail(id)
-                    .map(u -> new UserDetailsDto(u, Collections.singleton(new SimpleGrantedAuthority(u.getEmail()))))
+                    .map(u -> UserDetailsDto.create(u))
                     .orElseThrow(() -> new BadCredentialsException(id));
         }
 //        return null;
