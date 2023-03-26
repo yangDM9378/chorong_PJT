@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 public class TokenUtil {
-    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60 * 30;
+    public final static long TOKEN_VALIDATION_SECOND = 1000L * 60 * 60 * 8;
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;
 
     final static public String ACCESS_TOKEN_NAME = "access";
@@ -254,7 +254,6 @@ public class TokenUtil {
      */
     public String getUserIdFromToken(String token) {
         Claims claims = getClaimsFormToken(token);
-        log.debug("-------------------------------------------------- claim = " + claims);
         return claims.get("userId").toString();
     }
 

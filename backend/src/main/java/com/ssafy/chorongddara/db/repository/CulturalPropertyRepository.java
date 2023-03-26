@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CulturalPropertyRepository extends JpaRepository<CulturalProperty, Integer> {
     List<CulturalProperty> findAllByStage_StageId(Integer stageId);
-
     Optional<CulturalProperty> findCulturalPropertyByCulturalPropertyId(Integer culturalPropertyId);
 }
