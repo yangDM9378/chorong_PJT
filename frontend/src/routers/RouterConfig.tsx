@@ -20,8 +20,8 @@ const RouterConfig = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <HomePage /> },
       { path: '/main', element: <MainPage /> },
-      { path: '/gwanjustage', element: <GwangjuStagePage /> },
-      { path: '/ssafystage', element: <SsafyStagePage /> },
+      { path: '/map/1', element: <GwangjuStagePage /> },
+      { path: '/map/2', element: <SsafyStagePage /> },
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
       {

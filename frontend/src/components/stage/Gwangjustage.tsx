@@ -29,18 +29,18 @@ const Gwangjustage: React.FC = () => {
   const markers = [
     {
       name: '양',
-      position: [35.16, 126.85] as LatLngTuple,
-      imageUrl: 'https://example.com/image1.png',
+      position: [35.14891073, 126.9330876] as LatLngTuple,
+      imageUrl: '/stage/marker/ssafy.png',
     },
     {
       name: '동',
       position: [35.17, 126.86] as LatLngTuple,
-      imageUrl: 'https://example.com/image2.png',
+      imageUrl: '/stage/marker/ssafy.png',
     },
     {
       name: '민',
       position: [35.18, 126.87] as LatLngTuple,
-      imageUrl: 'https://example.com/image3.png',
+      imageUrl: '/stage/marker/ssafy.png',
     },
   ];
 
@@ -63,7 +63,7 @@ const Gwangjustage: React.FC = () => {
         {markers.map((marker, index) => {
           const customIcon = new Icon({
             iconUrl: marker.imageUrl,
-            iconSize: [25, 41],
+            iconSize: [50, 50],
           });
 
           return (
@@ -82,6 +82,7 @@ const Gwangjustage: React.FC = () => {
           );
         })}
       </MapContainer>
+      111
     </div>
   );
 };
