@@ -28,17 +28,17 @@ const DevDropDown = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/main" onClick={onOptionClicked}>
-                  메인
-                </Link>
-              </li>
-              <li>
-                <Link to="/map/0" onClick={onOptionClicked}>
-                  광주맵
+                <Link to="/stage" onClick={onOptionClicked}>
+                  stage
                 </Link>
               </li>
               <li>
                 <Link to="/map/1" onClick={onOptionClicked}>
+                  광주맵
+                </Link>
+              </li>
+              <li>
+                <Link to="/map/2" onClick={onOptionClicked}>
                   싸피맵
                 </Link>
               </li>

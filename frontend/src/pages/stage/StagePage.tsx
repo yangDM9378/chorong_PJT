@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import MainHeader from '../../components/common/main/MainHeader';
-import MainTheme from '../../components/common/main/MainTheme';
+import StageHeader from '../../components/stage/StageHeader';
+import StageTheme from '../../components/stage/StageTheme';
 
-export default function MainPage() {
+export default function StagePage() {
   return (
     <S.MainPage>
-      <MainHeader />
-      <MainTheme />
+      <StageHeader />
+      <StageTheme />
     </S.MainPage>
   );
 }

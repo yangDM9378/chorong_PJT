@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { getStageData } from '../../../api/mainApi';
+import { getStageData } from '../../api/stageApi';
 
 interface StageResult {
   stage: Stage;
@@ -18,7 +18,7 @@ interface Stage {
   targetStarCount: number;
 }
 
-export default function MainTheme() {
+export default function StageTheme() {
   const [stageDatas, setStagesDatas] = useState<StageResult[] | null>([]);
 
   useEffect(() => {
@@ -32,8 +32,8 @@ export default function MainTheme() {
   }, []);
 
   const navigate = useNavigate();
-  const goStage = (e: number) => {
-    navigate(`/map/${e}`);
+  const goStage = (stageNum: number) => {
+    navigate(`/map/${stageNum}`, { state: { stageNum } });
   };
 
   return (

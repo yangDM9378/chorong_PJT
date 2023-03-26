@@ -34,7 +34,7 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
   // 로그인 성공시 main으로 이동
   const navigate = useNavigate();
   const gomain = useCallback(() => {
-    navigate('/main');
+    navigate('/stage');
   }, [navigate]);
 
   // 로그인 통신부분
