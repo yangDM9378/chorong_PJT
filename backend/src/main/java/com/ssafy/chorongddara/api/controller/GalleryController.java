@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-import static com.ssafy.chorongddara.common.util.TokenUtil.userService;
+import com.ssafy.chorongddara.api.service.UserService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -28,6 +28,8 @@ public class GalleryController {
 
     @Autowired
     private GalleryService galleryService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private TokenUtil tokenUtil;
 
