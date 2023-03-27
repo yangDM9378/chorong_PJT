@@ -7,7 +7,7 @@ import TMHtml from '../../components/camera/TMHtml';
 export default function CameraPage() {
   return (
     <div>
-      <Camera />
+      {/* <Camera /> */}
       <TMHtml />
       {/* <VideoPoseModel /> */}
       {/* <TeachableMachine /> */}

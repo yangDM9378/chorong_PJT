@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
-import { getGalleryData } from '../../api/galleryApi';
+import { getGalleryData, setGalleryData } from '../../api/galleryApi';
 
+interface GalleryResult {
+  picture: File;
+}
 export default function CaptureImg() {
-  const [picture, setPicture] = useState<File[] | null>([]);
+  const [picture, setPicture] = useState<GalleryResult[] | null>([]);
   const [showImages, setShowImages] = useState<string[]>([]);
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
@@ -19,25 +22,26 @@ export default function CaptureImg() {
   useEffect(() => {
     if (picture) {
       for (let i = 0; i < picture?.length; i += 1) {
-        // console.log(typeof picture[i]);
-        // const currentImgUrl = URL.createObjectURL(picture[i]);
-        // // console.log(currentImgUrl);
-        // imgUrlLst.push(currentImgUrl);
+        const currentImgUrl = `picture[i]`;
+        imgUrlLst.push(currentImgUrl);
       }
 
-      // setShowImages(imgUrlLst);
+      setShowImages(imgUrlLst);
     }
   }, [picture]);
 
-  const submitImg = (e: any) => {
-    const formData = new FormData();
+  const submitImg = async (e: any) => {
     const culturalPropertyId = {
       culturPropertyId: 1,
     };
     const payload = {
-      culturalPropertyId: JSON.stringify(culturalPropertyId),
+      culturalPropertyId: 1,
       picture: img,
     };
+    console.log(payload);
+    e.preventDefault();
+    const response = await setGalleryData(payload);
+    console.log(response);
   };
 
   const showImg = (e: any) => {
@@ -46,12 +50,12 @@ export default function CaptureImg() {
       const response = await getGalleryData();
       console.log(response);
       if (response) {
-        // setPicture(response.result);
+        setPicture(response.result);
       }
     };
     getPicture();
   };
-
+  console.log(`~/upload/gallery/${picture[1]}`);
   return (
     <div>
       <button type="button" onClick={submitImg}>
@@ -60,11 +64,11 @@ export default function CaptureImg() {
       <button type="button" onClick={showImg}>
         showImg
       </button>
-      {/* {showImages.map((image, id) => (
+      {showImages.map((image, id) => (
         <div key={id}>
           <img src={image} alt={`${image}-${id}`} />
         </div>
-      ))} */}
+      ))}
     </div>
   );
 }
