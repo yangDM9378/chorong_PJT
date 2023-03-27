@@ -1,7 +1,7 @@
 import React from 'react';
 import tw from 'twin.macro';
 import styled from 'styled-components';
-import QuizHeader from '../../components/quiz/QuizHeader';
+// import QuizHeader from '../../components/quiz/QuizHeader';
 import QuizSection from '../../components/quiz/QuizSection';
 
 export default function QuizPage() {
@@ -9,7 +9,7 @@ export default function QuizPage() {
     <S.QuizRed>
       <S.QuizGray>
         <S.QuizWhite>
-          <QuizHeader />
+          {/* <QuizHeader /> */}
           <QuizSection />
         </S.QuizWhite>
       </S.QuizGray>

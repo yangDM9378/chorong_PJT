@@ -25,10 +25,10 @@ const RouterConfig = createBrowserRouter([
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
       {
-        path: '/culturalpropertydetail/:num',
+        path: '/culturalpropertydetail/:culturalpropertynum',
         element: <CulturalPropertyPage />,
       },
-      { path: '/quiz', element: <QuizPage /> },
+      { path: '/quiz/:region/:nameKo', element: <QuizPage /> },
       { path: '/quizscore', element: <QuizScorePage /> },
     ],
   },

@@ -3,18 +3,18 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCulturalProperty } from '../../store/culturalproperty/slice';
-import CulturalPropertButtons from '../../components/culturalpropertydetail/CulturalPropertButtons';
+import CulturalPropertyButtons from '../../components/culturalpropertydetail/CulturalPropertyButtons';
 import CulturalPropertyDescription from '../../components/culturalpropertydetail/CulturalPropertyDescription';
 import CulturalPropertyHeader from '../../components/culturalpropertydetail/CulturalPropertyHeader';
-import { CulturalPropertyData } from '../../api/types/culturalpropertydetailType';
+import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import { CulturalProperty } from '../../api/culturalpropertydetailApi';
 
 export default function CulturalPropertyPage() {
-  const { num } = useParams<{ num: string }>();
+  const { culturalpropertynum } = useParams<{ culturalpropertynum: string }>();
   const dispatch = useDispatch();
   const { data, isLoading, isError } = useQuery<CulturalPropertyData, Error>(
-    ['culturalProperty', num],
-    () => CulturalProperty(Number(num)),
+    ['culturalProperty', culturalpropertynum],
+    () => CulturalProperty(Number(culturalpropertynum)),
   );
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function CulturalPropertyPage() {
         </button>
         <CulturalPropertyHeader />
         <CulturalPropertyDescription />
-        <CulturalPropertButtons />
+        <CulturalPropertyButtons />
       </div>
     );
   }

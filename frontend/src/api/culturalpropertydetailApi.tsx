@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
 import { authApi } from '../libs/axiosConfig';
-import { CulturalPropertyData } from './types/culturalpropertydetailType';
+import { CulturalPropertyData } from '../types/culturalpropertytype';
 
 export async function CulturalProperty(
   num: number,

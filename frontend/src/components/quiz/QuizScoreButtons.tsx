@@ -16,7 +16,7 @@ export default function QuizScoreButtons() {
   );
   // 퀴즈페이지 처음으로 가기
   const goQuiz = useCallback(() => {
-    navigate('/quiz');
+    navigate(-1);
   }, [navigate]);
   // 맞은 갯수 초기화 하기
   const correctCntInit = useCallback(() => {

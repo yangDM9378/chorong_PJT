@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CulturalPropertyData } from './types';
+import { CulturalPropertyData } from '../../types/culturalpropertytype';
 
 export type CulturalPropertyState = {
   value: CulturalPropertyData | null;
