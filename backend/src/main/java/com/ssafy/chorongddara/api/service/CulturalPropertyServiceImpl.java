@@ -2,6 +2,7 @@ package com.ssafy.chorongddara.api.service;
 
 import com.ssafy.chorongddara.api.request.StarUpdateReq;
 import com.ssafy.chorongddara.api.response.CulturalPropertyDetailRes;
+import com.ssafy.chorongddara.api.response.CulturalPropertyInStageRes;
 import com.ssafy.chorongddara.api.response.StageListRes;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
 import com.ssafy.chorongddara.common.exception.BusinessExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,28 +34,56 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
 
     @Override
     public List<StageListRes> getStageList(Integer userId) {
-        return stageRepository.getStages(userId);
+        List<StageListRes> stageList = new ArrayList<>();
+
+        List<Stage> stages = stageRepository.findAll();
+
+        for(int i = 0; i < stages.size(); i++) {
+            Optional<UserStage> userStage = userStageRepository.findByUser_UserIdAndStage_StageId(userId, stages.get(i).getStageId());
+
+            if(userStage.isPresent()) {
+                stageList.add(new StageListRes(stages.get(i), userStage.get().getStarCount()));
+            } else {
+                stageList.add(new StageListRes(stages.get(i), 0));
+            }
+        }
+
+        return stageList;
     }
 
     @Override
-    public List<CulturalProperty> getCulturalPropertyList(Integer stageId) {
-        return culturalPropertyRepository.findAllByStage_StageId(stageId);
+    public List<CulturalPropertyInStageRes> getCulturalPropertyList(Integer stageId) {
+        List<CulturalPropertyInStageRes> list = new ArrayList<>();
+
+        List<CulturalProperty> culturalProperties = culturalPropertyRepository.findAllByStage_StageId(stageId);
+
+        for(int i = 0; i < culturalProperties.size(); i++) {
+            CulturalProperty culturalProperty = culturalProperties.get(i);
+
+            list.add(CulturalPropertyInStageRes.builder()
+                    .culturalPropertyId(culturalProperty.getCulturalPropertyId())
+                    .nameKo(culturalProperty.getNameKo())
+                    .latitude(culturalProperty.getLatitude())
+                    .longitude(culturalProperty.getLongitude())
+                    .pinImage(culturalProperty.getPinImage())
+                    .build());
+        }
+
+        return list;
     }
 
     @Override
     public CulturalPropertyDetailRes getCulturalProperty(Integer userId,Integer culturalPropertyId) {
-        CulturalProperty culturalProperty = culturalPropertyRepository.findById(culturalPropertyId)
+        CulturalProperty culturalProperty = culturalPropertyRepository.findCulturalPropertyByCulturalPropertyId(culturalPropertyId)
                 .orElseThrow(() -> new BusinessExceptionHandler("조회할 문화재가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
 
-        Integer starCount = starRepository.getStarCount(userId, culturalPropertyId);
+        System.out.println(culturalProperty);
 
-        Pose pose = poseRepository.findById(culturalProperty.getPose().getPoseId())
-                .orElseThrow(() -> new BusinessExceptionHandler("조회한 문화재에 대한 포즈가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
+        Integer starCount = starRepository.getStarCount(userId, culturalPropertyId);
 
         return CulturalPropertyDetailRes.builder()
                 .culturalProperty(culturalProperty)
                 .starCount(starCount)
-                .pose(pose)
                 .build();
     }
 
@@ -71,6 +101,7 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
 
         Star star = starRepository.findByCulturalProperty_CulturalPropertyIdAndUser_UserId(culturalPropertyId, userId)
                 .orElse(null);
+
         if (star == null) {
             star = Star.builder()
                     .starPose(0)
@@ -81,13 +112,15 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
                     .build();
         }
 
-        if (starType == "pose") {
+        if (starType.equals("pose")) {
             star.completePose();
-        } else if (starType == "quiz") {
+        } else if (starType.equals("quiz")) {
             star.completeQuiz();
-        } else if (starType == "ar") {
+        } else if (starType.equals("ar")) {
             star.completeAr();
         }
+
+        starRepository.save(star);
 
         UserStage userStage = userStageRepository.findByUser_UserIdAndStage_StageId(userId, culturalProperty.getStage().getStageId())
                 .orElse(null);
@@ -101,5 +134,7 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
         } else {
             userStage.increaseStarCount();
         }
+
+        userStageRepository.save(userStage);
     }
 }

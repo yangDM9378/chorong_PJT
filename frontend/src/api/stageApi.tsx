@@ -3,21 +3,32 @@
 import { AxiosResponse } from 'axios';
 import { authApi } from '../libs/axiosConfig';
 
-interface UserData {
-  resultcode: number;
+interface StageData {
+  resultCode: number;
   resultMsg: string;
-  result: User; // result 속성 추가
+  result: StageResult[];
 }
 
-interface User {
-  userId: number;
-  email: string;
-  nickname: string;
+interface StageResult {
+  stage: Stage;
+  starCount: number;
 }
 
-export async function getMe(): Promise<UserData | null> {
+interface Stage {
+  stageId: number;
+  stageName: string;
+  stageImage: string;
+  characterImage: string;
+  description: string;
+  targetStarCount: number;
+}
+
+// stageData
+export async function getStageData(): Promise<StageData | null> {
   try {
-    const response: AxiosResponse<UserData> = await authApi.get('/users/');
+    const response: AxiosResponse<StageData> = await authApi.get(
+      'cultural-properties/stage',
+    );
     return response.data;
   } catch (error) {
     console.error(error);

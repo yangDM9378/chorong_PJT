@@ -1,6 +1,5 @@
 package com.ssafy.chorongddara.api.controller;
 
-import com.ssafy.chorongddara.api.request.GalleryInsertReq;
 import com.ssafy.chorongddara.api.service.GalleryService;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
 import com.ssafy.chorongddara.common.codes.SuccessCode;
@@ -20,7 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-import static com.ssafy.chorongddara.common.util.TokenUtil.userService;
+import com.ssafy.chorongddara.api.service.UserService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -29,6 +28,8 @@ public class GalleryController {
 
     @Autowired
     private GalleryService galleryService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private TokenUtil tokenUtil;
 

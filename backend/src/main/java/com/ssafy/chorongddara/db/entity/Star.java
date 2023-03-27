@@ -1,6 +1,7 @@
 package com.ssafy.chorongddara.db.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -10,6 +11,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@DynamicInsert
+@DynamicUpdate
 public class Star {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

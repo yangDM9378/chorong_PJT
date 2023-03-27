@@ -26,5 +26,4 @@ public class CulturalPropertyDetailRes {
 //    private Pose pose;
     CulturalProperty culturalProperty;
     Integer starCount;
-    Pose pose;
 }

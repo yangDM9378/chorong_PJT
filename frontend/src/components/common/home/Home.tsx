@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import HomeCarousel from './HomeCarousel';
+// import HomeCarousel from './HomeCarousel';
 import SignInModalTest from './SignInModal';
 import SignUpModal from './SignUpModal';
 
@@ -29,9 +29,9 @@ export default function Home() {
           setModalSignUp(false);
         }}
       />
-      <S.HomeCarousel>
-        <HomeCarousel />s
-      </S.HomeCarousel>
+      {/* <S.HomeCarousel>
+        <HomeCarousel />
+      </S.HomeCarousel> */}
       <S.ButtonContainer>
         <button type="button" onClick={openModalSignIn}>
           로그인

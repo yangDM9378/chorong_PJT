@@ -22,7 +22,7 @@ pipeline {
                                         pwd
                                         sudo docker-compose build
                                     ''',
-                                    execTimeout: 300000,
+                                    execTimeout: 600000,
                                     flatten: false,
                                     makeEmptyDirs: false,
                                     noDefaultExcludes: false,
