@@ -5,11 +5,8 @@ import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 import { getGalleryData } from '../../api/galleryApi';
 
-interface GalleryResult {
-  picture: File;
-}
 export default function CaptureImg() {
-  const [picture, setPicture] = useState<GalleryResult[] | null>([]);
+  const [picture, setPicture] = useState<File[] | null>([]);
   const [showImages, setShowImages] = useState<string[]>([]);
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
@@ -17,23 +14,20 @@ export default function CaptureImg() {
   const Token = localStorage.getItem('accessToken');
   const culturalId = '1';
 
-  // const imgUrlLst = [];
+  const imgUrlLst = [];
 
-  // useEffect(() => {
-  //   if (picture) {
-  //     for (let i = 0; i < picture?.length; i += 1) {
-  //       const reader = new FileReader();
-  //       reader.onload(picture[i]);
-  //       const currentImgUrl = reader.readAsDataURL(picture[i]);
-  //       // console.log(typeof picture[i]);
-  //       // const currentImgUrl = URL.createObjectURL(picture[i]);
-  //       // console.log(currentImgUrl);
-  //       imgUrlLst.push(currentImgUrl);
-  //     }
+  useEffect(() => {
+    if (picture) {
+      for (let i = 0; i < picture?.length; i += 1) {
+        // console.log(typeof picture[i]);
+        // const currentImgUrl = URL.createObjectURL(picture[i]);
+        // // console.log(currentImgUrl);
+        // imgUrlLst.push(currentImgUrl);
+      }
 
-  //     setShowImages(imgUrlLst);
-  //   }
-  // }, [picture]);
+      // setShowImages(imgUrlLst);
+    }
+  }, [picture]);
 
   const submitImg = (e: any) => {
     const formData = new FormData();
@@ -44,28 +38,6 @@ export default function CaptureImg() {
       culturalPropertyId: JSON.stringify(culturalPropertyId),
       picture: img,
     };
-    formData.append('culturalPropertyId', culturalId);
-    formData.append('picture', img!);
-    console.log(payload);
-    e.preventDefault();
-    axios({
-      method: 'post',
-      url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
-      data: {
-        culturalPropertyId: 1,
-        picture: img,
-      },
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${Token}`,
-      },
-    })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   const showImg = (e: any) => {
@@ -74,7 +46,7 @@ export default function CaptureImg() {
       const response = await getGalleryData();
       console.log(response);
       if (response) {
-        setPicture(response.result);
+        // setPicture(response.result);
       }
     };
     getPicture();
