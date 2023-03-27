@@ -1,4 +1,13 @@
-<div>Teachable Machine Pose Model</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>Teachable Machine Pose Model</div>
 <button type="button" onclick="init()">Start</button>
 <div><canvas id="canvas"></canvas></div>
 <div id="label-container"></div>
@@ -9,7 +18,7 @@
   // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
   // the link to your model provided by Teachable Machine export panel
-  const URL = "./my_model/";
+  const URL = "https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/";
   let model, webcam, ctx, labelContainer, maxPredictions;
 
   async function init() {
@@ -81,3 +90,6 @@
     }
   }
 </script>
+
+</body>
+</html>

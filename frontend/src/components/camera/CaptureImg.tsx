@@ -1,16 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 
 export default function CaptureImg() {
+  const [showImages, setShowImages] = useState<string[]>([]);
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
-  const imgSrc = URL.createObjectURL(img!);
   const Token =
-    'eyJyZWdEYXRlIjoxNjc5NjMyNjUyMTg5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTm0iOiLslpHrj5nsnbQiLCJ1c2VySWQiOiJzc2FmeUBzc2FmeS5jb20iLCJzdWIiOiJzc2FmeUBzc2FmeS5jb20iLCJleHAiOjE2Nzk2MzQ0NTJ9.7Da3XwR9lmCuSiA_4f6nx6xfFPNPTv7MI6RMmrSDhhk';
+    'eyJyZWdEYXRlIjoxNjc5NjQ0MDIxMjc2LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTm0iOiLslpHrj5nsnbQiLCJ1c2VySWQiOiJzc2FmeUBzc2FmeS5jb20iLCJzdWIiOiJzc2FmeUBzc2FmeS5jb20iLCJleHAiOjE2Nzk2NDU4MjF9.0xtwCa-GI-Cp2zVDzuO98Sfq5hpgY9qxAN5HCgv9JWs';
   const culturalId = '1';
 
   const submitImg = (e: any) => {
@@ -24,12 +24,15 @@ export default function CaptureImg() {
     };
     formData.append('culturalPropertyId', culturalId);
     formData.append('picture', img!);
-    console.log();
+    console.log(payload);
     e.preventDefault();
     axios({
       method: 'post',
       url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
-      data: payload,
+      data: {
+        culturalPropertyId: 1,
+        picture: img,
+      },
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${Token}`,
@@ -43,14 +46,41 @@ export default function CaptureImg() {
       });
   };
 
-  console.log(img);
-  const CaptureImgRef = useRef<HTMLImageElement | null>(null);
+  const showImg = (e: any) => {
+    e.preventDefault();
+    axios({
+      method: 'get',
+      url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    })
+      .then((result) => {
+        console.log(result.data);
+        const imgUrlLst = [];
+        for (let i = 0; i < result.data.length; i += 1) {
+          const currentImgUrl = URL.createObjectURL(result.data[i]);
+          imgUrlLst.push(currentImgUrl);
+        }
+        setShowImages(imgUrlLst);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div>
-      <img ref={CaptureImgRef} src={imgSrc} alt="capture img" />
       <button type="button" onClick={submitImg}>
         Submit
       </button>
+      <button type="button" onClick={showImg}>
+        showImg
+      </button>
+      {showImages.map((image, id) => (
+        <div key={id}>
+          <img src={image} alt={`${image}-${id}`} />
+        </div>
+      ))}
     </div>
   );
 }
