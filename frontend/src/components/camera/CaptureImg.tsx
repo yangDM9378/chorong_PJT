@@ -1,17 +1,39 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
+import { getGalleryData } from '../../api/galleryApi';
 
+interface GalleryResult {
+  picture: File;
+}
 export default function CaptureImg() {
+  const [picture, setPicture] = useState<GalleryResult[] | null>([]);
   const [showImages, setShowImages] = useState<string[]>([]);
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
-  const Token =
-    'eyJyZWdEYXRlIjoxNjc5NjQ0MDIxMjc2LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTm0iOiLslpHrj5nsnbQiLCJ1c2VySWQiOiJzc2FmeUBzc2FmeS5jb20iLCJzdWIiOiJzc2FmeUBzc2FmeS5jb20iLCJleHAiOjE2Nzk2NDU4MjF9.0xtwCa-GI-Cp2zVDzuO98Sfq5hpgY9qxAN5HCgv9JWs';
+  const Token = localStorage.getItem('accessToken');
   const culturalId = '1';
+
+  // const imgUrlLst = [];
+
+  // useEffect(() => {
+  //   if (picture) {
+  //     for (let i = 0; i < picture?.length; i += 1) {
+  //       const reader = new FileReader();
+  //       reader.onload(picture[i]);
+  //       const currentImgUrl = reader.readAsDataURL(picture[i]);
+  //       // console.log(typeof picture[i]);
+  //       // const currentImgUrl = URL.createObjectURL(picture[i]);
+  //       // console.log(currentImgUrl);
+  //       imgUrlLst.push(currentImgUrl);
+  //     }
+
+  //     setShowImages(imgUrlLst);
+  //   }
+  // }, [picture]);
 
   const submitImg = (e: any) => {
     const formData = new FormData();
@@ -48,26 +70,16 @@ export default function CaptureImg() {
 
   const showImg = (e: any) => {
     e.preventDefault();
-    axios({
-      method: 'get',
-      url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      },
-    })
-      .then((result) => {
-        console.log(result.data);
-        const imgUrlLst = [];
-        for (let i = 0; i < result.data.length; i += 1) {
-          const currentImgUrl = URL.createObjectURL(result.data[i]);
-          imgUrlLst.push(currentImgUrl);
-        }
-        setShowImages(imgUrlLst);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const getPicture = async () => {
+      const response = await getGalleryData();
+      console.log(response);
+      if (response) {
+        setPicture(response.result);
+      }
+    };
+    getPicture();
   };
+
   return (
     <div>
       <button type="button" onClick={submitImg}>
@@ -76,11 +88,11 @@ export default function CaptureImg() {
       <button type="button" onClick={showImg}>
         showImg
       </button>
-      {showImages.map((image, id) => (
+      {/* {showImages.map((image, id) => (
         <div key={id}>
           <img src={image} alt={`${image}-${id}`} />
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }

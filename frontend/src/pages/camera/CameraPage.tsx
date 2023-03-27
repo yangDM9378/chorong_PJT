@@ -8,7 +8,7 @@ export default function CameraPage() {
   return (
     <div>
       <Camera />
-      <TMHtml />
+      {/* <TMHtml /> */}
       {/* <VideoPoseModel /> */}
       {/* <TeachableMachine /> */}
     </div>
