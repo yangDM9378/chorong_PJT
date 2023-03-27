@@ -17,7 +17,7 @@ export default function CaptureImg() {
   const Token = localStorage.getItem('accessToken');
   const culturalId = '1';
 
-  const imgUrlLst = [];
+  const imgUrlLst: any = [];
 
   useEffect(() => {
     if (picture) {
@@ -35,7 +35,7 @@ export default function CaptureImg() {
       culturPropertyId: 1,
     };
     const payload = {
-      culturalPropertyId: 1,
+      culturalPropertyId: JSON.stringify(1),
       picture: img,
     };
     console.log(payload);
@@ -55,7 +55,7 @@ export default function CaptureImg() {
     };
     getPicture();
   };
-  console.log(`~/upload/gallery/${picture[1]}`);
+  // console.log(`~/upload/gallery/${picture[1]}`);
   return (
     <div>
       <button type="button" onClick={submitImg}>
@@ -64,11 +64,11 @@ export default function CaptureImg() {
       <button type="button" onClick={showImg}>
         showImg
       </button>
-      {showImages.map((image, id) => (
+      {/* {showImages.map((image, id) => (
         <div key={id}>
           <img src={image} alt={`${image}-${id}`} />
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }
