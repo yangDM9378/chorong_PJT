@@ -24,8 +24,8 @@ export default function Camera() {
       .takePhoto()
       .then((blob: any) => {
         createImageBitmap(blob);
-        const file = new File([blob], 'test2.jpg');
-        dispatch(setImg(file));
+        // const file = new File([blob], 'test2.jpg');
+        dispatch(setImg(blob));
       })
       .catch((error: Error) => console.error(error));
   }

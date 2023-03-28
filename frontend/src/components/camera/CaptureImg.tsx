@@ -1,114 +1,112 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import * as tmPose from '@teachablemachine/pose';
+import { useNavigate } from 'react-router-dom';
 import { storage } from '../../api/firebase';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
-import { getGalleryData, setGalleryData } from '../../api/galleryApi';
 import { authApi } from '../../libs/axiosConfig';
 
-interface GalleryResult {
-  picture: File;
-}
-
 export default function CaptureImg() {
-  const [picture, setPicture] = useState<GalleryResult[] | null>([]);
-  const [showImages, setShowImages] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const goBack = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
+
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
+  img!.arrayBuffer().then((arrayBuffer) => {
+    const blob = new Blob([new Uint8Array(arrayBuffer)], { type: img!.type });
+  });
+  const imgSrc = URL.createObjectURL(img!);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const Token = localStorage.getItem('accessToken');
   const culturalId = '1';
 
-  const imgUrlLst: any = [];
-
-  useEffect(() => {
-    if (picture) {
-      for (let i = 0; i < picture?.length; i += 1) {
-        const currentImgUrl = `picture[i]`;
-        imgUrlLst.push(currentImgUrl);
-      }
-
-      setShowImages(imgUrlLst);
-    }
-  }, [picture]);
-
   const submitImg = async (e: any) => {
     e.preventDefault();
-
+    console.log(img?.name);
     if (img !== undefined) {
       const storageRef = ref(storage, `files/${uuidv4()}`);
       const uploadTask = uploadBytes(storageRef, img);
       uploadTask.then((snapshot) => {
         getDownloadURL(snapshot.ref).then((downloadURL) => {
           const payload = {
-              culturalPropertyId: 1,
-              picture: downloadURL,
-            };
-          authApi.post('/galleries', payload).then((result) => {
-            console.log(result)
-          }).catch((err) => {
-            console.log(err)
-          });
+            culturalPropertyId: 1,
+            picture: downloadURL,
+          };
+          authApi
+            .post('/galleries', payload)
+            .then((result) => {
+              console.log(result);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         });
       });
     }
-    // const culturalPropertyId = {
-    //   culturPropertyId: 1,
-    // };
-    // const payload = {
-    //   culturalPropertyId: 1,
-    //   picture: img,
-    // };
-    // console.log(payload);
-    // axios({
-    //   method: 'post',
-    //   url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
-    //   data: payload,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //     Authorization: `Bearer ${Token}`,
-    //   },
-    // })
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
   };
 
-  const showImg = (e: any) => {
-    e.preventDefault();
-    const getPicture = async () => {
-      const response = await getGalleryData();
-      console.log(response);
-      if (response) {
-        setPicture(response.result);
-      }
-    };
-    getPicture();
-  };
   let tmp: string;
-  if (picture) {
-    tmp = `file://home/ubuntu/upload/gallery/${picture[1]}`;
-    console.log(tmp);
-  }
+  const predict = () => {
+    const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
+
+    let model: tmPose.CustomPoseNet | null;
+    let maxPredictions: number;
+
+    async function init() {
+      console.log('model predict');
+      const modelURL = `${URL}model.json`;
+      const metadataURL = `${URL}metadata.json`;
+      model = await tmPose.load(modelURL, metadataURL);
+      maxPredictions = model.getTotalClasses();
+
+      async function loop(timestamp: any) {
+        await predict();
+        window.requestAnimationFrame(loop);
+      }
+      predict2();
+      async function predict2() {
+        if (!model) return;
+
+        const { pose, posenetOutput } = await model.estimatePose(
+          imgRef.current!,
+          true,
+        );
+        const prediction = await model.predict(posenetOutput);
+        for (let i = 0; i < maxPredictions; i += 1) {
+          const classPrediction = `${prediction[i].className}: ${prediction[
+            i
+          ].probability.toFixed(2)}`;
+          console.log(classPrediction);
+        }
+        if (prediction[1].probability > 0.9) {
+          alert('포즈 성공');
+        }
+      }
+    }
+    init();
+  };
+  useEffect(() => {
+    predict();
+  });
   return (
     <div>
+      <canvas ref={canvasRef} />
+      <img src={imgSrc} ref={imgRef} alt="capture img" />
       <button type="button" onClick={submitImg}>
         Submit
       </button>
-      <button type="button" onClick={showImg}>
-        showImg
+
+      <button type="button" onClick={goBack}>
+        back
       </button>
-      {/* {showImages.map((image, id) => (
-        <div key={id}>
-          <img src={image} alt={`${image}-${id}`} />
-        </div>
-      ))} */}
     </div>
   );
 }
