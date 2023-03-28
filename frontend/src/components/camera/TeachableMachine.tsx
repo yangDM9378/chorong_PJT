@@ -2,9 +2,18 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import * as tmPose from '@teachablemachine/pose';
+import { setImg } from '../../store/camera/slice';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import ReactModal from 'react-modal';
+import CachedIcon from '@mui/icons-material/Cached';
+import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function TeachableMachinePoseModel() {
   const [front, setFront] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const setCamera = () => {
     setFront((prev) => !prev);
@@ -13,17 +22,41 @@ function TeachableMachinePoseModel() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const labelContainerRef = useRef<HTMLDivElement>(null);
   const webcamRef = useRef<tmPose.Webcam | null>(null);
+
+  const onTakePhotoButtonClick = async () => {
+    if (!webcamRef.current) return;
+    const canvasTmp = webcamRef.current.canvas;
+    const test = canvasTmp.toBlob((blob) => {
+      if (!blob) return;
+      let file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' });
+      dispatch(setImg(file));
+    }, 'image/jpeg');
+
+    // imageCapture
+    //   .takePhoto()
+    //   .then((blob: any) => {
+    //     createImageBitmap(blob);
+    //     // let file = new File([blob], 'test.jpg');
+    //     dispatch(setImg(blob));
+    //   })
+    //   .then((imageBitmap: any) => {
+    //     if (captureRef.current) {
+    //       drawCanvas(captureRef.current, imageBitmap);
+    //     }
+    //   })
+    //   .catch((error: Error) => console.error(error));
+  };
+
   useEffect(() => {
-    const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
+    const URL_TM = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
     let model: tmPose.CustomPoseNet | null;
     let ctx: CanvasRenderingContext2D;
     let labelContainer: HTMLDivElement;
     let maxPredictions: number;
 
-    function onTakePhotoButtonClick() {}
     async function init() {
-      const modelURL = `${URL}model.json`;
-      const metadataURL = `${URL}metadata.json`;
+      const modelURL = `${URL_TM}model.json`;
+      const metadataURL = `${URL_TM}metadata.json`;
 
       // load the model and metadata
       model = await tmPose.load(modelURL, metadataURL);
@@ -106,13 +139,14 @@ function TeachableMachinePoseModel() {
     function drawPose(pose: any) {
       if (webcamRef.current?.canvas) {
         ctx?.drawImage(webcamRef.current.canvas, 0, 0);
+
         // draw the keypoints and skeleton
 
-        if (pose) {
-          const minPartConfidence = 0.5;
-          tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-          tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
-        }
+        // if (pose) {
+        //   const minPartConfidence = 0.5;
+        //   tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+        //   tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+        // }
       }
     }
 
@@ -125,6 +159,39 @@ function TeachableMachinePoseModel() {
       }
     };
   }, [front, webcamRef.current?.height, webcamRef.current?.width]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const handleClose = () => {
+    setModalIsOpen(false);
+  };
+  return (
+    <div>
+      <div>
+        <canvas ref={canvasRef} />
+      </div>
+      <div ref={labelContainerRef} />
+      <button type="button" onClick={setCamera}>
+        {front ? 'Front' : 'Rear'} camera
+      </button>
+      <div>
+        <CachedIcon onClick={setCamera} />
+        <CameraRoundedIcon onClick={onTakePhotoButtonClick}></CameraRoundedIcon>
+
+        <InfoOutlinedIcon
+          onClick={() => {
+            setModalIsOpen(true);
+          }}
+        ></InfoOutlinedIcon>
+        <button type="button">
+          <Link to="/camera/after">after</Link>
+        </button>
+        {modalIsOpen && (
+          <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
+            img
+          </ReactModal>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default TeachableMachinePoseModel;
