@@ -3,65 +3,62 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+// import { useQuery } from '@tanstack/react-query';
+// import { useParams } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
 import { AppState } from '../../store';
 import { QuizState, setCorrectCnt } from '../../store/quiz/slice';
 import QuizModal from './QuizModal';
 import { Quiz } from '../../types/quiz';
-import getQuiz from '../../api/quizApi';
-
-// 더미 데이터
-// const quizDatas: Quiz[] = [
-//   {
-//     question: '광주 지산동 오층석탑은 몇 층으로 이루어져 있나?',
-//     options: ['3층', '4층', '5층', '6층'],
-//     answer: '5층',
-//     explanation: '광주 지산동 오층석탑은 이름 그대로 5층으로 이루어져 있다.',
-//   },
-//   {
-//     question: '광주 지산동 오층석탑의 건립 시기는?',
-//     options: ['신라시대', '고구려시대', '백제시대', '조선시대'],
-//     answer: '백제시대',
-//     explanation:
-//       '광주 지산동 오층석탑은 백제의 16대 왕인 선덕여왕 19년(544)에 건립되었다.',
-//   },
-//   {
-//     question: '광주 지산동 오층석탑은 몇 년도에 국보제 16호로 지정되었나?',
-//     options: ['1949년', '1962년', '1972년', '1983년'],
-//     answer: '1962년',
-//     explanation:
-//       '광주 지산동 오층석탑은 1962년 12월 20일 국보 16호로 지정되었다.',
-//   },
-// ];
+// import getQuiz from '../../api/quizApi';
 
 export default function QuizSection() {
-  const { region, nameKo } = useParams<{ region: string; nameKo: string }>();
+  // const { region, nameKo } = useParams<{ region: string; nameKo: string }>();
   const dispatch = useDispatch();
 
-  if (!region || !nameKo) {
-    return <div>region 또는 nameKo가 없어</div>;
-  }
+  // if (!region || !nameKo) {
+  //   return <div>region 또는 nameKo가 없어</div>;
+  // }
 
-  const [quizDatas, setQuizDatas] = useState<Quiz[] | null>(null);
-  const { isLoading, isError, data } = useQuery<Quiz[], Error>(
-    ['quizdatas', region, nameKo],
-    () => getQuiz(region, nameKo),
+  // const [quizDatas, setQuizDatas] = useState<Quiz[] | null>(null);
+  // const { isLoading, isError, data } = useQuery<Quiz[], Error>(
+  //   ['quizdatas', region, nameKo],
+  //   () => getQuiz(region, nameKo),
+  //   {
+  //     onSuccess: (e) => {
+  //       setQuizDatas(e);
+  //     },
+  //     staleTime: 300000,
+  //   },
+  // );
+
+  // useEffect(() => {
+  //   if (!data) {
+  //     setQuizDatas(null);
+  //   }
+  // }, [data]);
+  const quizDatas: Quiz[] = [
     {
-      onSuccess: (e) => {
-        setQuizDatas(e);
-      },
-      staleTime: 300000,
+      question: '광주 지산동 오층석탑은 몇 층으로 이루어져 있나?',
+      options: ['3층', '4층', '5층', '6층'],
+      answer: '5층',
+      explanation: '광주 지산동 오층석탑은 이름 그대로 5층으로 이루어져 있다.',
     },
-  );
-
-  useEffect(() => {
-    if (!data) {
-      setQuizDatas(null);
-    }
-  }, [data]);
-
+    {
+      question: '광주 지산동 오층석탑의 건립 시기는?',
+      options: ['신라시대', '고구려시대', '백제시대', '조선시대'],
+      answer: '백제시대',
+      explanation:
+        '광주 지산동 오층석탑은 백제의 16대 왕인 선덕여왕 19년(544)에 건립되었다.',
+    },
+    {
+      question: '광주 지산동 오층석탑은 몇 년도에 국보제 16호로 지정되었나?',
+      options: ['1949년', '1962년', '1972년', '1983년'],
+      answer: '1962년',
+      explanation:
+        '광주 지산동 오층석탑은 1962년 12월 20일 국보 16호로 지정되었다.',
+    },
+  ];
   const correctCntPlus = useCallback(() => {
     dispatch(setCorrectCnt(1));
   }, [dispatch]);
@@ -90,20 +87,20 @@ export default function QuizSection() {
     }
   };
 
-  useEffect(() => {
-    setQuizDatas(null);
-  }, [region, nameKo]);
+  // useEffect(() => {
+  //   setQuizDatas(null);
+  // }, [region, nameKo]);
 
-  if (isLoading) {
-    return <S.Loading>문제 로딩 중....</S.Loading>;
-  }
-  if (isError) {
-    return (
-      <div>
-        <button type="button">오류 발생 다시 문제 불러오기</button>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return <S.Loading>문제 로딩 중....</S.Loading>;
+  // }
+  // if (isError) {
+  //   return (
+  //     <div>
+  //       <button type="button">오류 발생 다시 문제 불러오기</button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <S.QuizSectionContainer>
