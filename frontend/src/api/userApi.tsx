@@ -2,29 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import { AxiosResponse } from 'axios';
 import { authApi } from '../libs/axiosConfig';
-
-interface UserData {
-  resultCode: number;
-  resultMsg: string;
-  result: User; // result 속성 추가
-}
-
-interface User {
-  userId: number;
-  email: string;
-  nickname: string;
-}
-
-interface SignUpData {
-  email: string;
-  password: string;
-  nickname: string;
-}
-
-interface SignInData {
-  email: string;
-  password: string;
-}
+import { SignInData, SignUpData, UserData } from '../types/auth';
 
 // 회원가입
 export async function signUp(data: SignUpData): Promise<void> {

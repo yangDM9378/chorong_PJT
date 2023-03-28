@@ -4,7 +4,7 @@ import App from '../App';
 import HomePage from '../pages/common/HomePage';
 import NoMatchPage from '../pages/common/NoMatchPage';
 import CameraPage from '../pages/camera/CameraPage';
-import CulturalPropertyDetailPage from '../pages/culturalpropertydetail/CulturalPropertyDetailPage';
+import CulturalPropertyPage from '../pages/culturalproperty/CulturalPropertyPage';
 import QuizPage from '../pages/quiz/QuizPage';
 import QuizScorePage from '../pages/quiz/QuizScorePage';
 import StagePage from '../pages/stage/StagePage';
@@ -25,10 +25,10 @@ const RouterConfig = createBrowserRouter([
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
       {
-        path: '/culturalpropertydetail/:name',
-        element: <CulturalPropertyDetailPage />,
+        path: '/culturalpropertydetail/:culturalpropertynum',
+        element: <CulturalPropertyPage />,
       },
-      { path: '/quiz', element: <QuizPage /> },
+      { path: '/quiz/:region/:nameKo', element: <QuizPage /> },
       { path: '/quizscore', element: <QuizScorePage /> },
     ],
   },
