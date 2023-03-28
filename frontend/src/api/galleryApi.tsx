@@ -10,7 +10,7 @@ interface GalleryData {
 }
 
 interface SetGalleryData {
-  culturalPropertyId: string;
+  culturalPropertyId: number;
   picture: File | undefined;
 }
 interface GalleryResult {
@@ -29,18 +29,6 @@ export async function getGalleryData(): Promise<GalleryData | null> {
   }
 }
 
-export async function setGalleryData(
-  data: SetGalleryData,
-): Promise<any | null> {
-  try {
-    console.log(data);
-    const response: AxiosResponse<GalleryData> = await authApi.post(
-      `/galleries/`,
-      data,
-    );
-    return response;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
+export async function setGalleryData(data: SetGalleryData): Promise<void> {
+  await authApi.post(`/galleries/`, data);
 }

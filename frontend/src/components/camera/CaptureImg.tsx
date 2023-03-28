@@ -31,17 +31,30 @@ export default function CaptureImg() {
   }, [picture]);
 
   const submitImg = async (e: any) => {
-    const culturalPropertyId = {
-      culturPropertyId: 1,
-    };
-    const payload = {
-      culturalPropertyId: JSON.stringify(1),
-      picture: img,
-    };
-    console.log(payload);
     e.preventDefault();
-    const response = await setGalleryData(payload);
-    console.log(response);
+    // const culturalPropertyId = {
+    //   culturPropertyId: 1,
+    // };
+    // const payload = {
+    //   culturalPropertyId: 1,
+    //   picture: img,
+    // };
+    // console.log(payload);
+    // axios({
+    //   method: 'post',
+    //   url: `https://j8c101.p.ssafy.io/api/v1/galleries/`,
+    //   data: payload,
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //     Authorization: `Bearer ${Token}`,
+    //   },
+    // })
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   const showImg = (e: any) => {
@@ -55,7 +68,11 @@ export default function CaptureImg() {
     };
     getPicture();
   };
-  // console.log(`~/upload/gallery/${picture[1]}`);
+  let tmp: string;
+  if (picture) {
+    tmp = `file://home/ubuntu/upload/gallery/${picture[1]}`;
+    console.log(tmp);
+  }
   return (
     <div>
       <button type="button" onClick={submitImg}>
