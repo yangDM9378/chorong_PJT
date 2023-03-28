@@ -1,5 +1,6 @@
 package com.ssafy.chorongddara.api.controller;
 
+import com.ssafy.chorongddara.api.request.GalleryMakeReq;
 import com.ssafy.chorongddara.api.service.GalleryService;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
 import com.ssafy.chorongddara.common.codes.SuccessCode;
@@ -36,9 +37,8 @@ public class GalleryController {
     @Value("${file.upload.path}")
     String rootpath;
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestParam(value="culturalPropertyId") Integer culturalPropertyId,
-                                                           @RequestPart(value = "picture", required = false) MultipartFile pictureFile,
+    @PostMapping()
+    public ResponseEntity<ApiResponse<Object>> makeGallery(@RequestBody GalleryMakeReq galleryMakeReq,
                                                            @RequestHeader("Authorization") String accessToken) {
         String token = tokenUtil.getTokenFromHeader(accessToken);
         String email = tokenUtil.getUserIdFromToken(token);
@@ -46,23 +46,23 @@ public class GalleryController {
                 .orElseThrow(()->new BusinessExceptionHandler("유저가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
         Integer userId = user.getUserId();
 
-        System.out.println(rootpath);
+//        System.out.println(rootpath);
+//
+//        // 내가 업로드 파일을 저장할 경로
+//        String uploadFolder = rootpath + "gallery" + "/";
+//        UUID uuid = UUID.randomUUID();
+//        String pictureName = uuid.toString() + pictureFile.getOriginalFilename();
+//        // 저장할 파일, 생성자로 경로와 이름을 지정해줌.
+//        File saveFile = new File(uploadFolder, pictureName);
+//
+//        try {
+//            // void transferTo(File dest) throws IOException 업로드한 파일 데이터를 지정한 파일에 저장
+//            pictureFile.transferTo(saveFile);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        // 내가 업로드 파일을 저장할 경로
-        String uploadFolder = rootpath + "gallery" + "/";
-        UUID uuid = UUID.randomUUID();
-        String pictureName = uuid.toString() + pictureFile.getOriginalFilename();
-        // 저장할 파일, 생성자로 경로와 이름을 지정해줌.
-        File saveFile = new File(uploadFolder, pictureName);
-
-        try {
-            // void transferTo(File dest) throws IOException 업로드한 파일 데이터를 지정한 파일에 저장
-            pictureFile.transferTo(saveFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        galleryService.makeGallery(culturalPropertyId, pictureName, userId);
+        galleryService.makeGallery(galleryMakeReq.getCulturalPropertyId(), galleryMakeReq.getPicture(), userId);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(null)
                 .resultCode(SuccessCode.INSERT.getStatus())
