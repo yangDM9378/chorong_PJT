@@ -19,7 +19,7 @@ export default function QuizPage() {
 
 const S = {
   QuizRed: styled.div`
-    ${tw`bg-quizbg w-[100vw] h-[100vh] pt-[8vh]`}
+    ${tw`bg-quizbg w-full h-full pt-[8vh]`}
   `,
   QuizGray: styled.div`
     ${tw`bg-[#D9D9D9] h-[100%] pt-[2vh] rounded-t-[2vh]`}

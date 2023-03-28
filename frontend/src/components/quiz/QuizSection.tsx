@@ -1,63 +1,68 @@
 /* eslint-disable no-console */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+// import { useQuery } from '@tanstack/react-query';
+// import { useParams } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
 import { AppState } from '../../store';
 import { QuizState, setCorrectCnt } from '../../store/quiz/slice';
 import QuizModal from './QuizModal';
-
-interface Quiz {
-  question: string;
-  options: string[];
-  answer: string;
-  explanation: string;
-}
+import { Quiz } from '../../types/quiz';
+// import getQuiz from '../../api/quizApi';
 
 export default function QuizSection() {
-  // //react-query 참고 용 -> quiz의 경우 클라이언트에서 서버데이터를 건들지 않으므로 필요 x
-  // const { data: quizData, isLoading, error } = useQuiz();
+  // const { region, nameKo } = useParams<{ region: string; nameKo: string }>();
+  const dispatch = useDispatch();
+
+  // if (!region || !nameKo) {
+  //   return <div>region 또는 nameKo가 없어</div>;
+  // }
+
+  // const [quizDatas, setQuizDatas] = useState<Quiz[] | null>(null);
+  // const { isLoading, isError, data } = useQuery<Quiz[], Error>(
+  //   ['quizdatas', region, nameKo],
+  //   () => getQuiz(region, nameKo),
+  //   {
+  //     onSuccess: (e) => {
+  //       setQuizDatas(e);
+  //     },
+  //     staleTime: 300000,
+  //   },
+  // );
 
   // useEffect(() => {
-  //   if (quizData) {
-  //     dispatch(saveQuizData(quizData));
+  //   if (!data) {
+  //     setQuizDatas(null);
   //   }
-  // }, [dispatch, quizData]);
-
-  // if (isLoading) {
-  //   return <div>로딩중이야</div>;
-  // }
-
-  // if (error) {
-  //   return <div> {error.message}</div>;
-  // }
-
-  // axios값 가져오기
-  // const quizDatas: Quiz[] = awit getQuiz();
+  // }, [data]);
   const quizDatas: Quiz[] = [
     {
-      question: '경상북도 경주에 있는 첨성대가 지어진 시기는 언제인가?',
-      options: ['신라시대', '고구려시대', '백제시대', '경주시대'],
-      answer: '신라시대',
-      explanation:
-        '경주에 있는 첨성대는 신라시대 왕궁인 금오산성의 일부로, 7세기에 지어졌다.',
+      question: '광주 지산동 오층석탑은 몇 층으로 이루어져 있나?',
+      options: ['3층', '4층', '5층', '6층'],
+      answer: '5층',
+      explanation: '광주 지산동 오층석탑은 이름 그대로 5층으로 이루어져 있다.',
     },
     {
-      question: '첨성대에서 일제강점기 때까지 사용된 것은?',
-      options: ['성곽', '저장고', '거주지', '별관'],
-      answer: '성곽',
+      question: '광주 지산동 오층석탑의 건립 시기는?',
+      options: ['신라시대', '고구려시대', '백제시대', '조선시대'],
+      answer: '백제시대',
       explanation:
-        '첨성대는 신라시대 왕궁인 금오산성의 방어시설이자 호위구조물로 사용되었다. 일제강점기에는 일본인들이 첨성대를 채굴하여 내부구조와 고분벽, 그리고 지층까지 파괴해 놓았다.',
+        '광주 지산동 오층석탑은 백제의 16대 왕인 선덕여왕 19년(544)에 건립되었다.',
     },
     {
-      question: '첨성대의 높이는 얼마인가?',
-      options: ['25m', '30m', '35m', '40m'],
-      answer: '30m',
+      question: '광주 지산동 오층석탑은 몇 년도에 국보제 16호로 지정되었나?',
+      options: ['1949년', '1962년', '1972년', '1983년'],
+      answer: '1962년',
       explanation:
-        '첨성대는 5층의 높이로, 30미터가 넘는 높이를 가지고 있다. 특히 한옥처럼 나무와 대나무, 딱좋은 흙 등 자연의 재료만을 이용하여 만들어졌기 때문에 그 높이는 작품이라고 불리울 정도다.',
+        '광주 지산동 오층석탑은 1962년 12월 20일 국보 16호로 지정되었다.',
     },
   ];
+  const correctCntPlus = useCallback(() => {
+    dispatch(setCorrectCnt(1));
+  }, [dispatch]);
+
   const quizCnt = useSelector<AppState, QuizState['quizCnt']>(
     (state) => state.quiz.quizCnt,
   );
@@ -65,19 +70,12 @@ export default function QuizSection() {
     (state) => state.quiz.selectOption,
   );
 
-  const dispatch = useDispatch();
-
-  const correctCntPlus = useCallback(() => {
-    dispatch(setCorrectCnt(1));
-  }, [dispatch]);
-
-  // 모달부분
   const [scoreModal, setscoreModal] = useState(false);
   const [modalText, setModalText] = useState('');
   const [modalExplanation, setModalExplanation] = useState('');
+
   const openModalClick = () => {
-    // 정답일때 아닐때
-    if (selectOption === quizDatas[quizCnt].answer) {
+    if (quizDatas && selectOption === quizDatas[quizCnt].answer) {
       setscoreModal(true);
       correctCntPlus();
       setModalText('정답입니다');
@@ -85,30 +83,48 @@ export default function QuizSection() {
     } else {
       setscoreModal(true);
       setModalText('오답입니다');
-      setModalExplanation(quizDatas[quizCnt].explanation);
+      setModalExplanation(quizDatas ? quizDatas[quizCnt].explanation : '');
     }
   };
 
+  // useEffect(() => {
+  //   setQuizDatas(null);
+  // }, [region, nameKo]);
+
+  // if (isLoading) {
+  //   return <S.Loading>문제 로딩 중....</S.Loading>;
+  // }
+  // if (isError) {
+  //   return (
+  //     <div>
+  //       <button type="button">오류 발생 다시 문제 불러오기</button>
+  //     </div>
+  //   );
+  // }
+
   return (
     <S.QuizSectionContainer>
-      {/* 모달부분 */}
-      <QuizModal
-        isOpen={scoreModal}
-        close={() => {
-          setscoreModal(false);
-        }}
-        text={modalText}
-        explanation={modalExplanation}
-        answer={quizDatas[quizCnt].answer}
-      />
-      {/* 전체 데이터를 넣기 */}
-      {quizDatas.map((quizData, index) => (
-        <QuizProblem
-          key={quizData.question}
-          quizData={quizData}
-          index={index}
+      {quizDatas && quizDatas.length > 0 && (
+        <QuizModal
+          isOpen={scoreModal}
+          close={() => {
+            setscoreModal(false);
+          }}
+          text={modalText}
+          explanation={modalExplanation}
+          answer={quizDatas[quizCnt].answer}
         />
-      ))}
+      )}
+
+      {quizDatas !== null &&
+        quizDatas.map((quizData, index) => (
+          <QuizProblem
+            key={quizData.question}
+            quizData={quizData}
+            index={index}
+          />
+        ))}
+
       {/* 정답인지 아닌지 모달 띄우기 */}
       <button
         type="button"
@@ -128,5 +144,8 @@ export default function QuizSection() {
 const S = {
   QuizSectionContainer: styled.div`
     ${tw`mx-[3vh] mt-[1vh] h-[75vh] flex flex-col items-center`}
+  `,
+  Loading: styled.div`
+    ${tw`flex justify-center items-center text-[3vh] w-full h-full`}
   `,
 };

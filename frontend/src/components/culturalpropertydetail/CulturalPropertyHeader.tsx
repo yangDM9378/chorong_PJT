@@ -1,11 +1,11 @@
 import React from 'react';
 import Star from '../common/star/Star';
 
-export default function CulturalPropertyDetail() {
+export default function CulturalPropertyHeader() {
   return (
     <div>
       <Star />
-      이미지넣어주세요
+      <div>이미지</div>
     </div>
   );
 }

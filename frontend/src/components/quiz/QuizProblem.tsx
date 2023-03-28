@@ -5,18 +5,7 @@ import tw from 'twin.macro';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { QuizState, setSelectOption } from '../../store/quiz/slice';
-
-interface Quiz {
-  question: string;
-  options: string[];
-  answer: string;
-  explanation: string;
-}
-
-interface QuizProblemProps {
-  quizData: Quiz;
-  index: number;
-}
+import { QuizProblemProps } from '../../types/quiz';
 
 export default function QuizProblem({ quizData, index }: QuizProblemProps) {
   const quizCnt = useSelector<AppState, QuizState['quizCnt']>(

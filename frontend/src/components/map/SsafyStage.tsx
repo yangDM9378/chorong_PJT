@@ -25,7 +25,6 @@ const SsafyStage: React.FC = () => {
 
     if (layer instanceof L.Polygon) {
       const regionCenter = layer.getBounds().getCenter();
-      // console.log(regionCenter);
       const tooltip = new L.Tooltip({
         permanent: true,
         direction: 'center',
@@ -50,7 +49,6 @@ const SsafyStage: React.FC = () => {
 
   const getColorByValue = (regionName: string): string => {
     const regionInfo = regionData[regionName];
-    console.log(regionInfo);
     if (!regionInfo) return 'gray';
     return regionInfo.color;
   };

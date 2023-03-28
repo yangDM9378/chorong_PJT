@@ -27,7 +27,6 @@ export default function Gwangjustage() {
   const { stageNum } = location.state;
 
   useEffect(() => {
-    console.log(stageNum);
     if (stageNum === undefined) return;
     const getMapDatas = async () => {
       const response = await getMapData(stageNum);
@@ -72,7 +71,7 @@ export default function Gwangjustage() {
         {mapDatas?.map((mapData, index) => {
           const customIcon = new Icon({
             iconUrl: `/stage${mapData.pinImage}.png`,
-            iconSize: [50, 50],
+            iconSize: [20, 20],
           });
 
           return (
