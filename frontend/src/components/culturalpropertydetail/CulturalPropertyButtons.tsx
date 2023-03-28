@@ -1,4 +1,5 @@
-import React from 'react';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
@@ -21,16 +22,25 @@ export default function CulturalPropertyButtons() {
   const goCamera = () => {};
 
   return (
-    <div>
-      <button type="button" onClick={goGame}>
+    <S.Container>
+      <S.Button type="button" onClick={goGame}>
         게임
-      </button>
-      <button type="button" onClick={goQuiz}>
+      </S.Button>
+      <S.Button type="button" onClick={goQuiz}>
         퀴즈
-      </button>
-      <button type="button" onClick={goCamera}>
+      </S.Button>
+      <S.Button type="button" onClick={goCamera}>
         촬영
-      </button>
-    </div>
+      </S.Button>
+    </S.Container>
   );
 }
+
+const S = {
+  Container: styled.div`
+    ${tw`flex justify-center`}
+  `,
+  Button: styled.button`
+    ${tw`my-[3vh] px-[5vw] rounded-[1vh] mx-[3vw] py-[1vh] text-[1.5vh] bg-[#d9d9d9]`}
+  `,
+};
