@@ -63,13 +63,17 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
 
             Integer starCount = starRepository.getStarCount(userId, culturalProperty.getCulturalPropertyId());
 
+            if(starCount == null) {
+                starCount = 0;
+            }
+
             list.add(CulturalPropertyInStageRes.builder()
                     .culturalPropertyId(culturalProperty.getCulturalPropertyId())
                     .nameKo(culturalProperty.getNameKo())
                     .latitude(culturalProperty.getLatitude())
                     .longitude(culturalProperty.getLongitude())
                     .pinImage(culturalProperty.getPinImage())
-                    .starCount(starCount)   // 수정 필요
+                    .starCount(starCount)
                     .build());
         }
 
