@@ -4,6 +4,7 @@ import com.ssafy.chorongddara.api.request.StarUpdateReq;
 import com.ssafy.chorongddara.api.response.CulturalPropertyDetailRes;
 import com.ssafy.chorongddara.api.response.CulturalPropertyInStageRes;
 import com.ssafy.chorongddara.api.response.StageListRes;
+import com.ssafy.chorongddara.api.response.StarCountRes;
 import com.ssafy.chorongddara.common.codes.ErrorCode;
 import com.ssafy.chorongddara.common.exception.BusinessExceptionHandler;
 import com.ssafy.chorongddara.db.entity.*;
@@ -52,7 +53,7 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
     }
 
     @Override
-    public List<CulturalPropertyInStageRes> getCulturalPropertyList(Integer stageId) {
+    public List<CulturalPropertyInStageRes> getCulturalPropertyList(Integer userId, Integer stageId) {
         List<CulturalPropertyInStageRes> list = new ArrayList<>();
 
         List<CulturalProperty> culturalProperties = culturalPropertyRepository.findAllByStage_StageId(stageId);
@@ -60,12 +61,15 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
         for(int i = 0; i < culturalProperties.size(); i++) {
             CulturalProperty culturalProperty = culturalProperties.get(i);
 
+            Integer starCount = starRepository.getStarCount(userId, culturalProperty.getCulturalPropertyId());
+
             list.add(CulturalPropertyInStageRes.builder()
                     .culturalPropertyId(culturalProperty.getCulturalPropertyId())
                     .nameKo(culturalProperty.getNameKo())
                     .latitude(culturalProperty.getLatitude())
                     .longitude(culturalProperty.getLongitude())
                     .pinImage(culturalProperty.getPinImage())
+                    .starCount(starCount)   // 수정 필요
                     .build());
         }
 
@@ -79,11 +83,22 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
 
         System.out.println(culturalProperty);
 
-        Integer starCount = starRepository.getStarCount(userId, culturalPropertyId);
+        Star star = starRepository.findByCulturalProperty_CulturalPropertyIdAndUser_UserId(culturalPropertyId, userId)
+                .orElse(Star.builder()
+                        .starPose(0)
+                        .starQuiz(0)
+                        .starAr(0)
+                        .build());
+
+        StarCountRes starCountRes = StarCountRes.builder()
+                .starPose(star.getStarPose())
+                .starQuiz(star.getStarQuiz())
+                .starAr(star.getStarAr())
+                .build();
 
         return CulturalPropertyDetailRes.builder()
                 .culturalProperty(culturalProperty)
-                .starCount(starCount)
+                .starCountRes(starCountRes)
                 .build();
     }
 

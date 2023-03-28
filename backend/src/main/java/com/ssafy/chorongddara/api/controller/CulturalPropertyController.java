@@ -54,9 +54,14 @@ public class CulturalPropertyController {
     }
 
     @GetMapping("/stage/{stage_id}")
-    public ResponseEntity<ApiResponse<Object>> getCulturalPropertyList(@PathVariable int stage_id) {
+    public ResponseEntity<ApiResponse<Object>> getCulturalPropertyList(@RequestHeader("Authorization") String accessToken, @PathVariable int stage_id) {
+        String token = tokenUtil.getTokenFromHeader(accessToken);
+        String email = tokenUtil.getUserIdFromToken(token);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(()->new BusinessExceptionHandler("유저가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
+        int userId = user.getUserId();
 
-        List<CulturalPropertyInStageRes> culturalPropertyList = culturalPropertyService.getCulturalPropertyList(stage_id);
+        List<CulturalPropertyInStageRes> culturalPropertyList = culturalPropertyService.getCulturalPropertyList(userId, stage_id);
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(culturalPropertyList)
                 .resultCode(SuccessCode.SELECT.getStatus())
