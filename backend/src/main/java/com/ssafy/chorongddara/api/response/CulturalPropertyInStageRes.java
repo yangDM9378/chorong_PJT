@@ -11,4 +11,5 @@ public class CulturalPropertyInStageRes {
     private Double latitude;
     private Double longitude;
     private String pinImage;
+    private Integer starCount;
 }
