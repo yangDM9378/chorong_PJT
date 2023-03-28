@@ -1,13 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { storage } from '../../api/firebase';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 import { getGalleryData, setGalleryData } from '../../api/galleryApi';
+import { authApi } from '../../libs/axiosConfig';
 
 interface GalleryResult {
   picture: File;
 }
+
 export default function CaptureImg() {
   const [picture, setPicture] = useState<GalleryResult[] | null>([]);
   const [showImages, setShowImages] = useState<string[]>([]);
@@ -32,6 +37,24 @@ export default function CaptureImg() {
 
   const submitImg = async (e: any) => {
     e.preventDefault();
+
+    if (img !== undefined) {
+      const storageRef = ref(storage, `files/${uuidv4()}`);
+      const uploadTask = uploadBytes(storageRef, img);
+      uploadTask.then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((downloadURL) => {
+          const payload = {
+              culturalPropertyId: 1,
+              picture: downloadURL,
+            };
+          authApi.post('/galleries', payload).then((result) => {
+            console.log(result)
+          }).catch((err) => {
+            console.log(err)
+          });
+        });
+      });
+    }
     // const culturalPropertyId = {
     //   culturPropertyId: 1,
     // };
