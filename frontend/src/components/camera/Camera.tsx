@@ -14,11 +14,12 @@ import { AppState } from '../../store';
 export default function Camera() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [front, setFront] = useState<boolean>(false);
-  let imageCapture: any;
+  const [imageCapture, setImageCapture] = useState<ImageCapture>();
   const value = useSelector<AppState, CulturalPropertyState['value']>(
     (state) => state.culturalProperty.value,
   );
   const pose = value?.result.culturalProperty.pose;
+  const cultural = value?.result.culturalProperty;
   const dispatch = useDispatch();
   const setCamera = () => {
     setFront((prev) => !prev);
@@ -32,16 +33,22 @@ export default function Camera() {
     getVideo();
   }, [front]);
   function onTakePhotoButtonClick() {
-    if (!imageCapture) return;
+    console.log('onTakePhotoBUttonclick');
     imageCapture
-      .takePhoto()
+      ?.takePhoto()
       .then((blob: any) => {
         createImageBitmap(blob);
         // const file = new File([blob], 'test2.jpg');
         dispatch(setImg(blob));
+
+        navigate('/camera/after', {
+          state: {
+            culturalId: cultural?.culturalPropertyId,
+            poseId: pose?.poseId,
+          },
+        });
       })
       .catch((error: Error) => console.error(error));
-    navigate('/camera/after');
   }
   const getVideo = async () => {
     navigator.mediaDevices
@@ -57,7 +64,7 @@ export default function Camera() {
         videoRef.current.play();
 
         const track = stream.getVideoTracks()[0];
-        imageCapture = new ImageCapture(track);
+        setImageCapture(new ImageCapture(track));
       })
       .catch(function (err) {
         console.log(`An error occurred: ${err}`);

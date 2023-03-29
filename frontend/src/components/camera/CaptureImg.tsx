@@ -3,36 +3,39 @@ import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import * as tmPose from '@teachablemachine/pose';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { storage } from '../../api/firebase';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 import { authApi } from '../../libs/axiosConfig';
+import { setStar } from '../../api/quizApi';
 
 export default function CaptureImg() {
   const navigate = useNavigate();
+  const location = useLocation();
   const goBack = useCallback(() => {
-    navigate(-1);
+    navigate('/camera');
   }, [navigate]);
 
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
+  console.log(img);
   img!.arrayBuffer().then((arrayBuffer) => {
     const blob = new Blob([new Uint8Array(arrayBuffer)], { type: img!.type });
   });
   const imgSrc = URL.createObjectURL(img!);
   const imgRef = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const culturalId = 1;
-  const poseId = 1;
+  const { culturalId, poseId } = location.state;
+  // culturalId = 1;
+  // poseId = 0;
+  console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
 
   const submitImg = async (e: any) => {
     e.preventDefault();
-    console.log(img?.name);
     if (img !== undefined) {
       const storageRef = ref(storage, `files/${uuidv4()}`);
       const uploadTask = uploadBytes(storageRef, img);
@@ -52,6 +55,11 @@ export default function CaptureImg() {
             });
         });
       });
+      const starData = {
+        culturalPropertyId: culturalId,
+        starType: 'pose',
+      };
+      await setStar(starData);
     }
   };
 
@@ -75,12 +83,15 @@ export default function CaptureImg() {
           true,
         );
         const prediction = await model.predict(posenetOutput);
-        for (let i = 0; i < maxPredictions; i += 1) {
-          const classPrediction = `${prediction[i].className}: ${prediction[
-            i
-          ].probability.toFixed(2)}`;
-        }
+
+        console.log(prediction[poseId].probability);
+        // for (let i = 0; i < maxPredictions; i += 1) {
+        //   const classPrediction = `${prediction[i].className}: ${prediction[
+        //     i
+        //   ].probability.toFixed(2)}`;
+        // }
         if (prediction[poseId].probability > 0.9) {
+          console.log(prediction[poseId].probability);
           setPoseCompleted(true);
         }
       }
@@ -91,21 +102,22 @@ export default function CaptureImg() {
   };
   useEffect(() => {
     predict();
+    console.log(poseCompleted);
   });
   return (
     <div>
-      <canvas ref={canvasRef} />
       <img src={imgSrc} ref={imgRef} alt="capture img" />
 
       <button type="button" onClick={goBack}>
         back
       </button>
+      {poseCompleted}
       {poseCompleted ? (
-        <div />
-      ) : (
         <button type="button" onClick={submitImg}>
-          <Link to="/gallery">상세페이지</Link>
+          <Link to={`/culturalpropertydetail/${culturalId}`}>상세페이지</Link>
         </button>
+      ) : (
+        <div>{poseCompleted}</div>
       )}
     </div>
   );
