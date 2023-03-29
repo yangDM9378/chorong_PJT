@@ -1,4 +1,4 @@
-package com.example.androidstudio
+package com.ssafy.androidstudio
 
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity

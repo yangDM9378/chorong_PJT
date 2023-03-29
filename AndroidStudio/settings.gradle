@@ -9,8 +9,8 @@ pluginManagement {
 rootProject.name = "AndroidStudio"
 include ':app'
 
-include ':unityLibrary'
-project(':unityLibrary').projectDir=new File('.\\unityLibrary')
+//include ':unityLibrary'
+//project(':unityLibrary').projectDir=new File('.\\unityLibrary')
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)

@@ -6,6 +6,7 @@
     <!--네트워크 상태 퍼미션-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- 카메라 퍼미션 -->
+<!--    <uses-feature android:name="android.hardware.camera" />-->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CAMERA2" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
@@ -14,7 +15,10 @@
     <!-- 외부 저장소 사용 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-<!--    <meta-data android:name="unityplayer.UnityActivity" android:value="true" />-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <!--    <meta-data android:name="unityplayer.UnityActivity" android:value="true" />-->
 
     <application
         android:allowBackup="true"
@@ -58,5 +62,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Indicates whether "Google Play Services for AR" (ARCore) is "required" or "optional". -->
+        <meta-data android:name="com.google.ar.core" android:value="required" />
+
+        <meta-data
+            android:name="com.google.android.ar.API_KEY"
+            android:value="AIzaSyCOqrCPhM112tU40TjU_iCaovFopVgFxGE"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCOqrCPhM112tU40TjU_iCaovFopVgFxGE" />
     </application>
 </manifest>
