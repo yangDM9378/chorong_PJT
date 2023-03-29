@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="csu_fresno">
+    <item>35.205304300927956|126.81176673620939|ssafy|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_south.html</item>
+    <item>35.205258|126.811754|Satellite Student Union South|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_south.html</item>
+    <item>35.205217|126.811750|Satellite Student Union North 2|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_north2.html</item>
+    <item>35.204790 |126.809950|Satellite Student Union North 1|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_north1.html</item>
+    <item>35.204351|126.809959|SW of Downing Planetarium|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/planetarium_sw.html</item>
+    <item>35.202470|126.809890|SE of Downing Planetarium|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/planetarium_se.html</item>
+    <item>35.190014|126.812324|North of Science I|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
+  </string-array>
+  <string-array name="park_ridge">
+    <item>36.862358|-119.793572|Entrance 1|poi|https://recyclingtrashcans.github.io/</item>
+    <item>36.862463|-119.793611|Exit|poi|https://recyclingtrashcans.github.io/</item>
+    <item>36.862909|-119.79378|Entrance 2|poi|https://recyclingtrashcans.github.io/</item>
+    <item>36.86249|-119.793228|Office|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.862388|-119.79308|Fitness|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.862404|-119.793008|Pool|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.861838|-119.793128|Trashcan|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.861642|-119.793181|Mailboxes|trashcan|https://recyclingtrashcans.github.io/</item>
+  </string-array>
+</resources>
