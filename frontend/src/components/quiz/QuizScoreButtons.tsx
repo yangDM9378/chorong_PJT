@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
 import { QuizState, setCorrectCnt } from '../../store/quiz/slice';
+import { CulturalPropertyData } from '../../types/culturalpropertytype';
+import { setStar } from '../../api/quizApi';
 
 export default function QuizScoreButtons() {
   const navigate = useNavigate();
@@ -29,13 +31,37 @@ export default function QuizScoreButtons() {
   };
 
   // 퀴즈끝내고 갤러리로 이동
+  const culturalPropertydate = useSelector<
+    AppState,
+    CulturalPropertyData | null
+  >(({ culturalProperty }) => culturalProperty.value);
+
   const goCulturalPropertyDetail = useCallback(() => {
-    navigate('/culturalpropertydetail');
+    navigate(
+      `/culturalpropertydetail/${culturalPropertydate?.result.culturalProperty.culturalPropertyId}`,
+    );
   }, [navigate]);
 
-  const quizFinish = () => {
-    goCulturalPropertyDetail();
+  const quizFinish = async () => {
     correctCntInit();
+    if (
+      culturalPropertydate?.result.starCountRes.starQuiz === 0 &&
+      correctCnt >= 2
+    ) {
+      try {
+        const starData = {
+          culturalPropertyId:
+            culturalPropertydate.result.culturalProperty.culturalPropertyId,
+          starType: 'quiz',
+        };
+
+        await setStar(starData);
+      } catch (error) {
+        console.error('Error in setting star:', error);
+      }
+    }
+
+    await goCulturalPropertyDetail();
   };
 
   return (

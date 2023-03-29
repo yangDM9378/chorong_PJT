@@ -9,3 +9,8 @@ export interface QuizProblemProps {
   quizData: Quiz;
   index: number;
 }
+
+export interface QuizStar {
+  culturalPropertyId: number;
+  starType: string;
+}
