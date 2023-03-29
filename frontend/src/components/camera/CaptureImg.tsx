@@ -8,6 +8,7 @@ import { storage } from '../../api/firebase';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 import { authApi } from '../../libs/axiosConfig';
+import { setStar } from '../../api/quizApi';
 
 export default function CaptureImg() {
   const navigate = useNavigate();
@@ -26,9 +27,9 @@ export default function CaptureImg() {
   const imgSrc = URL.createObjectURL(img!);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  let { culturalId, poseId } = location.state;
-  culturalId = 1;
-  poseId = 0;
+  const { culturalId, poseId } = location.state;
+  // culturalId = 1;
+  // poseId = 0;
   console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
@@ -54,6 +55,11 @@ export default function CaptureImg() {
             });
         });
       });
+      const starData = {
+        culturalPropertyId: culturalId,
+        starType: 'pose',
+      };
+      await setStar(starData);
     }
   };
 
