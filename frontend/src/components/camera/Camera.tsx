@@ -4,8 +4,9 @@ import ReactModal from 'react-modal';
 
 import { useDispatch, useSelector } from 'react-redux';
 import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import CachedIcon from '@mui/icons-material/Cached';
 import { setImg } from '../../store/camera/slice';
 import { CulturalPropertyState } from '../../store/culturalproperty/slice';
 import { AppState } from '../../store';
@@ -26,6 +27,7 @@ export default function Camera() {
   const handleClose = () => {
     setModalIsOpen(false);
   };
+  const navigate = useNavigate();
   useEffect(() => {
     getVideo();
   }, [front]);
@@ -39,6 +41,7 @@ export default function Camera() {
         dispatch(setImg(blob));
       })
       .catch((error: Error) => console.error(error));
+    navigate('/camera/after');
   }
   const getVideo = async () => {
     navigator.mediaDevices
@@ -63,9 +66,8 @@ export default function Camera() {
   return (
     <div>
       <video ref={videoRef} />
-      <button type="button" onClick={setCamera}>
-        {front ? 'Front' : 'Rear'} camera
-      </button>
+      <CachedIcon onClick={setCamera} />
+
       <CameraRoundedIcon onClick={onTakePhotoButtonClick} />
       <InfoOutlinedIcon
         onClick={() => {
@@ -77,9 +79,6 @@ export default function Camera() {
           <img src={pose?.posePicture} alt={pose?.poseName} />
         </ReactModal>
       )}
-      <button type="button">
-        <Link to="/camera/after">after</Link>
-      </button>
     </div>
   );
 }

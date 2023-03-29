@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import * as tmPose from '@teachablemachine/pose';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { storage } from '../../api/firebase';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
@@ -27,6 +27,8 @@ export default function CaptureImg() {
 
   const culturalId = 1;
   const poseId = 1;
+
+  const [poseCompleted, setPoseCompleted] = useState(false);
 
   const submitImg = async (e: any) => {
     e.preventDefault();
@@ -65,7 +67,6 @@ export default function CaptureImg() {
       model = await tmPose.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
 
-      predict2();
       async function predict2() {
         if (!model) return;
 
@@ -80,9 +81,11 @@ export default function CaptureImg() {
           ].probability.toFixed(2)}`;
         }
         if (prediction[poseId].probability > 0.9) {
-          alert('포즈 성공');
+          setPoseCompleted(true);
         }
       }
+
+      predict2();
     }
     init();
   };
@@ -93,13 +96,17 @@ export default function CaptureImg() {
     <div>
       <canvas ref={canvasRef} />
       <img src={imgSrc} ref={imgRef} alt="capture img" />
-      <button type="button" onClick={submitImg}>
-        Submit
-      </button>
 
       <button type="button" onClick={goBack}>
         back
       </button>
+      {poseCompleted ? (
+        <div />
+      ) : (
+        <button type="button" onClick={submitImg}>
+          <Link to="/gallery">상세페이지</Link>
+        </button>
+      )}
     </div>
   );
 }
