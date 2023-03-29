@@ -28,10 +28,9 @@ function TeachableMachinePoseModel() {
     const canvasTmp = webcamRef.current.canvas;
     const test = canvasTmp.toBlob((blob) => {
       if (!blob) return;
-      let file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' });
-      dispatch(setImg(file));
+      // let file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' });
+      dispatch(setImg(blob));
     }, 'image/jpeg');
-
     // imageCapture
     //   .takePhoto()
     //   .then((blob: any) => {

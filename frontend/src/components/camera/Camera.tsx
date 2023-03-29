@@ -1,20 +1,31 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import ReactModal from 'react-modal';
+
+import { useDispatch, useSelector } from 'react-redux';
 import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
 import { Link } from 'react-router-dom';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { setImg } from '../../store/camera/slice';
+import { CulturalPropertyState } from '../../store/culturalproperty/slice';
+import { AppState } from '../../store';
 
 export default function Camera() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [front, setFront] = useState<boolean>(false);
   let imageCapture: any;
+  const value = useSelector<AppState, CulturalPropertyState['value']>(
+    (state) => state.culturalProperty.value,
+  );
+  const pose = value?.result.culturalProperty.pose;
   const dispatch = useDispatch();
-
   const setCamera = () => {
     setFront((prev) => !prev);
   };
-
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const handleClose = () => {
+    setModalIsOpen(false);
+  };
   useEffect(() => {
     getVideo();
   }, [front]);
@@ -24,8 +35,8 @@ export default function Camera() {
       .takePhoto()
       .then((blob: any) => {
         createImageBitmap(blob);
-        const file = new File([blob], 'test2.jpg');
-        dispatch(setImg(file));
+        // const file = new File([blob], 'test2.jpg');
+        dispatch(setImg(blob));
       })
       .catch((error: Error) => console.error(error));
   }
@@ -56,7 +67,16 @@ export default function Camera() {
         {front ? 'Front' : 'Rear'} camera
       </button>
       <CameraRoundedIcon onClick={onTakePhotoButtonClick} />
-
+      <InfoOutlinedIcon
+        onClick={() => {
+          setModalIsOpen(true);
+        }}
+      />
+      {modalIsOpen && (
+        <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
+          <img src={pose?.posePicture} alt={pose?.poseName} />
+        </ReactModal>
+      )}
       <button type="button">
         <Link to="/camera/after">after</Link>
       </button>

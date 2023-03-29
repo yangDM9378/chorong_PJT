@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type CameraState = {
-  img: File | undefined;
+  img: Blob | undefined;
 };
 
 const initialState: CameraState = {
@@ -12,7 +12,7 @@ const cameraSlice = createSlice({
   name: 'camera',
   initialState,
   reducers: {
-    setImg: (state, action: PayloadAction<File | undefined>) => {
+    setImg: (state, action: PayloadAction<Blob | undefined>) => {
       state.img = action.payload;
       console.log(state.img);
     },
