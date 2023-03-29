@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import React, { useCallback } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,19 +60,61 @@ export default function quizModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={() => close()} ariaHideApp={false}>
-      <div>{text}</div>
-      <div>{explanation}</div>
-      <div>{answer}</div>
+    <Modal
+      isOpen={isOpen}
+      // onRequestClose={() => close()}
+      ariaHideApp={false}
+      style={customStyles}
+    >
+      <S.Text>{text}</S.Text>
+      <S.Answer>{answer}</S.Answer>
+      <S.Explanation>{explanation}</S.Explanation>
       {quizCnt < 2 ? (
-        <button type="button" onClick={nextProblem}>
-          다음문제
-        </button>
+        <S.ButtonBox>
+          <S.Button type="button" onClick={nextProblem}>
+            다음문제
+          </S.Button>
+        </S.ButtonBox>
       ) : (
-        <button type="button" onClick={resultProblem}>
-          결과보기
-        </button>
+        <S.ButtonBox>
+          <S.Button type="button" onClick={resultProblem}>
+            결과보기
+          </S.Button>
+        </S.ButtonBox>
       )}
     </Modal>
   );
 }
+
+const customStyles = {
+  content: {
+    border: '1px solid #ccc',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    width: '80%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '5%',
+    padding: '5%',
+  },
+};
+
+const S = {
+  Text: styled.div`
+    ${tw`text-[4vh] text-center `}
+  `,
+  Answer: styled.div`
+    ${tw`my-[2vh] mx-[2vw] text-center py-[2vh] border-solid border-[0.5vh] border-[mainred] rounded-[1vh]`}
+  `,
+  Explanation: styled.div`
+    ${tw`mx-[2vw] text-[2vh]`}
+  `,
+  ButtonBox: styled.div`
+    ${tw`flex items-center justify-center mt-[3vh]`}
+  `,
+  Button: styled.button`
+    ${tw`bg-mainred text-[2vh] text-white py-[1vh] px-[3vw] rounded-[2vh]`}
+  `,
+};
