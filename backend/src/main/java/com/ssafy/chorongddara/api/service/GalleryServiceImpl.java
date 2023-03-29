@@ -45,4 +45,10 @@ public class GalleryServiceImpl implements GalleryService {
         List<String> pictureList = galleryRepository.findByUserId(userId);
         return pictureList;
     }
+
+    @Override
+    public List<String> getGalleryAboutCulturalProperty(Integer userId, Integer culturalPropertyId) {
+        List<String> pictureList = galleryRepository.findByUserIdAndCulturalPropertyId(userId, culturalPropertyId);
+        return pictureList;
+    }
 }
