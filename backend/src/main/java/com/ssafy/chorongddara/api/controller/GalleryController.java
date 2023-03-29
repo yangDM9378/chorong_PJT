@@ -86,4 +86,21 @@ public class GalleryController {
                 .build();
         return new ResponseEntity<>(ar, HttpStatus.OK);
     }
+
+    @GetMapping("/{culturalPropertyId}")
+    public ResponseEntity<ApiResponse<Object>> getGalleryAboutCulturalProperty(@RequestHeader("Authorization") String accessToken,
+                                                                               @PathVariable("culturalPropertyId") Integer culturalPropertyId) {
+        String token = tokenUtil.getTokenFromHeader(accessToken);
+        String email = tokenUtil.getUserIdFromToken(token);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(()->new BusinessExceptionHandler("유저가 없습니다.", ErrorCode.BUSINESS_EXCEPTION_ERROR));
+        Integer userId = user.getUserId();
+        List<String> pictureList = galleryService.getGalleryAboutCulturalProperty(userId, culturalPropertyId);
+        ApiResponse<Object> ar = ApiResponse.builder()
+                .result(pictureList)
+                .resultCode(SuccessCode.SELECT.getStatus())
+                .resultMsg(SuccessCode.SELECT.getMessage())
+                .build();
+        return new ResponseEntity<>(ar, HttpStatus.OK);
+    }
 }

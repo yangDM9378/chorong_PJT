@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -33,20 +35,18 @@ export default function CulturalPropertyPage() {
 
   if (data) {
     return (
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            console.log(data);
-          }}
-        >
-          1111
-        </button>
+      <S.Container>
         <CulturalPropertyHeader />
         <CulturalPropertyDescription />
         <CulturalPropertyButtons />
-      </div>
+      </S.Container>
     );
   }
   return null;
 }
+
+const S = {
+  Container: styled.div`
+    ${tw`w-[100vw] h-[100vh] bg-[#E5E5E5]`}
+  `,
+};

@@ -1,14 +1,19 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
 import { Link } from 'react-router-dom';
 import { setImg } from '../../store/camera/slice';
+import { CulturalPropertyState } from '../../store/culturalproperty/slice';
+import { AppState } from '../../store';
 
 export default function Camera() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [front, setFront] = useState<boolean>(false);
   let imageCapture: any;
+  const value = useSelector<AppState, CulturalPropertyState['value']>(
+    (state) => state.culturalProperty.value,
+  );
   const dispatch = useDispatch();
 
   const setCamera = () => {

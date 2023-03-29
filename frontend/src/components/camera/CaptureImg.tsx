@@ -25,8 +25,8 @@ export default function CaptureImg() {
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const Token = localStorage.getItem('accessToken');
-  const culturalId = '1';
+  const culturalId = 1;
+  const poseId = 1;
 
   const submitImg = async (e: any) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ export default function CaptureImg() {
       uploadTask.then((snapshot) => {
         getDownloadURL(snapshot.ref).then((downloadURL) => {
           const payload = {
-            culturalPropertyId: 1,
+            culturalPropertyId: culturalId,
             picture: downloadURL,
           };
           authApi
@@ -53,7 +53,6 @@ export default function CaptureImg() {
     }
   };
 
-  let tmp: string;
   const predict = () => {
     const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
 
@@ -61,16 +60,11 @@ export default function CaptureImg() {
     let maxPredictions: number;
 
     async function init() {
-      console.log('model predict');
       const modelURL = `${URL}model.json`;
       const metadataURL = `${URL}metadata.json`;
       model = await tmPose.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
 
-      async function loop(timestamp: any) {
-        await predict();
-        window.requestAnimationFrame(loop);
-      }
       predict2();
       async function predict2() {
         if (!model) return;
@@ -84,9 +78,8 @@ export default function CaptureImg() {
           const classPrediction = `${prediction[i].className}: ${prediction[
             i
           ].probability.toFixed(2)}`;
-          console.log(classPrediction);
         }
-        if (prediction[1].probability > 0.9) {
+        if (prediction[poseId].probability > 0.9) {
           alert('포즈 성공');
         }
       }

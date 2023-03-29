@@ -27,9 +27,15 @@ interface Stage {
   description: string;
   targetStarCount: number;
 }
+
+interface Star {
+  starAr: number;
+  starPose: number;
+  starQuiz: number;
+}
 interface Result {
   culturalProperty: CulturalPropertyResult;
-  starCount: number;
+  starCountRes: Star;
 }
 
 export interface CulturalPropertyData {

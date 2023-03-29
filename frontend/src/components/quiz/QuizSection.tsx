@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
+// import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
@@ -78,11 +79,11 @@ export default function QuizSection() {
     if (quizDatas && selectOption === quizDatas[quizCnt].answer) {
       setscoreModal(true);
       correctCntPlus();
-      setModalText('정답입니다');
+      setModalText('정답입니다!');
       setModalExplanation(quizDatas[quizCnt].explanation);
     } else {
       setscoreModal(true);
-      setModalText('오답입니다');
+      setModalText('오답입니다!');
       setModalExplanation(quizDatas ? quizDatas[quizCnt].explanation : '');
     }
   };

@@ -71,7 +71,7 @@ export default function StageTheme() {
 
 const S = {
   StageData: styled.div`
-    ${tw`relative flex items-center justify-around w-[90vw] h-[20vh] rounded-[4vw] m-[3vh] z-[1]`}
+    ${tw`relative flex items-center justify-around w-[90vw] h-[20vh] rounded-[4vw] mt-[3vh] px-[3vh] z-[1]`}
   `,
   BgImg: styled.div`
     ${tw`absolute top-0 left-0 w-full h-full opacity-50 bg-black z-[-1] rounded-[4vw]`}
