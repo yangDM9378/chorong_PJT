@@ -3,6 +3,7 @@ package com.example.androidstudio
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 
 class WebviewContainer : AppCompatActivity() {
@@ -16,9 +17,18 @@ class WebviewContainer : AppCompatActivity() {
         webview.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            settings.setSupportMultipleWindows(true)
+            settings.javaScriptCanOpenWindowsAutomatically = true
+            settings.loadWithOverviewMode = true
+            settings.useWideViewPort = true
+            settings.setSupportZoom(false)
+            settings.builtInZoomControls = false
         }
 
         webview.loadUrl("https://j8c101.p.ssafy.io/")
+        webview.webViewClient = WebViewClient()
+        webview.webChromeClient = WebChromeClient()
     }
 
     override fun onBackPressed() {
