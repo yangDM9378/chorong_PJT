@@ -33,11 +33,11 @@ function GalleryList() {
   }, [picture]);
   return (
     <div>
-      {showImages.map((image, id) => (
+      {/* {showImages.map((image, id) => (
         <div key={id}>
           <img src={image} alt={`${image}-${id}`} />
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }
