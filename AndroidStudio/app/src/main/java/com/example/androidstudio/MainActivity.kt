@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.unity3d.player.UnityPlayerActivity
+//import com.unity3d.player.UnityPlayerActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         settingBtnWebview()
-        settingBtnGame()
+//        settingBtnGame()
         settingBtnGps()
         settingBtnTest()
     }
@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun settingBtnGame() {
-        val button = findViewById<Button>(R.id.game)
-        button.setOnClickListener{
-            val intent = Intent(this, Game::class.java)
-            startActivity(Intent(this, UnityPlayerActivity::class.java))
-        }
-    }
+//    fun settingBtnGame() {
+//        val button = findViewById<Button>(R.id.game)
+//        button.setOnClickListener{
+//            val intent = Intent(this, Game::class.java)
+//            startActivity(Intent(this, UnityPlayerActivity::class.java))
+//        }
+//    }
 
     fun settingBtnGps() {
         val button = findViewById<Button>(R.id.gps)
