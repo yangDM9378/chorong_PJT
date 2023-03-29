@@ -27,9 +27,9 @@ export default function CaptureImg() {
   const imgSrc = URL.createObjectURL(img!);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const { culturalId, poseId } = location.state;
-  // culturalId = 1;
-  // poseId = 0;
+  let { culturalId, poseId } = location.state;
+  culturalId = 3;
+  poseId = 0;
   console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
@@ -61,6 +61,7 @@ export default function CaptureImg() {
       };
       await setStar(starData);
     }
+    await navigate(`/culturalpropertydetail/${culturalId}`);
   };
 
   const predict = () => {
@@ -114,7 +115,7 @@ export default function CaptureImg() {
       {poseCompleted}
       {poseCompleted ? (
         <button type="button" onClick={submitImg}>
-          <Link to={`/culturalpropertydetail/${culturalId}`}>상세페이지</Link>
+          상세페이지
         </button>
       ) : (
         <div>{poseCompleted}</div>
