@@ -29,8 +29,10 @@ public class CulturalProperty {
     @Column(nullable = false)
     private String address;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String hiddenDescription;
 
     private String image;
