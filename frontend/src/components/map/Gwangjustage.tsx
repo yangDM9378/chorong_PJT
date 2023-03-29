@@ -70,8 +70,8 @@ export default function Gwangjustage() {
         />
         {mapDatas?.map((mapData, index) => {
           const customIcon = new Icon({
-            iconUrl: `/stage${mapData.pinImage}.png`,
-            iconSize: [20, 20],
+            iconUrl: `${mapData.pinImage}`,
+            iconSize: [40, 40],
           });
 
           return (

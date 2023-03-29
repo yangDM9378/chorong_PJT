@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCulturalProperty } from '../../store/culturalproperty/slice';
@@ -12,12 +12,15 @@ import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import { CulturalProperty } from '../../api/culturalpropertydetailApi';
 
 export default function CulturalPropertyPage() {
+  const queryClient = useQueryClient();
+
   const { culturalpropertynum } = useParams<{ culturalpropertynum: string }>();
   const dispatch = useDispatch();
   const { data, isLoading, isError } = useQuery<CulturalPropertyData, Error>(
     ['culturalProperty', culturalpropertynum],
     () => CulturalProperty(Number(culturalpropertynum)),
   );
+  queryClient.invalidateQueries({ queryKey: ['culturalProperty'] });
 
   useEffect(() => {
     if (data) {
