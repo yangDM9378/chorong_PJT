@@ -12,11 +12,8 @@ export default function CulturalPropertyHeader() {
   >(({ culturalProperty }) => culturalProperty.value);
 
   const starAr = culturalPropertydata?.result.starCountRes.starAr ? 1 : 0;
-
   const starPose = culturalPropertydata?.result.starCountRes.starPose ? 1 : 0;
-
   const starQuiz = culturalPropertydata?.result.starCountRes.starQuiz ? 1 : 0;
-
   const starCnt = starAr + starPose + starQuiz;
 
   return (

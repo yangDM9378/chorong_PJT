@@ -30,7 +30,7 @@ export default function CulturalPropertyDescription() {
         {culturalPropertydata?.result.culturalProperty.description}
       </S.Description>
 
-      {starCnt > 2 ? (
+      {starCnt < 0 ? (
         <S.Description>
           {culturalPropertydata?.result.culturalProperty.hiddenDescription}
         </S.Description>
@@ -50,7 +50,7 @@ export default function CulturalPropertyDescription() {
 
 const S = {
   Container: styled.div`
-    ${tw`h-[45vh] w-full rounded-[3vh] bg-white`}
+    ${tw` w-full rounded-[3vh] bg-white`}
   `,
   Description: styled.div`
     ${tw`text-[2vh] pt-[3vh] px-[3vh]`}
@@ -59,9 +59,9 @@ const S = {
     ${tw`relative py-[3vh] px-[3vh]`}
   `,
   HiddenDescription: styled.div`
-    ${tw`text-[3vw] `}
+    ${tw`text-[2vh] `}
     color: transparent;
-    text-shadow: 0 0 0.5vh rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   `,
   Lock: styled.div`
     ${tw`absolute inset-0 flex items-center justify-center`}
