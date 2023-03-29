@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.androidstudio'
+    namespace 'com.ssafy.androidstudio'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.androidstudio"
+        applicationId "com.ssafy.androidstudio"
         minSdk 26
         targetSdk 33
         versionCode 1
