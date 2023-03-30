@@ -9,10 +9,6 @@ interface GalleryData {
   result: GalleryResult[];
 }
 
-interface SetGalleryData {
-  culturalPropertyId: number;
-  picture: File | undefined;
-}
 interface GalleryResult {
   picture: File;
 }
@@ -27,8 +23,4 @@ export async function getGalleryData(): Promise<GalleryData | null> {
     console.error(error);
     return null;
   }
-}
-
-export async function setGalleryData(data: SetGalleryData): Promise<void> {
-  await authApi.post(`/galleries/`, data);
 }
