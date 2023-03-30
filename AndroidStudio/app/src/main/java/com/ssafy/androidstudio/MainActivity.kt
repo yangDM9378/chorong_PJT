@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.ssafy.androidstudio.recyclingtrashcans.TrashcanGeoActivity
+
 //import com.unity3d.player.UnityPlayerActivity
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     fun settingBtnGps() {
         val button = findViewById<Button>(R.id.gps)
         button.setOnClickListener{
-            val intent = Intent(this, GPSContainer::class.java)
+            val intent = Intent(this, TrashcanGeoActivity::class.java)
             startActivity(intent)
         }
     }

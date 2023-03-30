@@ -19,6 +19,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <!--    <meta-data android:name="unityplayer.UnityActivity" android:value="true" />-->
+    <!-- Limits app visibility in the Google Play Store to ARCore supported devices
+         (https://developers.google.com/ar/devices). -->
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -37,7 +41,10 @@
             android:name=".Game"
             android:exported="false" />
         <activity
-            android:name=".GPSContainer"
+            android:name=".recyclingtrashcans.TrashcanGeoActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="locked"
             android:exported="false" />
         <activity
             android:name=".WebviewContainer"
@@ -68,10 +75,10 @@
 
         <meta-data
             android:name="com.google.android.ar.API_KEY"
-            android:value="AIzaSyCOqrCPhM112tU40TjU_iCaovFopVgFxGE"/>
+            android:value=""/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCOqrCPhM112tU40TjU_iCaovFopVgFxGE" />
+            android:value="" />
     </application>
 </manifest>
