@@ -33,7 +33,7 @@ export default function Camera() {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    getVideo();
+    getVideo(handleVideoConstraints(front));
   }, [front]);
   function onTakePhotoButtonClick() {
     console.log('onTakePhotoBUttonclick');
@@ -53,30 +53,27 @@ export default function Camera() {
       })
       .catch((error: Error) => console.error(error));
   }
-
-  const constraints = {
-    width: { min: 640, ideal: 1920, max: 1920 },
-    height: { min: 400, ideal: 1080 },
-    aspectRatio: 1.777777778,
-    frameRate: { max: 30 },
-    facingMode: front ? 'user' : { exact: 'environment' },
+  const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
+  console.log(supportedConstraints);
+  const handleVideoConstraints = (rear: boolean) => {
+    const constraints = {
+      video: {
+        width: { min: 640, ideal: 1920, max: 1920 },
+        height: { min: 400, ideal: 1080 },
+        aspectRatio: 1.777777778,
+        frameRate: { max: 15 },
+        facingMode: { exact: rear ? 'user' : 'environment' },
+      },
+    };
+    return constraints;
   };
 
-  const getVideo = async () => {
+  const getVideo = async (constraints: MediaStreamConstraints) => {
     navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          width: { min: 640, ideal: 1920, max: 1920 },
-          height: { min: 400, ideal: 1080 },
-          aspectRatio: 1.777777778,
-          frameRate: { max: 27 },
-          // facingMode: front ? 'user' : { exact: 'environment' },
-        },
-      })
+      .getUserMedia(constraints)
       .then(function (stream) {
         if (!videoRef.current) return;
         const track = stream.getVideoTracks()[0];
-        track.applyConstraints(constraints);
 
         videoRef.current.srcObject = stream;
         videoRef.current.play();
@@ -106,13 +103,6 @@ export default function Camera() {
     </div>
   );
 }
-
-const S = {
-  VideoContainer: styled.div`
-    ${tw` h-[80vh] flex-col items-center justify-center`}
-  `,
-};
-// import React from 'react';
 
 // export default function Camera() {
 //   return <div>Camera</div>;
