@@ -1,4 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
+import styled from 'styled-components';
+import tw from 'twin.macro';
+
 import React, { useRef, useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 
@@ -50,20 +53,34 @@ export default function Camera() {
       })
       .catch((error: Error) => console.error(error));
   }
+
+  const constraints = {
+    width: { min: 640, ideal: 1920, max: 1920 },
+    height: { min: 400, ideal: 1080 },
+    aspectRatio: 1.777777778,
+    frameRate: { max: 30 },
+    facingMode: front ? 'user' : { exact: 'environment' },
+  };
+
   const getVideo = async () => {
     navigator.mediaDevices
       .getUserMedia({
         video: {
-          facingMode: front ? 'user' : 'environment',
+          width: { min: 640, ideal: 1920, max: 1920 },
+          height: { min: 400, ideal: 1080 },
+          aspectRatio: 1.777777778,
+          frameRate: { max: 27 },
+          // facingMode: front ? 'user' : { exact: 'environment' },
         },
       })
       .then(function (stream) {
         if (!videoRef.current) return;
+        const track = stream.getVideoTracks()[0];
+        track.applyConstraints(constraints);
 
         videoRef.current.srcObject = stream;
         videoRef.current.play();
 
-        const track = stream.getVideoTracks()[0];
         setImageCapture(new ImageCapture(track));
       })
       .catch(function (err) {
@@ -90,6 +107,11 @@ export default function Camera() {
   );
 }
 
+const S = {
+  VideoContainer: styled.div`
+    ${tw` h-[80vh] flex-col items-center justify-center`}
+  `,
+};
 // import React from 'react';
 
 // export default function Camera() {
