@@ -1,6 +1,4 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import styled from 'styled-components';
-import tw from 'twin.macro';
 
 import React, { useRef, useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
@@ -17,6 +15,7 @@ import { AppState } from '../../store';
 export default function Camera() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [front, setFront] = useState<boolean>(false);
+
   const [imageCapture, setImageCapture] = useState<ImageCapture>();
   const value = useSelector<AppState, CulturalPropertyState['value']>(
     (state) => state.culturalProperty.value,
@@ -33,14 +32,34 @@ export default function Camera() {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    videoRef.current?.pause();
-    getVideo();
+    const facing = front ? 'user' : 'environment';
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          width: { min: 640, ideal: 1920, max: 1920 },
+          height: { min: 400, ideal: 1080 },
+          aspectRatio: 1.777777778,
+          frameRate: { max: 15 },
+          facingMode: facing,
+        },
+      })
+      .then(function (stream) {
+        if (!videoRef.current) return;
+
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+
+        const track = stream.getVideoTracks()[0];
+        setImageCapture(new ImageCapture(track));
+      })
+      .catch(function (err) {
+        console.log(`An error occurred: ${err}`);
+      });
   }, [front]);
   function onTakePhotoButtonClick() {
-    console.log('onTakePhotoBUttonclick');
     imageCapture
       ?.takePhoto()
-      .then((blob: any) => {
+      .then((blob: Blob) => {
         createImageBitmap(blob);
         // const file = new File([blob], 'test2.jpg');
         dispatch(setImg(blob));
@@ -54,57 +73,22 @@ export default function Camera() {
       })
       .catch((error: Error) => console.error(error));
   }
-  const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
-  console.log(supportedConstraints.facingMode);
-  // const handleVideoConstraints = (rear: string) => {
-  //   const constraints = {
-  //     video: {
-  //       width: { min: 640, ideal: 1920, max: 1920 },
-  //       height: { min: 400, ideal: 1080 },
-  //       aspectRatio: 1.777777778,
-  //       frameRate: { max: 15 },
-  //       facingMode: rear,
-  //     },
-  //   };
-  //   return constraints;
-  // };
 
-  const getVideo = async () => {
-    navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          width: { min: 640, ideal: 1920, max: 1920 },
-          height: { min: 400, ideal: 1080 },
-          aspectRatio: 1.777777778,
-          frameRate: { max: 15 },
-          facingMode: front ? 'user' : 'environment',
-        },
-      })
-      .then(function (stream) {
-        if (!videoRef.current) return;
-        const track = stream.getVideoTracks()[0];
-
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-
-        setImageCapture(new ImageCapture(track));
-      })
-      .catch(function (err) {
-        console.log(`An error occurred: ${err}`);
-      });
-  };
   return (
     <div>
-      {supportedConstraints.facingMode}
       <video ref={videoRef} />
-      <CachedIcon onClick={setCamera} />
+      <div className="flex justify-center gap-10 m-10">
+        <CachedIcon fontSize="large" onClick={setCamera} />
 
-      <CameraRoundedIcon onClick={onTakePhotoButtonClick} />
-      <InfoOutlinedIcon
-        onClick={() => {
-          setModalIsOpen(true);
-        }}
-      />
+        <CameraRoundedIcon fontSize="large" onClick={onTakePhotoButtonClick} />
+        <InfoOutlinedIcon
+          fontSize="large"
+          onClick={() => {
+            setModalIsOpen(true);
+          }}
+        />
+      </div>
+
       {modalIsOpen && (
         <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
           <img src={pose?.posePicture} alt={pose?.poseName} />
