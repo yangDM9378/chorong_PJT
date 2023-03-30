@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +30,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
-
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
         try {
             return this.process(userRequest, user);
@@ -61,6 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     User createUser(OAuth2UserInfo userInfo) {
         User user = User.builder()
                 .email(userInfo.getEmail())
+                .password(UUID.randomUUID().toString())
                 .nickname(userInfo.getName())
                 .build();
 
