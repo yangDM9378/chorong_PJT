@@ -58,22 +58,20 @@ spring:
 
 file:
   upload:
-    path:
-      /home/ubuntu/chorongddara/upload/
+    path: /home/ubuntu/chorongddara/upload/
 
 logging:
- pattern:
-   file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"
- file:
-   name: ./log/logs.log
- level:
-   root: info
-   com.ssafy.chorongddara: Debug
+  pattern:
+    file: "%-4relative [%thread] %-5level %logger{35} - %msg%n"
+  file:
+    name: ./log/logs.log
+  level:
+    root: info
+    com.ssafy.chorongddara: Debug
 
 redis:
   host: j8c101.p.ssafy.io
   port: 6379
-
 #cloud:
 #  aws:
 #    s3:
