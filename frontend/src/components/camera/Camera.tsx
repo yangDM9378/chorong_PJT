@@ -33,11 +33,8 @@ export default function Camera() {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    if (front) {
-      getVideo(handleVideoConstraints('user'));
-    } else {
-      getVideo(handleVideoConstraints('exact:{environment}'));
-    }
+    videoRef.current?.pause();
+    getVideo();
   }, [front]);
   function onTakePhotoButtonClick() {
     console.log('onTakePhotoBUttonclick');
@@ -58,23 +55,31 @@ export default function Camera() {
       .catch((error: Error) => console.error(error));
   }
   const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
-  console.log(supportedConstraints);
-  const handleVideoConstraints = (rear: string) => {
-    const constraints = {
-      video: {
-        width: { min: 640, ideal: 1920, max: 1920 },
-        height: { min: 400, ideal: 1080 },
-        aspectRatio: 1.777777778,
-        frameRate: { max: 15 },
-        facingMode: rear,
-      },
-    };
-    return constraints;
-  };
+  console.log(supportedConstraints.facingMode);
+  // const handleVideoConstraints = (rear: string) => {
+  //   const constraints = {
+  //     video: {
+  //       width: { min: 640, ideal: 1920, max: 1920 },
+  //       height: { min: 400, ideal: 1080 },
+  //       aspectRatio: 1.777777778,
+  //       frameRate: { max: 15 },
+  //       facingMode: rear,
+  //     },
+  //   };
+  //   return constraints;
+  // };
 
-  const getVideo = async (constraints: MediaStreamConstraints) => {
+  const getVideo = async () => {
     navigator.mediaDevices
-      .getUserMedia(constraints)
+      .getUserMedia({
+        video: {
+          width: { min: 640, ideal: 1920, max: 1920 },
+          height: { min: 400, ideal: 1080 },
+          aspectRatio: 1.777777778,
+          frameRate: { max: 15 },
+          facingMode: front ? 'user' : 'environment',
+        },
+      })
       .then(function (stream) {
         if (!videoRef.current) return;
         const track = stream.getVideoTracks()[0];
