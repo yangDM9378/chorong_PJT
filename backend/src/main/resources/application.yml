@@ -20,14 +20,14 @@ spring:
           google:
             clientId: 977124759021-pe1aj9ot5g3li9bm9imbspa1it69kns3.apps.googleusercontent.com
             clientSecret: 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
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            redirectUri: "http://j8c101.p.ssafy.io/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           kakao:
             client-id: 31a020d01fc6ab8f9c9cc9064e7b451b
             client-secret: XEnTXhQlZzcyc9n2XZdPfBX1Aio0C9if
-            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            redirect-uri: "http://j8c101.p.ssafy.io/oauth2/callback/{registrationId}"
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: kakao
