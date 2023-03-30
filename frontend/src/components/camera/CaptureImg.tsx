@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import * as tmPose from '@teachablemachine/pose';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { storage } from '../../api/firebase';
 import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
@@ -108,18 +110,30 @@ export default function CaptureImg() {
   return (
     <div>
       <img src={imgSrc} ref={imgRef} alt="capture img" />
+      <div className="flex justify-center gap-10 m-5">
+        <S.Btn>
+          <button type="button" onClick={goBack}>
+            다시 찍기
+          </button>
+        </S.Btn>
 
-      <button type="button" onClick={goBack}>
-        back
-      </button>
-      {poseCompleted}
-      {poseCompleted ? (
-        <button type="button" onClick={submitImg}>
-          상세페이지
-        </button>
-      ) : (
-        <div>{poseCompleted}</div>
-      )}
+        {poseCompleted ? (
+          <S.Btn>
+            <button type="button" onClick={submitImg}>
+              상세페이지
+            </button>
+          </S.Btn>
+        ) : (
+          <p />
+        )}
+      </div>
     </div>
   );
 }
+const S = {
+  Btn: styled.button`
+    ${tw`
+    flex overflow-hidden m-1 p-1 border-double border-4 rounded px-8 py-1
+    `}
+  `,
+};
