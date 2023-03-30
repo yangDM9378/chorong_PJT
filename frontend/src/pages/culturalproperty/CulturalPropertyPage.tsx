@@ -50,6 +50,6 @@ export default function CulturalPropertyPage() {
 
 const S = {
   Container: styled.div`
-    ${tw`w-[100vw] h-[100vh] bg-[#E5E5E5]`}
+    ${tw`w-[100%] h-[100%] bg-maingreen`}
   `,
 };

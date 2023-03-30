@@ -1,4 +1,3 @@
-import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/common/HomePage';
@@ -12,6 +11,7 @@ import AfterCameraPage from '../pages/camera/AfterCameraPage';
 import SsafyStagePage from '../pages/map/SsafyStagePage';
 import GwangjuStagePage from '../pages/map/GwangjustagePage';
 import GalleryPage from '../pages/camera/GalleryPage';
+import OAuthPage from '../pages/common/OAuthPage';
 
 const RouterConfig = createBrowserRouter([
   {
@@ -20,6 +20,7 @@ const RouterConfig = createBrowserRouter([
     errorElement: <NoMatchPage />,
     children: [
       { index: true, path: '/', element: <HomePage /> },
+      { path: '/oauth2/redirect', element: <OAuthPage /> },
       { path: '/stage', element: <StagePage /> },
       { path: '/map/1', element: <GwangjuStagePage /> },
       { path: '/map/2', element: <SsafyStagePage /> },

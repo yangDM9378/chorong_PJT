@@ -40,9 +40,9 @@ export default function CulturalPropertyButtons() {
 
 const S = {
   Container: styled.div`
-    ${tw`flex justify-center`}
+    ${tw`grid grid-cols-3 m-auto w-[90%]`}
   `,
   Button: styled.button`
-    ${tw`my-[3vh] px-[5vw] rounded-[1vh] mx-[3vw] py-[1vh] text-[1.5vh] bg-[#d9d9d9]`}
+    ${tw`my-[2vh] px-[3vw] rounded-[1vh] mx-[3vw] py-[2vh] text-[1.5vh] bg-mainred text-white`}
   `,
 };

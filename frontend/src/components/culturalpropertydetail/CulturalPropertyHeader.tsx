@@ -38,7 +38,7 @@ export default function CulturalPropertyHeader() {
 }
 const S = {
   Container: styled.div`
-    ${tw`relative h-[40vh] w-full bg-cover rounded-b-[3vh] mb-[3vh]`}
+    ${tw`relative h-[40vh] w-full bg-cover  mb-[3vh] rounded-b-[2vh]`}
   `,
   InfoContainer: styled.div`
     ${tw`absolute bottom-0 p-[2vh]`}

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 import Modal from 'react-modal';
@@ -57,6 +58,16 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
     [close],
   );
 
+  // oauth부분
+  const API_BASE_URL = 'http://j8c101.p.ssafy.io:8080/';
+  const OAUTH2_REDIRECT_URI = 'https://j8c101.p.ssafy.io/oauth2/redirect';
+  // const API_BASE_URL = 'http://localhost:8080/';
+  // const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
+  const GOOGLE_AUTH_URL =
+    API_BASE_URL +
+    'oauth2/authorize/google?redirect_uri=' +
+    OAUTH2_REDIRECT_URI;
+
   return (
     <Modal
       isOpen={isOpen}
@@ -73,7 +84,6 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
             로그인
           </h1>
         </div>
-
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             type="email"
@@ -106,6 +116,9 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
             </button>
           </div>
         </form>
+        <a href={GOOGLE_AUTH_URL}>
+          <div>111 </div>
+        </a>
       </div>
     </Modal>
   );
