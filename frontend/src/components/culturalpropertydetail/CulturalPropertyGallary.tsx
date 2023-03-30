@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
@@ -47,6 +47,6 @@ export default function CulturalPorpertyGallary({ tabNumber }: TabNo) {
 
 const S = {
   Container: styled.div`
-    ${tw`grid w-[90%]	m-auto gap-1 grid-cols-3 h-[50vh] overflow-auto	`}
+    ${tw`grid w-[90%]	m-auto gap-1 grid-cols-2 h-[50vh] overflow-auto	`}
   `,
 };

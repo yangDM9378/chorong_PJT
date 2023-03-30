@@ -94,7 +94,7 @@ const S = {
     ${tw` w-full pt-[1vh] px-[1vh]`}
   `,
   DescriptionContainer: styled.div`
-    ${tw`w-full bg-white p-1 rounded-b-[1vh] rounded-r-[1vh]`}
+    ${tw`w-full bg-white p-[1vh] rounded-b-[1vh] `}
   `,
   Description: styled.div`
     ${tw`text-[2vh] `}
@@ -111,9 +111,9 @@ const S = {
     ${tw`absolute inset-0 flex items-center justify-center`}
   `,
   ButtonContainer: styled.div`
-    ${tw` rounded-t-[1vh] bg-white inline-block`}
+    ${tw` rounded-t-[1vh] grid grid-cols-3`}
   `,
   Button: styled.button`
-    ${tw`p-[1vh] `}
+    ${tw`p-[1vh] bg-white rounded-t-[1vh]`}
   `,
 };
