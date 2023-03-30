@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="ssafy">
+    <item>35.205651|126.811523|215호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_south.html</item>
+    <item>35.205589|126.811540|222호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_south.html</item>
+    <item>35.205575|126.811552|214호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_north2.html</item>
+    <item>35.205524|126.811539|216호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_north1.html</item>
+    <item>35.205219|126.811651|221호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/planetarium_se.html</item>
+    <item>35.205189|126.811523|취업 상담실|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/planetarium_se.html</item>
+    <item>35.205121|126.811595|211호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
+    <item>35.205200|126.811593|212호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
+    <item>35.205289|126.811573|213호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
+  </string-array>
+  <string-array name="park_ridge">
+    <item>36.862358|-119.793572|Entrance 1|poi|https://recyclingtrashcans.github.io/</item>
+    <item>36.862463|-119.793611|Exit|poi|https://recyclingtrashcans.github.io/</item>
+    <item>36.862909|-119.79378|Entrance 2|poi|https://recyclingtrashcans.github.io/</item>
+    <item>36.86249|-119.793228|Office|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.862388|-119.79308|Fitness|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.862404|-119.793008|Pool|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.861838|-119.793128|Trashcan|trashcan|https://recyclingtrashcans.github.io/</item>
+    <item>36.861642|-119.793181|Mailboxes|trashcan|https://recyclingtrashcans.github.io/</item>
+  </string-array>
+</resources>
