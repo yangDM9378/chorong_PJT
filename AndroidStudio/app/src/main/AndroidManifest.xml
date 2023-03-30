@@ -46,9 +46,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="locked"
             android:exported="false" />
-        <activity
-            android:name=".WebviewContainer"
-            android:exported="false" />
 <!--        <activity android:name="com.unity3d.player.UnityPlayerActivity"-->
 <!--            android:theme="@style/UnityThemeSelector"-->
 <!--            android:screenOrientation="fullUser"-->
@@ -65,7 +62,6 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -79,6 +75,6 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="" />
+            android:value=""/>
     </application>
 </manifest>
