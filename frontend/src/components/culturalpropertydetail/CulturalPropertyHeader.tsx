@@ -17,7 +17,7 @@ export default function CulturalPropertyHeader() {
   const starCnt = starAr + starPose + starQuiz;
 
   return (
-    <div>
+    <div className="h-[40%]">
       <S.Container
         style={{
           backgroundImage: `url(${culturalPropertydata?.result.culturalProperty.image})`,
@@ -38,7 +38,7 @@ export default function CulturalPropertyHeader() {
 }
 const S = {
   Container: styled.div`
-    ${tw`relative h-[40vh] w-full bg-cover  mb-[3vh] rounded-b-[2vh]`}
+    ${tw`relative w-full bg-cover rounded-b-[2vh] h-[95%]`}
   `,
   InfoContainer: styled.div`
     ${tw`absolute bottom-0 p-[2vh]`}

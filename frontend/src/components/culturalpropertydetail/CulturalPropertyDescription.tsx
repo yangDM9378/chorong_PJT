@@ -7,6 +7,9 @@ import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import CulturalPorpertyGallary from './CulturalPropertyGallary';
 
+interface Tab {
+  isCurTab: boolean;
+}
 const initialTab = 1;
 
 export default function CulturalPropertyDescription() {
@@ -35,13 +38,25 @@ export default function CulturalPropertyDescription() {
   return (
     <S.Container>
       <S.ButtonContainer>
-        <S.Button type="button" onClick={() => changeTab(1)}>
+        <S.Button
+          type="button"
+          onClick={() => changeTab(1)}
+          isCurTab={tabNumber === 1}
+        >
           tab1
         </S.Button>
-        <S.Button type="button" onClick={() => changeTab(2)}>
+        <S.Button
+          type="button"
+          onClick={() => changeTab(2)}
+          isCurTab={tabNumber === 2}
+        >
           tab2
         </S.Button>
-        <S.Button type="button" onClick={() => changeTab(3)}>
+        <S.Button
+          type="button"
+          onClick={() => changeTab(3)}
+          isCurTab={tabNumber === 3}
+        >
           갤러리
         </S.Button>
       </S.ButtonContainer>
@@ -91,10 +106,10 @@ export default function CulturalPropertyDescription() {
 
 const S = {
   Container: styled.div`
-    ${tw` w-full pt-[1vh] px-[1vh]`}
+    ${tw` w-full pt-[1vh] px-[1vh] h-[50%] `}
   `,
   DescriptionContainer: styled.div`
-    ${tw`w-full bg-white p-[1vh] rounded-b-[1vh] `}
+    ${tw`w-full bg-white p-[1vh] rounded-b-[1vh] h-[90%] overflow-auto`}
   `,
   Description: styled.div`
     ${tw`text-[2vh] `}
@@ -113,7 +128,10 @@ const S = {
   ButtonContainer: styled.div`
     ${tw` rounded-t-[1vh] grid grid-cols-3`}
   `,
-  Button: styled.button`
-    ${tw`p-[1vh] bg-white rounded-t-[1vh]`}
+  Button: styled.button<Tab>`
+    ${(props) =>
+      props.isCurTab
+        ? tw`bg-mainred p-[1vh] rounded-t-[1vh] text-white`
+        : tw`bg-white p-[1vh] rounded-t-[1vh] text-black`}
   `,
 };
