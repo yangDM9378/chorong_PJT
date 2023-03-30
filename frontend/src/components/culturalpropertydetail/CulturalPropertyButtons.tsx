@@ -13,7 +13,9 @@ export default function CulturalPropertyButtons() {
   >(({ culturalProperty }) => culturalProperty.value);
 
   const navigate = useNavigate();
-  const goGame = () => {};
+  const goGame = () => {
+    (window as any).Android.showGame('ssafy');
+  };
   const goQuiz = () => {
     const region = culturalPropertydata?.result.culturalProperty.address;
     const nameKo = culturalPropertydata?.result.culturalProperty.nameKo;
