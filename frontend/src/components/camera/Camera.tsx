@@ -1,4 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
+import styled from 'styled-components';
+import tw from 'twin.macro';
+
 import React, { useRef, useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 
@@ -50,11 +53,14 @@ export default function Camera() {
       })
       .catch((error: Error) => console.error(error));
   }
+
   const getVideo = async () => {
     navigator.mediaDevices
       .getUserMedia({
         video: {
           facingMode: front ? 'user' : 'environment',
+          width: 720,
+          height: 480,
         },
       })
       .then(function (stream) {
@@ -90,6 +96,11 @@ export default function Camera() {
   );
 }
 
+const S = {
+  VideoContainer: styled.div`
+    ${tw` h-[80vh] flex-col items-center justify-center`}
+  `,
+};
 // import React from 'react';
 
 // export default function Camera() {
