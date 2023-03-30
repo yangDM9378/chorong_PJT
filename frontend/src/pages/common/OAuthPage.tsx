@@ -1,22 +1,23 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function OAuthPage() {
-  // const ACCESS_TOKEN = 'accessToken';
+  const navigate = useNavigate();
   const [token, setToken] = useState('');
 
-  const [Error, setError] = useState('');
-  const navigate = useNavigate();
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const token = urlSearchParams.get('token');
+    if (token) {
+      localStorage.setItem('accesstoken', token);
+      setToken(token);
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('accesstoken', token);
-      setToken('token');
-      navigate('/main');
-    }
-    if (Error) {
-      console.log(Error);
-      navigate('/');
+      navigate('/stage');
     }
   }, [token]);
 

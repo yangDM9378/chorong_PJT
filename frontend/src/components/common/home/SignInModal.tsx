@@ -59,14 +59,11 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
   );
 
   // oauth부분
-  const API_BASE_URL = 'http://j8c101.p.ssafy.io:8080/';
-  const OAUTH2_REDIRECT_URI = 'https://j8c101.p.ssafy.io/oauth2/redirect';
-  // const API_BASE_URL = 'http://localhost:8080/';
-  // const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
-  const GOOGLE_AUTH_URL =
-    API_BASE_URL +
-    'oauth2/authorize/google?redirect_uri=' +
-    OAUTH2_REDIRECT_URI;
+  const googleOauth =
+    'http://j8c101.p.ssafy.io:8080/oauth2/authorize/google?redirect_uri=https://j8c101.p.ssafy.io/oauth2/redirect';
+  const kakaoOauth =
+    'http://j8c101.p.ssafy.io:8080/oauth2/authorize/kakao?redirect_uri=https://j8c101.p.ssafy.io/oauth2/redirect';
+  // 'http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect';
 
   return (
     <Modal
@@ -116,8 +113,11 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
             </button>
           </div>
         </form>
-        <a href={GOOGLE_AUTH_URL}>
-          <div>111 </div>
+        <a href={googleOauth}>
+          <div>구글 로그인 </div>
+        </a>
+        <a href={kakaoOauth}>
+          <div>카카오 로그인 </div>
         </a>
       </div>
     </Modal>
