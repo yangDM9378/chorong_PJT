@@ -33,7 +33,11 @@ export default function Camera() {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    getVideo(handleVideoConstraints(front));
+    if (front) {
+      getVideo(handleVideoConstraints('user'));
+    } else {
+      getVideo(handleVideoConstraints('exact:{environment}'));
+    }
   }, [front]);
   function onTakePhotoButtonClick() {
     console.log('onTakePhotoBUttonclick');
@@ -55,14 +59,14 @@ export default function Camera() {
   }
   const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
   console.log(supportedConstraints);
-  const handleVideoConstraints = (rear: boolean) => {
+  const handleVideoConstraints = (rear: string) => {
     const constraints = {
       video: {
         width: { min: 640, ideal: 1920, max: 1920 },
         height: { min: 400, ideal: 1080 },
         aspectRatio: 1.777777778,
         frameRate: { max: 15 },
-        facingMode: { exact: rear ? 'user' : 'environment' },
+        facingMode: rear,
       },
     };
     return constraints;
@@ -86,6 +90,7 @@ export default function Camera() {
   };
   return (
     <div>
+      {supportedConstraints.facingMode}
       <video ref={videoRef} />
       <CachedIcon onClick={setCamera} />
 
