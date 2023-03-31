@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
@@ -34,7 +34,7 @@ export default function CulturalPorpertyGallary({ tabNumber }: TabNo) {
   };
 
   return (
-    <div>
+    <div className="w-[95%] m-auto">
       <S.Container>
         {photos.map((photo, i: number) => {
           // eslint-disable-next-line react/no-array-index-key
@@ -47,6 +47,6 @@ export default function CulturalPorpertyGallary({ tabNumber }: TabNo) {
 
 const S = {
   Container: styled.div`
-    ${tw`grid w-[90%]	m-auto gap-1 grid-cols-2 h-[50vh] overflow-auto	`}
+    ${tw`grid	m-auto gap-2 grid-cols-2  overflow-auto	`}
   `,
 };

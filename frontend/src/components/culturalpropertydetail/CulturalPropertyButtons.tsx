@@ -40,7 +40,7 @@ export default function CulturalPropertyButtons() {
 
 const S = {
   Container: styled.div`
-    ${tw`grid grid-cols-3 m-auto w-[90%]`}
+    ${tw`grid grid-cols-3 m-auto w-[90%] h-[10%]`}
   `,
   Button: styled.button`
     ${tw`my-[2vh] px-[3vw] rounded-[1vh] mx-[3vw] py-[2vh] text-[1.5vh] bg-mainred text-white`}

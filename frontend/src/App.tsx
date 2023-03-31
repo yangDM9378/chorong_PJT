@@ -11,7 +11,7 @@ function App() {
     <div>
       <QueryClientProvider client={queryClient}>
         <ReduxProvider store={store}>
-          <DevDropDown />
+          {/* <DevDropDown /> */}
           <Outlet />
         </ReduxProvider>
       </QueryClientProvider>
