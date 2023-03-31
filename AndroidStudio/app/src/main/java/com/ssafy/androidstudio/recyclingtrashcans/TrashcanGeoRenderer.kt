@@ -33,8 +33,6 @@ import com.ssafy.androidstudio.common.samplerender.SampleRender
 import com.ssafy.androidstudio.common.samplerender.Shader
 import com.ssafy.androidstudio.common.samplerender.arcore.BackgroundRenderer
 import com.ssafy.androidstudio.R
-import java.io.File
-import java.io.FileReader
 import java.io.IOException
 import java.util.*
 import kotlin.Comparator
@@ -122,7 +120,6 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
   private val projectionMatrix = FloatArray(16)
   private val mapAreas: MutableList<MapArea> = emptyList<MapArea>().toMutableList()
   private var areaIndex: Int = -1
-  private var loaded = false
   private var populating = false
   private val timer = object: CountDownTimer(2000, 1000) {
     override fun onTick(millisUntilFinished: Long) {}
@@ -248,7 +245,7 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     // Step 1.1.: Obtain Geospatial information and display it on the map.
     val earth = session.earth
     if (earth?.trackingState == TrackingState.TRACKING) {
-      if (areaIndex < 0 && !populating && loaded) {
+      if (areaIndex < 0 && !populating) {
         populating = true
         timer.start()
       }
@@ -341,49 +338,6 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     } else if (override >= 0) {
       mapAreas[override] = mapArea
     }
-  }
-
-  fun processLocations(locationsFile: File) {
-    if (!locationsFile.exists()) {
-      Log.w(TAG, "Locations file ${locationsFile.path} doesn't exist")
-      loaded = true
-      return
-    }
-
-    val reader = FileReader(locationsFile)
-    val locationsXmlContent = reader.readText()
-    reader.close()
-    val areaMapParts = locationsXmlContent.split("<string-array name=\"")
-    if (areaMapParts.size <= 1) {
-      loaded = true
-      return
-    }
-
-    for (areaMapPart in areaMapParts.subList(1, areaMapParts.size)) {
-      if (areaMapPart.indexOf('"') < 0) {
-        continue
-      }
-
-      val name = areaMapPart.split('"')[0]
-      val areaLocations: MutableList<String> = emptyList<String>().toMutableList()
-      val itemParts = areaMapPart.split("<item>")
-      if (itemParts.size <= 1) {
-        continue
-      }
-
-      for (itemPart in itemParts.subList(1, itemParts.size)) {
-        val itemParts2 = itemPart.split("</item>")
-        if (itemParts2.isNotEmpty() && itemParts2.indexOf(",") >= 0) {
-          areaLocations.add(itemParts2[0])
-        }
-      }
-
-      if (areaLocations.isNotEmpty()) {
-        processLocationArray(name, areaLocations.toTypedArray())
-      }
-    }
-
-    loaded = true
   }
 
   private var earthAnchors: MutableList<Anchor> = emptyList<Anchor>().toMutableList()
