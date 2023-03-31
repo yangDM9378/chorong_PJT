@@ -19,6 +19,9 @@ export default function Home() {
   return (
     <S.Container style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
       <CherryBlossom />
+      <S.Header>
+        <div>초롱을 따라 길을 따라 </div>
+      </S.Header>
       <SignInModalTest
         isOpen={modalSignIn}
         close={() => {
@@ -31,16 +34,14 @@ export default function Home() {
           setModalSignUp(false);
         }}
       />
-      {/* <S.HomeCarousel>
-        <HomeCarousel />
-      </S.HomeCarousel> */}
+
       <S.ButtonContainer>
         <button type="button" onClick={openModalSignIn}>
-          로그인
+          들어가기
         </button>
-        <button type="button" onClick={openModalSigUp}>
+        {/* <button type="button" onClick={openModalSigUp}>
           계정만들기
-        </button>
+        </button> */}
       </S.ButtonContainer>
     </S.Container>
   );
@@ -50,10 +51,13 @@ const S = {
   Container: styled.div`
     ${tw`relative flex items-center justify-center w-[100%] h-[100%] `}
   `,
+  Header: styled.div`
+    ${tw` absolute flex text-white text-xl	w-[100%] justify-end pr-2`}
+  `,
   HomeCarousel: styled.div`
     ${tw`fixed left-0 w-full h-full top-5`}
   `,
   ButtonContainer: styled.div`
-    ${tw`absolute flex flex-col gap-4 p-4 top-[80vh]`}
+    ${tw`absolute flex flex-col gap-4 px-2 py-3 top-[80vh] bg-white w-[70%] rounded-lg border-4 border-[#e0c3fc] 	`}
   `,
 };

@@ -73,7 +73,6 @@ export default function CherryBlossom() {
     if (!ctx) return;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    console.log(canvas.width, canvas.height);
     const petalArray: Petal[] = [];
 
     // eslint-disable-next-line no-plusplus

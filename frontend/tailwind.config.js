@@ -13,6 +13,7 @@ module.exports = {
     // 기존에 없는 거 추가하기
     fontFamily: {
       nanum: ['nanum', 'sans-serif'],
+      GmarketSansMedium: ['GmarketSansMedium', 'sans-serif'],
     },
   },
   plugins: [],
