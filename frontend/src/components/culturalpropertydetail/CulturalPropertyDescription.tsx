@@ -106,7 +106,7 @@ export default function CulturalPropertyDescription() {
 
 const S = {
   Container: styled.div`
-    ${tw` w-full pt-[1vh] px-[1vh] h-[50%] `}
+    ${tw` w-full px-[1vh] h-[50%] `}
   `,
   DescriptionContainer: styled.div`
     ${tw`w-full bg-white p-[1vh] rounded-b-[1vh] h-[90%] overflow-auto`}
@@ -131,7 +131,7 @@ const S = {
   Button: styled.button<Tab>`
     ${(props) =>
       props.isCurTab
-        ? tw`bg-mainred p-[1vh] rounded-t-[1vh] text-white`
-        : tw`bg-white p-[1vh] rounded-t-[1vh] text-black`}
+        ? tw`bg-white p-[1.3vh] rounded-t-[1vh] text-black border-t-2 border-r-2 border-l-2 border-solid border-mainblue`
+        : tw`bg-mainblue p-[1.3vh] rounded-t-[1vh] text-white`}
   `,
 };

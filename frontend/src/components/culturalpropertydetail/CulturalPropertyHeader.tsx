@@ -23,15 +23,23 @@ export default function CulturalPropertyHeader() {
           backgroundImage: `url(${culturalPropertydata?.result.culturalProperty.image})`,
         }}
       >
-        <CulturalPropertyStar starCnt={starCnt} />
-        <S.InfoContainer>
-          <S.Name>
-            {culturalPropertydata?.result.culturalProperty.nameKo}
-          </S.Name>
-          <S.Address>
-            {culturalPropertydata?.result.culturalProperty.address}
-          </S.Address>
-        </S.InfoContainer>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+          }}
+        >
+          <CulturalPropertyStar starCnt={starCnt} />
+          <S.InfoContainer>
+            <S.Name>
+              {culturalPropertydata?.result.culturalProperty.nameKo}
+            </S.Name>
+            <S.Address>
+              {culturalPropertydata?.result.culturalProperty.address}
+            </S.Address>
+          </S.InfoContainer>
+        </div>
       </S.Container>
     </div>
   );
@@ -44,7 +52,7 @@ const S = {
     ${tw`absolute bottom-0 p-[2vh]`}
   `,
   Name: styled.div`
-    ${tw`font-bold text-white text-[2vh] mb-[1vh]`}
+    ${tw`font-bold text-white text-[3vh] mb-[1vh]`}
   `,
   Address: styled.div`
     ${tw`font-semibold text-white text-[1.5vh]`}
