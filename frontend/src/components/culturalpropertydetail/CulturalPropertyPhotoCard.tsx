@@ -11,6 +11,6 @@ export default function CulturalPropertyPhotoCard({ photo }: Photo) {
 
 const S = {
   Card: styled.img`
-    ${tw`flex h-[33vw] max-w-[50%] p-1`}
+    ${tw`flex h-[33vw] max-w-[50%] p-1 rounded-[2.5vh]`}
   `,
 };
