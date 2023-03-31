@@ -9,6 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ssafy.androidstudio.hellogeospatial.HelloGeoActivity
 import com.ssafy.androidstudio.recyclingtrashcans.TrashcanGeoActivity
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun showGame(message: String) {
             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-            val intent = Intent(mContext, TrashcanGeoActivity::class.java)
+//            val intent = Intent(mContext, TrashcanGeoActivity::class.java)
+            val intent = Intent(mContext, HelloGeoActivity::class.java)
             mContext.startActivity(intent)
         }
     }
