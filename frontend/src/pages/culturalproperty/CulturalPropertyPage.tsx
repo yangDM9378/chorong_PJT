@@ -25,6 +25,10 @@ export default function CulturalPropertyPage() {
   useEffect(() => {
     if (data) {
       dispatch(setCulturalProperty(data));
+      localStorage.setItem(
+        'culturalPropertyId',
+        data.result.culturalProperty.culturalPropertyId.toString(),
+      );
     }
   }, [data, dispatch]);
 
