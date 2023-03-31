@@ -16,7 +16,7 @@ export default function Home() {
   };
 
   return (
-    <S.Container>
+    <S.Container style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
       <SignInModalTest
         isOpen={modalSignIn}
         close={() => {
@@ -46,7 +46,7 @@ export default function Home() {
 
 const S = {
   Container: styled.div`
-    ${tw`relative flex items-center justify-center`}
+    ${tw`relative flex items-center justify-center w-[100%] h-[100%] `}
   `,
   HomeCarousel: styled.div`
     ${tw`fixed left-0 w-full h-full top-5`}
