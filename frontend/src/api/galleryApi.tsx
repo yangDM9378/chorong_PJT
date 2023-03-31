@@ -24,11 +24,12 @@ interface PhotoData {
   result: [];
 }
 
-export async function getGalleryData(): Promise<GalleryData | null> {
+// 전달받는 데이터 타입이 바뀌었습니다. result를 파일에서 []로 바꾸겠습니다.
+
+// 전체 사진 데이터 받아옵니다.
+export async function getGalleryData(): Promise<PhotoData | null> {
   try {
-    const response: AxiosResponse<GalleryData> = await authApi.get(
-      `/galleries/`,
-    );
+    const response: AxiosResponse<PhotoData> = await authApi.get(`/galleries/`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -40,6 +41,7 @@ export async function setGalleryData(data: SetGalleryData): Promise<void> {
   await authApi.post(`/galleries/`, data);
 }
 
+// 문화재마다 사진데이터 받아옵니다.
 export async function getGalleryDetailData(
   no?: number,
 ): Promise<PhotoData | null> {

@@ -10,7 +10,7 @@ import StagePage from '../pages/stage/StagePage';
 import AfterCameraPage from '../pages/camera/AfterCameraPage';
 import SsafyStagePage from '../pages/map/SsafyStagePage';
 import GwangjuStagePage from '../pages/map/GwangjustagePage';
-import GalleryPage from '../pages/camera/GalleryPage';
+import GalleryPage from '../pages/gallery/GalleryPage';
 import OAuthPage from '../pages/common/OAuthPage';
 
 const RouterConfig = createBrowserRouter([
@@ -26,8 +26,7 @@ const RouterConfig = createBrowserRouter([
       { path: '/map/2', element: <SsafyStagePage /> },
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
-      { path: '/gallery', element: <GalleryPage /> },
-
+      { path: '/gallery/:userId', element: <GalleryPage /> },
       {
         path: '/culturalpropertydetail/:culturalpropertynum',
         element: <CulturalPropertyPage />,
