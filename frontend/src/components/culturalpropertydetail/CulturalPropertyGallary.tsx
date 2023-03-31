@@ -34,19 +34,25 @@ export default function CulturalPorpertyGallary({ tabNumber }: TabNo) {
   };
 
   return (
-    <div className="w-[95%] m-auto">
-      <S.Container>
-        {photos.map((photo, i: number) => {
-          // eslint-disable-next-line react/no-array-index-key
-          return <CulturalPropertyPhotoCard key={i} photo={photo} />;
-        })}
-      </S.Container>
+    <div className="w-[100%] m-auto">
+      {photos.length > 0 ? (
+        <S.Container>
+          {photos.map((photo, i: number) => {
+            // eslint-disable-next-line react/no-array-index-key
+            return <CulturalPropertyPhotoCard key={i} photo={photo} />;
+          })}
+        </S.Container>
+      ) : (
+        <div style={{ fontSize: '2vh', textAlign: 'center' }}>
+          사진이 없습니다.
+        </div>
+      )}
     </div>
   );
 }
 
 const S = {
   Container: styled.div`
-    ${tw`grid	m-auto gap-2 grid-cols-2  overflow-auto	`}
+    ${tw`flex flex-wrap  overflow-auto	`}
   `,
 };

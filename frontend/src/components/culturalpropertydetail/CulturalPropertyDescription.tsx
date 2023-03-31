@@ -43,14 +43,14 @@ export default function CulturalPropertyDescription() {
           onClick={() => changeTab(1)}
           isCurTab={tabNumber === 1}
         >
-          tab1
+          정보
         </S.Button>
         <S.Button
           type="button"
           onClick={() => changeTab(2)}
           isCurTab={tabNumber === 2}
         >
-          tab2
+          히든 정보
         </S.Button>
         <S.Button
           type="button"
@@ -109,10 +109,10 @@ const S = {
     ${tw` w-full px-[1vh] h-[50%] `}
   `,
   DescriptionContainer: styled.div`
-    ${tw`w-full bg-white p-[2vh] rounded-b-[1vh] h-[90%] overflow-auto`}
+    ${tw`w-full bg-white p-[1vh] rounded-b-[1vh] h-[90%] overflow-auto`}
   `,
   Description: styled.div`
-    ${tw`text-[2vh] `}
+    ${tw`text-[2vh] p-[1.5vh]`}
   `,
   Box: styled.div`
     ${tw`relative py-[3vh] px-[3vh]`}
