@@ -12,6 +12,7 @@ import SsafyStagePage from '../pages/map/SsafyStagePage';
 import GwangjuStagePage from '../pages/map/GwangjustagePage';
 import GalleryPage from '../pages/camera/GalleryPage';
 import OAuthPage from '../pages/common/OAuthPage';
+import ArPage from '../pages/AR/ArPage';
 
 const RouterConfig = createBrowserRouter([
   {
@@ -27,13 +28,13 @@ const RouterConfig = createBrowserRouter([
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
       { path: '/gallery', element: <GalleryPage /> },
-
       {
         path: '/culturalpropertydetail/:culturalpropertynum',
         element: <CulturalPropertyPage />,
       },
       { path: '/quiz/:region/:nameKo', element: <QuizPage /> },
       { path: '/quizscore', element: <QuizScorePage /> },
+      { path: '/AR/redirect', element: <ArPage /> },
     ],
   },
 ]);
