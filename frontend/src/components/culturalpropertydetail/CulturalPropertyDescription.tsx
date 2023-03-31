@@ -109,7 +109,7 @@ const S = {
     ${tw` w-full px-[1vh] h-[50%] `}
   `,
   DescriptionContainer: styled.div`
-    ${tw`w-full bg-white p-[1vh] rounded-b-[1vh] h-[90%] overflow-auto`}
+    ${tw`w-full bg-white p-[2vh] rounded-b-[1vh] h-[90%] overflow-auto`}
   `,
   Description: styled.div`
     ${tw`text-[2vh] `}

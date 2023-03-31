@@ -24,7 +24,7 @@ export default function CulturalPropertyStar(props: Props) {
   return (
     <S.Star>
       {images.map((src, index) => (
-        <img key={index} src={src} alt={src} />
+        <img key={index} src={src} alt={src} style={{ marginLeft: '1vh' }} />
       ))}
     </S.Star>
   );
