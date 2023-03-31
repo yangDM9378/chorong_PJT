@@ -4,6 +4,7 @@ import tw from 'twin.macro';
 // import HomeCarousel from './HomeCarousel';
 import SignInModalTest from './SignInModal';
 import SignUpModal from './SignUpModal';
+import CherryBlossom from './CherryBlossom';
 
 export default function Home() {
   const [modalSignIn, setModalSignIn] = useState(false);
@@ -17,6 +18,7 @@ export default function Home() {
 
   return (
     <S.Container style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+      <CherryBlossom />
       <SignInModalTest
         isOpen={modalSignIn}
         close={() => {
