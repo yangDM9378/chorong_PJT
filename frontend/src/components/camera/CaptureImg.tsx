@@ -31,7 +31,7 @@ export default function CaptureImg() {
 
   let { culturalId, poseId } = location.state;
   culturalId = 3;
-  poseId = 0;
+  poseId = 3;
   console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
@@ -67,7 +67,7 @@ export default function CaptureImg() {
   };
 
   const predict = () => {
-    const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
+    const URL = 'https://teachablemachine.withgoogle.com/models/6I9Bye3ym/';
 
     let model: tmPose.CustomPoseNet | null;
     let maxPredictions: number;
