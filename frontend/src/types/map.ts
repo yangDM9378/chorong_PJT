@@ -11,6 +11,7 @@ export interface MapResult {
   longitude: number;
   pinImage: string;
   starCount: number;
+  image: string;
 }
 
 export interface RegionProperties {
