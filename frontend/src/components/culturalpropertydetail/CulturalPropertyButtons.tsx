@@ -14,7 +14,10 @@ export default function CulturalPropertyButtons() {
 
   const navigate = useNavigate();
   const goGame = () => {
-    (window as any).Android.showGame('ssafy');
+    (window as any).Android.showGame(
+      `${localStorage.getItem('accesstoken')} 
+      ${localStorage.getItem('culturalPropertyId')}`,
+    );
   };
   const goQuiz = () => {
     const region = culturalPropertydata?.result.culturalProperty.address;
