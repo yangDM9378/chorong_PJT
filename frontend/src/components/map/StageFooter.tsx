@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { GwangjustageProps } from '../../types/map';
-import CulturalPropertyStar from '../culturalpropertydetail/CulturalPropertyStar';
+import MapStar from './MapStar';
 
 export default function StageFooter(props: GwangjustageProps) {
   const { mapDatas } = props;
@@ -13,26 +13,26 @@ export default function StageFooter(props: GwangjustageProps) {
   return (
     <div>
       <S.FooterContainer>
-        <button type="button" onClick={() => console.log(mapDatas)}>
-          1111
-        </button>
         <S.FooterBox>
           <S.StageName>
             {stageInfo[1]}
             <S.StageNameLine />
           </S.StageName>
           <S.StageDescript>{stageInfo[2]}</S.StageDescript>
-          <S.CulturalProperty>
+          <S.InfoBox>
             {mapDatas?.map((mapData, index) => (
-              <div key={mapData.culturalPropertyId}>
-                <CulturalPropertyStar starCnt={mapData.starCount} />
-                <div>이미지</div>
+              <S.CulturalProperty key={mapData.culturalPropertyId}>
                 <div>
                   {index + 1}. {mapData.nameKo}
                 </div>
-              </div>
+                <S.FooterImg
+                  style={{ backgroundImage: `url(${mapData.image})` }}
+                >
+                  <MapStar starCnt={mapData.starCount} />
+                </S.FooterImg>
+              </S.CulturalProperty>
             ))}
-          </S.CulturalProperty>
+          </S.InfoBox>
         </S.FooterBox>
       </S.FooterContainer>
     </div>
@@ -55,7 +55,16 @@ const S = {
   StageDescript: styled.div`
     ${tw`mx-[3vw] mt-[2vh] text-[2vh]`}
   `,
+  InfoBox: styled.div`
+    ${tw`flex overflow-y-scroll whitespace-nowrap`}
+  `,
   CulturalProperty: styled.div`
-    ${tw`mx-[3vw] mt-[3vh] h-[30vh] flex overflow-y-scroll whitespace-nowrap`}
+    ${tw`px-[3vw] mt-[3vh] h-full flex flex-col `}
+  `,
+
+  FooterImg: styled.div`
+    ${tw`w-[70vw] h-[20vh] relative`}
+    background-repeat: no-repeat;
+    background-size: cover;
   `,
 };
