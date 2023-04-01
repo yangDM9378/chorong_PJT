@@ -27,7 +27,13 @@ authApi.interceptors.request.use(
   },
   (error) => {
     // 요청 오류가 있는 작업 수행
-    if (localStorage.getItem('accesstoken')) {
+    return Promise.reject(error);
+  },
+);
+
+authApi.interceptors.response.use(
+  (response) => {
+    if (response.data.code === 'G002') {
       Swal.fire({
         text: '로그아웃 되었습니다.',
         confirmButtonColor: 'rgb(0, 170, 255)',
@@ -36,6 +42,10 @@ authApi.interceptors.request.use(
         window.location.href = '/';
       });
     }
+
+    return response;
+  },
+  (error) => {
     return Promise.reject(error);
   },
 );
