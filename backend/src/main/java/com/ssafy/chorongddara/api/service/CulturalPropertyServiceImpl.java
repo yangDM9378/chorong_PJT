@@ -73,6 +73,7 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
                     .latitude(culturalProperty.getLatitude())
                     .longitude(culturalProperty.getLongitude())
                     .pinImage(culturalProperty.getPinImage())
+                    .image(culturalProperty.getImage())
                     .starCount(starCount)
                     .build());
         }
