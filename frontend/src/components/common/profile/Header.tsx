@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import tw from 'twin.macro';
+import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { BiPhotoAlbum } from '@react-icons/all-files/bi/BiPhotoAlbum';
