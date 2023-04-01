@@ -32,8 +32,8 @@ export default function StageTheme() {
   }, []);
 
   const navigate = useNavigate();
-  const goStage = (stageNum: number) => {
-    navigate(`/map/${stageNum}`, { state: { stageNum } });
+  const goStage = (stageInfo: [number, string, string]) => {
+    navigate(`/map/${stageInfo[0]}`, { state: { stageInfo } });
   };
 
   return (
@@ -41,7 +41,13 @@ export default function StageTheme() {
       {stageDatas?.map((stageData, index) => (
         <S.StageData
           key={stageData.stage.stageId}
-          onClick={() => goStage(stageData.stage.stageId)}
+          onClick={() =>
+            goStage([
+              stageData.stage.stageId,
+              stageData.stage.stageName,
+              stageData.stage.description,
+            ])
+          }
         >
           <S.BgImg style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }} />
           <S.StageNameDescriptionBox>
