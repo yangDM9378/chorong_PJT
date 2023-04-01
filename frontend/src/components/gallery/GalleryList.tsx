@@ -29,6 +29,6 @@ export default function GalleryList() {
 
 const S = {
   Container: styled.div`
-    ${tw`grid	m-auto gap-2 grid-cols-3  overflow-auto	p-2`}
+    ${tw`h-[64%] flex flex-wrap overflow-auto	p-3`}
   `,
 };
