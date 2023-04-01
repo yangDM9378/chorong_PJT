@@ -1,10 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setarStar } from '../../api/arApi';
-import { AppState } from '../../store';
-import { CulturalPropertyData } from '../../types/culturalpropertytype';
 
 export default function ArPage() {
   const navigate = useNavigate();

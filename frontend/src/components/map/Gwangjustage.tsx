@@ -7,36 +7,14 @@ import { Feature, Geometry, GeoJsonObject } from 'geojson';
 import L, { StyleFunction, Icon, LatLngTuple } from 'leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getMapData } from '../../api/mapApi';
+import {
+  GwangjustageProps,
+  MapResult,
+  RegionProperties,
+} from '../../types/map';
 
-interface RegionProperties {
-  name: string;
-}
-
-interface MapResult {
-  culturalPropertyId: number;
-  nameKo: string;
-  latitude: number;
-  longitude: number;
-  pinImage: string;
-}
-
-export default function Gwangjustage() {
-  // 데이터 가져오기
-  const [mapDatas, setMapDatas] = useState<MapResult[] | null>([]);
-  const location = useLocation();
-  const { stageNum } = location.state;
-
-  useEffect(() => {
-    if (stageNum === undefined) return;
-    const getMapDatas = async () => {
-      const response = await getMapData(stageNum);
-      if (response) {
-        setMapDatas(response.result);
-      }
-    };
-    getMapDatas();
-  }, [stageNum]);
-
+export default function Gwangjustage(props: GwangjustageProps) {
+  const { mapDatas } = props;
   // 지역별 스타일 지정
   const regionStyle: StyleFunction<any> = (
     feature: Feature<Geometry, RegionProperties> | undefined,
@@ -62,7 +40,7 @@ export default function Gwangjustage() {
         zoomControl={false}
         dragging={false}
         doubleClickZoom={false}
-        style={{ height: '60vh', width: '100vw' }}
+        style={{ height: '50vh', width: '100vw' }}
       >
         <GeoJSON
           data={gwangjugeojson as unknown as GeoJsonObject}
@@ -90,7 +68,6 @@ export default function Gwangjustage() {
           );
         })}
       </MapContainer>
-      111
     </div>
   );
 }

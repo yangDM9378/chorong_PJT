@@ -33,8 +33,8 @@ export default function StageTheme() {
   }, []);
 
   const navigate = useNavigate();
-  const goStage = (stageNum: number) => {
-    navigate(`/map/${stageNum}`, { state: { stageNum } });
+  const goStage = (stageInfo: [number, string, string]) => {
+    navigate(`/map/${stageInfo[0]}`, { state: { stageInfo } });
   };
 
   return (

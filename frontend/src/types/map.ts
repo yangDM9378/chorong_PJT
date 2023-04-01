@@ -4,10 +4,19 @@ export interface MapData {
   result: MapResult[];
 }
 
-interface MapResult {
+export interface MapResult {
   culturalPropertyId: number;
   nameKo: string;
   latitude: number;
   longitude: number;
   pinImage: string;
+  starCount: number;
+}
+
+export interface RegionProperties {
+  name: string;
+}
+
+export interface GwangjustageProps {
+  mapDatas: MapResult[] | null;
 }
