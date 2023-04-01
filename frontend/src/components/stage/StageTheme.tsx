@@ -79,7 +79,7 @@ export default function StageTheme() {
 
 const S = {
   Container: styled.div`
-    ${tw`h-[65vh] pt-[2vh]`}
+    ${tw`h-[65vh]`}
   `,
   StageTheme: styled.button`
     ${tw`py-[3vh] relative`}
@@ -88,7 +88,7 @@ const S = {
     ${tw` mx-[3vw] pl-[5vw] bg-white rounded-[2vh] w-[94vw] pt-[2vh] pb-[3vh] shadow-lg`}
   `,
   NameStar: styled.div`
-    ${tw`flex flex-col border-l border-spacing-1 border-solid border-l-black ml-[20vw] pl-[3vw] `}
+    ${tw`flex flex-col border-l border-spacing-1 border-solid border-l-black ml-[24vw] pl-[3vw] `}
   `,
   Name: styled.p`
     ${tw`text-[3vh] font-bold flex`}

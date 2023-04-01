@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import StageHeader from '../../components/stage/StageHeader';
+// import StageHeader from '../../components/stage/StageHeader';
 import StageTheme from '../../components/stage/StageTheme';
+import Header from '../../components/common/profile/Header';
 
 export default function StagePage() {
   return (
     <S.MainPage>
-      <StageHeader />
+      <Header />
       <StageTheme />
     </S.MainPage>
   );
@@ -15,6 +16,6 @@ export default function StagePage() {
 
 const S = {
   MainPage: styled.div`
-    ${tw`bg-[#E5E5E5] h-[100vh]`}
+    ${tw`bg-maingray h-[100vh]`}
   `,
 };
