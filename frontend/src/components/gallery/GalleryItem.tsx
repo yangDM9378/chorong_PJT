@@ -11,6 +11,6 @@ export default function GalleryItem({ photo }: Photo) {
 
 const S = {
   Card: styled.img`
-    ${tw`flex rounded-[2.5vh] max-w-[50%] p-2 h-[33vw]`}
+    ${tw`flex rounded-[2.5vh] max-w-[50%] p-1 h-[35vw]`}
   `,
 };
