@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -40,35 +39,38 @@ export default function StageTheme() {
   return (
     <S.Container>
       {stageDatas?.map((stageData, index) => (
-        <S.StageTheme>
-          <button
-            type="button"
-            key={stageData.stage.stageId}
-            onClick={() => goStage(stageData.stage.stageId)}
-          >
-            <S.MainContainer>
-              <S.NameStar>
-                <S.Name>{stageData.stage.stageName}</S.Name>
-                <S.Star>
-                  <img src="/main/star.png" alt="/main/star.png" />
-                  <S.StarCnt>
-                    {stageData.starCount}/{stageData.stage.targetStarCount}
-                  </S.StarCnt>
-                </S.Star>
-              </S.NameStar>
-              <S.BgImg
-                style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }}
-              />
-              {/* <div style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }} /> */}
-            </S.MainContainer>
-            {/* 별 다 획득시
+        <S.StageTheme
+          key={stageData.stage.stageId}
+          onClick={() =>
+            goStage([
+              stageData.stage.stageId,
+              stageData.stage.stageName,
+              stageData.stage.description,
+            ])
+          }
+        >
+          <S.MainContainer>
+            <S.NameStar>
+              <S.Name>{stageData.stage.stageName}</S.Name>
+              <S.Star>
+                <img src="/main/star.png" alt="/main/star.png" />
+                <S.StarCnt>
+                  {stageData.starCount}/{stageData.stage.targetStarCount}
+                </S.StarCnt>
+              </S.Star>
+            </S.NameStar>
+            <S.BgImg
+              style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }}
+            />
+            {/* <div style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }} /> */}
+          </S.MainContainer>
+          {/* 별 다 획득시
           {stageData.starCount === stageData.stage.targetStarCount && (
             <div>
               <img src="/main/star.png" alt="/main/star.png" />
               <p>Clear</p>
             </div>
           )} */}
-          </button>
         </S.StageTheme>
       ))}
     </S.Container>
