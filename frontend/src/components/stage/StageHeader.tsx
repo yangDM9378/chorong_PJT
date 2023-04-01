@@ -35,32 +35,23 @@ export default function StageHeader() {
     <S.Container>
       {userMe ? (
         <div>
-          <S.Nickname>{userMe.nickname}</S.Nickname>
-          <S.Email>{userMe.email}</S.Email>
+          <div>{userMe.nickname}</div>
+          <div>{userMe.email}</div>
         </div>
       ) : (
         <div>Loading...</div>
       )}
-      <S.Button>
+      <div>
         <button type="button" onClick={goGallery}>
           갤러리
         </button>
-      </S.Button>
+      </div>
     </S.Container>
   );
 }
 
 const S = {
   Container: styled.div`
-    ${tw`flex justify-between items-center bg-white w-[90vw] h-[12vh] rounded-3xl mt-[3vh] px-[8vw]`}
-  `,
-  Nickname: styled.div`
-    ${tw`text-[3vh] font-bold`}
-  `,
-  Email: styled.div`
-    ${tw`text-[2vh]`}
-  `,
-  Button: styled.div`
-    ${tw`w-[22vw] h-[6vh] flex justify-center items-center border-[326E6C] border-[1vw] rounded-lg`}
+    ${tw`h-[35vh] bg-white w-full`}
   `,
 };

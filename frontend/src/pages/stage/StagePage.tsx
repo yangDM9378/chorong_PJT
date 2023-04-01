@@ -15,6 +15,6 @@ export default function StagePage() {
 
 const S = {
   MainPage: styled.div`
-    ${tw`bg-[#E5E5E5] flex flex-col items-center w-full h-[100vh]`}
+    ${tw`bg-[#E5E5E5] h-[100vh]`}
   `,
 };
