@@ -2,16 +2,20 @@
 /* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 import Modal from 'react-modal';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../../api/userApi';
+
 // import styled from 'styled-components';
 // import tw from 'twin.macro';
 
 type ModalProps = {
   isOpen: boolean;
   close: () => void;
+  setModalSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type SignInFormData = {
@@ -24,7 +28,11 @@ interface SignInData {
   password: string;
 }
 
-export default function SignInModal({ isOpen, close }: ModalProps) {
+export default function SignInModal({
+  isOpen,
+  close,
+  setModalSignUp,
+}: ModalProps) {
   const {
     register,
     handleSubmit,
@@ -60,6 +68,13 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
     process.env.REACT_APP_OAUTH_KAKAO_HOSTNAME +
     'kakao?redirect_uri=' +
     process.env.REACT_APP_OAUTH_KAKAO_REDIRECT_URI;
+
+  // 계정 만들기 부분
+  const openModalSignUp = () => {
+    setModalSignUp(true);
+    reset();
+    close();
+  };
 
   return (
     <Modal
@@ -101,17 +116,21 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
             {...register('password', { required: true })}
           />
           <div className="text-center">
-            <button
-              type="submit"
-              className="w-64 py-3 text-xl text-white bg-mainred rounded-2xl"
-            >
-              Submit
-            </button>
+            <Button type="submit" className="bg-subblue">
+              로그인
+            </Button>
           </div>
         </form>
-        <a href={kakaoOauth}>
-          <div>카카오 로그인 </div>
-        </a>
+        <div className="text-center">
+          <a href={kakaoOauth}>
+            <Button className="bg-yellow-300 my-4">카카오 로그인 </Button>
+          </a>
+        </div>
+        <div className="text-center">
+          <button type="button" onClick={openModalSignUp}>
+            계정 만들기
+          </button>
+        </div>
       </div>
     </Modal>
   );
@@ -130,3 +149,7 @@ const customStyles = {
     padding: '5%',
   },
 };
+
+const Button = styled.button`
+  ${tw`w-64 py-3 text-xl text-white  rounded-2xl`}
+`;
