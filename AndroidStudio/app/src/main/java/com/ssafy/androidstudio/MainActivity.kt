@@ -13,7 +13,8 @@ import com.ssafy.androidstudio.hellogeospatial.HelloGeoActivity
 import com.ssafy.androidstudio.recyclingtrashcans.TrashcanGeoActivity
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var webview: WebView
+    private lateinit var webViewManager : WebViewManager
+    private lateinit var webview : WebView
     private var backBtnTime: Long = 0
 
     inner class WebAppInterface(private val mContext: Context) {
@@ -29,7 +30,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        webview = findViewById(R.id.webview)
+        webViewManager = WebViewManager(this)
+        webview = webViewManager.getWebView()
+//        webview = findViewById(R.id.webview)
 
         webview.apply {
             webViewClient = WebViewClient()
