@@ -13,6 +13,7 @@ export async function signUp(data: SignUpData): Promise<void> {
 export async function signIn(data: SignInData): Promise<string | null> {
   try {
     const response = await authApi.post('/users/login', data);
+    console.log(response.data);
     return response.data.accessToken;
   } catch (error) {
     console.error(error);
