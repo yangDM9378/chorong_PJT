@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import tw from 'twin.macro';
+import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { BiPhotoAlbum } from '@react-icons/all-files/bi/BiPhotoAlbum';
 import { getMe } from '../../../api/userApi';
 
 const drift = keyframes`
@@ -37,10 +39,10 @@ const Wave = styled.div`
   opacity: 0.4;
   position: absolute;
   top: 7.5vh;
-  left: 25vh;
+  left: 31vh;
   background: #0af;
-  width: 50vh;
-  height: 50vh;
+  width: 56vh;
+  height: 56vh;
   margin-left: -250px;
   margin-top: -250px;
   transform-origin: 50% 48%;
@@ -75,6 +77,12 @@ export default function Header() {
     };
     getMeData();
   }, []);
+
+  // 갤러리 클릭
+  const navigate = useNavigate();
+  const goGallery = () => {
+    navigate(`/gallery/${userMe?.userId}`);
+  };
   return (
     <S.Container>
       {/* <S.BackImage
@@ -95,8 +103,15 @@ export default function Header() {
           <div className="text-[1.2vh]">{userMe?.email}</div>
         </S.TextBox>
       </S.NameCircle>
-      <S.GalleryButton style={{ top: '12vh', left: '10vh' }}>
-        갤러리
+      <S.GalleryButton
+        style={{
+          top: '12vh',
+          left: '10vh',
+          border: 'solid 1.5vh #fbfcb9be',
+        }}
+        onClick={goGallery}
+      >
+        <BiPhotoAlbum />
       </S.GalleryButton>
     </S.Container>
   );
@@ -110,7 +125,7 @@ const S = {
     ${tw`h-[90%]  relative overflow-hidden `}
   `,
   NameCircle: styled.div`
-    ${tw`absolute rounded-[100%] bg-mainblue w-[20vh] h-[20vh] flex flex-col items-center justify-center text-white  `}
+    ${tw`absolute rounded-[100%] bg-[rgba(255, 205, 243, 0.9);] w-[20vh] h-[20vh] flex flex-col items-center justify-center text-white  `}
   `,
   TextBox: styled.div`
     ${tw`w-[60%] h-[80%] flex flex-col items-start justify-center ml-[4vh]`}

@@ -50,9 +50,6 @@ export default function SignInModal({ isOpen, close }: ModalProps) {
         localStorage.setItem('accesstoken', accesstoken);
         gomain();
         close();
-        alert('로그인 성공');
-      } else {
-        alert('로그인 실패');
       }
     },
     [close],
