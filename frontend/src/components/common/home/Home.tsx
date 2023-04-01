@@ -34,6 +34,7 @@ export default function Home() {
         close={() => {
           setModalSignIn(false);
         }}
+        setModalSignUp={setModalSignUp}
       />
       <SignUpModal
         isOpen={modalSignUp}

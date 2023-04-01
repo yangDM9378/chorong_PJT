@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { signUp } from '../../../api/userApi';
@@ -38,7 +39,10 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
   const onSubmit = useCallback(
     async (formData: SignUpFormData) => {
       if (formData.password !== formData.passwordCheck) {
-        alert('비밀번호를 다시 확인해주세요');
+        Swal.fire({
+          text: '비밀번호를 다시 확인해주세요',
+          confirmButtonColor: 'rgb(0, 170, 255)',
+        });
         return;
       }
       const data: SignUpData = {
@@ -49,7 +53,10 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
       await signUp(data);
       reset();
       close();
-      alert('회원가입이 완료되었습니다');
+      Swal.fire({
+        text: '회원가입이 완료되었습니다',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
     },
     [close],
   );
@@ -134,9 +141,9 @@ export default function SignUpModal({ isOpen, close }: ModalProps) {
           <div className="text-center ">
             <button
               type="submit"
-              className="w-64 py-3 text-xl text-white bg-mainred rounded-2xl"
+              className="w-64 py-3 text-xl text-white bg-subblue rounded-2xl"
             >
-              Create Account
+              제출
             </button>
           </div>
         </form>
