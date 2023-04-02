@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import tw from 'twin.macro';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { BiPhotoAlbum } from '@react-icons/all-files/bi/BiPhotoAlbum';
@@ -99,8 +99,8 @@ export default function Header() {
       {/* </S.BackImage> */}
       <S.NameCircle style={{ top: '12vh', left: '-5vh' }}>
         <S.TextBox>
-          <div className="text-[3vh]">{userMe?.nickname}</div>
-          <div className="text-[1.2vh]">{userMe?.email}</div>
+          <div className="text-[2.4vh]">{userMe?.nickname}</div>
+          {/* <div className="text-[1.2vh]">{userMe?.email}</div> */}
         </S.TextBox>
       </S.NameCircle>
       <S.GalleryButton
@@ -128,7 +128,7 @@ const S = {
     ${tw`absolute rounded-[100%] bg-[rgba(255, 205, 243, 0.9);] w-[20vh] h-[20vh] flex flex-col items-center justify-center text-white  `}
   `,
   TextBox: styled.div`
-    ${tw`w-[60%] h-[80%] flex flex-col items-start justify-center ml-[4vh]`}
+    ${tw`w-[60%] h-[80%] flex flex-col items-start justify-center ml-[4vh] p-[1.5vh]`}
   `,
   GalleryButton: styled.div`
     ${tw`absolute rounded-[100%] bg-white  w-[8vh] h-[8vh] flex items-center justify-center`}
