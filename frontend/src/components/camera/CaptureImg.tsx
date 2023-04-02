@@ -29,9 +29,7 @@ export default function CaptureImg() {
   const imgSrc = URL.createObjectURL(img!);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  let { culturalId, poseId } = location.state;
-  culturalId = 3;
-  poseId = 3;
+  const { culturalId, poseId } = location.state;
   console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
@@ -87,14 +85,14 @@ export default function CaptureImg() {
         );
         const prediction = await model.predict(posenetOutput);
 
-        console.log(prediction[poseId].probability);
+        console.log(prediction[poseId - 1].probability);
         // for (let i = 0; i < maxPredictions; i += 1) {
         //   const classPrediction = `${prediction[i].className}: ${prediction[
         //     i
         //   ].probability.toFixed(2)}`;
         // }
-        if (prediction[poseId].probability > 0.9) {
-          console.log(prediction[poseId].probability);
+        if (prediction[poseId - 1].probability > 0.9) {
+          console.log(prediction[poseId - 1].probability);
           setPoseCompleted(true);
         }
       }
