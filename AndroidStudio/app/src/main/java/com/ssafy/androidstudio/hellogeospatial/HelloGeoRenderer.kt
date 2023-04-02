@@ -23,6 +23,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.webkit.WebView
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
@@ -38,13 +39,14 @@ import com.ssafy.androidstudio.common.helpers.TrackingStateHelper
 import com.ssafy.androidstudio.common.samplerender.*
 import com.ssafy.androidstudio.common.samplerender.arcore.BackgroundRenderer
 import com.google.ar.core.exceptions.CameraNotAvailableException
+import com.ssafy.androidstudio.MainActivity
 import java.io.IOException
 import java.util.*
 import com.ssafy.androidstudio.R
 
 
 
-class HelloGeoRenderer(val activity: HelloGeoActivity) :
+class HelloGeoRenderer(val activity: HelloGeoActivity, val accessToken: String?, val culturalProperty: String?) :
   SampleRender.Renderer, DefaultLifecycleObserver {
   //<editor-fold desc="ARCore initialization" defaultstate="collapsed">
   companion object {
@@ -222,7 +224,7 @@ class HelloGeoRenderer(val activity: HelloGeoActivity) :
         val consoleSwitch: Switch = activity.findViewById(R.id.console_switch)
         val statusText: TextView = activity.findViewById(R.id.statusText)
         val nearestDist = nearestAnchorIndex.second
-        if (nearestDist != null && nearestDist < 10) {
+        if (nearestDist != null && nearestDist < 30) {
           collectButton.visibility = View.VISIBLE
           collectButton.setOnClickListener() {
             collectButton.visibility = View.INVISIBLE
@@ -326,7 +328,7 @@ class HelloGeoRenderer(val activity: HelloGeoActivity) :
        val bundle = Bundle()
        bundle.putString("time", elapsedTime)
        bundle.putString("distance", elapsedDist)
-       val fragInfo = SuccessfulFragment()
+       val fragInfo = SuccessfulFragment(accessToken, culturalProperty)
        fragInfo.isCancelable = false
        fragInfo.arguments = bundle
        fragInfo.show(activity.supportFragmentManager, "success-dialog")

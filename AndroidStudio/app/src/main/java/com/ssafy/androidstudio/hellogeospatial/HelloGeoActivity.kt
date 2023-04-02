@@ -15,9 +15,11 @@
  */
 package com.ssafy.androidstudio.hellogeospatial;
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.WebView
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
@@ -46,11 +48,9 @@ class HelloGeoActivity : AppCompatActivity() {
   lateinit var arCoreSessionHelper: ARCoreSessionLifecycleHelper
   lateinit var view: HelloGeoView
   lateinit var renderer: HelloGeoRenderer
-
   override fun onCreate(savedInstanceState: Bundle?) {
     // super.onCreate(savedInstanceState)은 부모 클래스의 onCreate 메서드를 호출하는 것
     super.onCreate(savedInstanceState)
-
     // Setup ARCore session lifecycle helper and configuration.
     arCoreSessionHelper = ARCoreSessionLifecycleHelper(this)
     // If Session creation or Session.resume() fails, display a message and log detailed
@@ -80,7 +80,11 @@ class HelloGeoActivity : AppCompatActivity() {
     lifecycle.addObserver(arCoreSessionHelper)
 
     // Set up the Hello AR renderer.
-    renderer = HelloGeoRenderer(this)
+    val intent = getIntent()
+    val accessToken = intent.getStringExtra("accessToken")
+    val culturalProperty = intent.getStringExtra("culturalProperty")
+
+    renderer = HelloGeoRenderer(this, accessToken, culturalProperty)
     lifecycle.addObserver(renderer)
 
     // Set up Hello AR UI.

@@ -13,16 +13,18 @@ import com.ssafy.androidstudio.hellogeospatial.HelloGeoActivity
 import com.ssafy.androidstudio.recyclingtrashcans.TrashcanGeoActivity
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var webViewManager : WebViewManager
     private lateinit var webview : WebView
     private var backBtnTime: Long = 0
 
     inner class WebAppInterface(private val mContext: Context) {
         @JavascriptInterface
         fun showGame(message: String) {
-            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+            var data = message.split("\n")
+            Toast.makeText(mContext, data[0], Toast.LENGTH_SHORT).show()
 //            val intent = Intent(mContext, TrashcanGeoActivity::class.java)
             val intent = Intent(mContext, HelloGeoActivity::class.java)
+            intent.putExtra("accessToken", data[0])
+            intent.putExtra("culturalProperty", data[1])
             mContext.startActivity(intent)
         }
     }
@@ -30,9 +32,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        webViewManager = WebViewManager(this)
-        webview = webViewManager.getWebView()
-//        webview = findViewById(R.id.webview)
+        webview = findViewById(R.id.webview)
 
         webview.apply {
             webViewClient = WebViewClient()
@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         webview.loadUrl("https://j8c101.p.ssafy.io/")
-//        webview.loadUrl("http://192.168.100.130:3000")
 
         webview.webViewClient = WebViewClient()
         webview.webChromeClient = WebChromeClient()
@@ -58,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val curTime = System.currentTimeMillis()
         val gapTime = curTime - backBtnTime
+
         if (webview.canGoBack()) {
             webview.goBack()
         } else if (0 <= gapTime && 2000 >= gapTime) {
