@@ -131,7 +131,7 @@ const S = {
   Button: styled.button<Tab>`
     ${(props) =>
       props.isCurTab
-        ? tw`bg-white p-[1.3vh] rounded-t-[1vh] text-black border-t-2 border-r-2 border-l-2 border-solid border-mainblue`
-        : tw`bg-mainblue p-[1.3vh] rounded-t-[1vh] text-white`}
+        ? tw`bg-white p-[1.3vh] rounded-t-[1vh] text-black border-t-2 border-r-2 border-l-2 border-solid border-subblue`
+        : tw`bg-subblue p-[1.3vh] rounded-t-[1vh] text-white`}
   `,
 };
