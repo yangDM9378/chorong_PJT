@@ -32,65 +32,79 @@ export default function StageTheme() {
   }, []);
 
   const navigate = useNavigate();
-  const goStage = (stageNum: number) => {
-    navigate(`/map/${stageNum}`, { state: { stageNum } });
+  const goStage = (stageInfo: [number, string, string]) => {
+    navigate(`/map/${stageInfo[0]}`, { state: { stageInfo } });
   };
 
   return (
-    <div>
+    <S.Container>
       {stageDatas?.map((stageData, index) => (
-        <S.StageData
+        <S.StageTheme
           key={stageData.stage.stageId}
-          onClick={() => goStage(stageData.stage.stageId)}
+          onClick={() =>
+            goStage([
+              stageData.stage.stageId,
+              stageData.stage.stageName,
+              stageData.stage.description,
+            ])
+          }
         >
-          <S.BgImg style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }} />
-          <S.StageNameDescriptionBox>
-            <S.StageName>{stageData.stage.stageName}</S.StageName>
-            <S.StageDescription>
-              {stageData.stage.description}
-            </S.StageDescription>
-          </S.StageNameDescriptionBox>
-          <S.Star>
-            <img src="/main/star.png" alt="/main/star.png" />
-            <p>
-              {stageData.starCount}/{stageData.stage.targetStarCount}
-            </p>
-          </S.Star>
-          {/* 별 다 획득시 */}
+          <S.MainContainer>
+            <S.NameStar>
+              <S.Name>{stageData.stage.stageName}</S.Name>
+              <S.Star>
+                <img src="/main/star.png" alt="/main/star.png" />
+                <S.StarCnt>
+                  {stageData.starCount}/{stageData.stage.targetStarCount}
+                </S.StarCnt>
+              </S.Star>
+            </S.NameStar>
+            <S.BgImg
+              style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }}
+            />
+            {/* <div style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }} /> */}
+          </S.MainContainer>
+          {/* 별 다 획득시
           {stageData.starCount === stageData.stage.targetStarCount && (
-            <S.StarSuccess>
+            <div>
               <img src="/main/star.png" alt="/main/star.png" />
               <p>Clear</p>
-            </S.StarSuccess>
-          )}
-        </S.StageData>
+            </div>
+          )} */}
+        </S.StageTheme>
       ))}
-    </div>
+    </S.Container>
   );
 }
 
 const S = {
-  StageData: styled.div`
-    ${tw`relative flex items-center justify-around w-[90vw] h-[20vh] rounded-[4vw] mt-[3vh] px-[3vh] z-[1]`}
+  Container: styled.div`
+    ${tw`h-[65vh]`}
   `,
-  BgImg: styled.div`
-    ${tw`absolute top-0 left-0 w-full h-full opacity-50 bg-black z-[-1] rounded-[4vw]`}
-    background-size: cover;
-    background-position: center;
+  StageTheme: styled.button`
+    ${tw`py-[3vh] relative`}
   `,
-  StageNameDescriptionBox: styled.div`
-    ${tw`w-[50vw]`}
+  MainContainer: styled.div`
+    ${tw` mx-[3vw] pl-[5vw] bg-white rounded-[2vh] w-[94vw] pt-[2vh] pb-[3vh] shadow-lg`}
   `,
-  StageName: styled.p`
-    ${tw` text-[3vh] font-bold`}
+  NameStar: styled.div`
+    ${tw`flex flex-col border-l border-spacing-1 border-solid border-l-black ml-[24vw] pl-[3vw] `}
   `,
-  StageDescription: styled.p`
-    ${tw`mt-[1vh] font-semibold text-[2vh]`}
+  Name: styled.p`
+    ${tw`text-[3vh] font-bold flex`}
   `,
   Star: styled.div`
     ${tw`flex items-center`}
   `,
-  StarSuccess: styled.div`
-    ${tw`absolute flex items-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 z-[2]`}
+  StarCnt: styled.div`
+    ${tw`m-[2vw] pt-[3px]`}
   `,
+  BgImg: styled.div`
+    ${tw`absolute w-[20vh] h-[20vh] rounded-full transform -translate-x-1/2 -translate-y-1/2 top-1/2`}
+    background-repeat: no-repeat;
+    background-size: cover;
+  `,
+  // StarSuccess: styled.div`
+  //   ${tw`absolute flex items-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 z-[2]`}
+  // `,
 };
