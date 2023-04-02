@@ -101,8 +101,8 @@ export default function Camera() {
           isOpen={modalIsOpen}
           onRequestClose={handleClose}
         >
-          {/* <img src="../../../public/pose/manse.png" alt={pose?.poseName} /> */}
-          <img src={pose?.posePicture} alt={pose?.poseName} />
+          <img src="/pose/manse.png" alt={pose?.poseName} />
+          {/* <img src={pose?.posePicture} alt={pose?.poseName} /> */}
         </ReactModal>
       )}
     </div>
