@@ -16,6 +16,12 @@ export default function CulturalPropertyHeader() {
   const starQuiz = culturalPropertydata?.result.starCountRes.starQuiz ? 1 : 0;
   const starCnt = starAr + starPose + starQuiz;
 
+  const goGps = () => {
+    (window as any).Android.showGps(
+      `${culturalPropertydata?.result.culturalProperty.latitude}|${culturalPropertydata?.result.culturalProperty.longitude}|${culturalPropertydata?.result.culturalProperty.nameKo}|poi`,
+    );
+  };
+
   return (
     <div className="h-[40%]">
       <S.Container
@@ -37,6 +43,10 @@ export default function CulturalPropertyHeader() {
             </S.Name>
             <S.Address>
               {culturalPropertydata?.result.culturalProperty.address}
+              <S.Position onClick={goGps}>
+                <S.MapMark src="/detail/mapmarker2.png" alt="위치" />
+                <div className="text-[1vh]">찾아가기</div>
+              </S.Position>
             </S.Address>
           </S.InfoContainer>
         </div>
@@ -52,9 +62,15 @@ const S = {
     ${tw`absolute bottom-0 p-[2vh]`}
   `,
   Name: styled.div`
-    ${tw`font-bold text-white text-[3vh] mb-[1vh]`}
+    ${tw`font-bold text-white text-[3vh] mb-[1vh] `}
   `,
   Address: styled.div`
-    ${tw`font-semibold text-white text-[1.5vh]`}
+    ${tw`font-semibold text-white text-[1.5vh] flex items-center`}
+  `,
+  Position: styled.div`
+    ${tw`flex flex-col items-center justify-center`}
+  `,
+  MapMark: styled.img`
+    ${tw`w-[5vh] h-[4vh] pl-[1vh]`}
   `,
 };
