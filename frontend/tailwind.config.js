@@ -11,6 +11,8 @@ module.exports = {
         mainblue: '#0F3491',
         maingray: '#F5F5F5',
         subblue: 'rgb(0, 170, 255)',
+        subpink: 'rgb(255, 205, 243)',
+        subyellow: '#fbfcb9be',
       },
     },
     // 기존에 없는 거 추가하기

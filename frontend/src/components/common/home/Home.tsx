@@ -66,6 +66,6 @@ const S = {
     ${tw`fixed left-0 w-full h-full top-5`}
   `,
   ButtonContainer: styled.div`
-    ${tw`absolute flex flex-col gap-4 px-2 py-3 top-[80vh] text-white w-[70%] rounded-lg border-4 border-[#e0c3fc] bg-[rgba(0,0,0,0.3)]`}
+    ${tw`absolute flex flex-col gap-4 px-2 py-3 top-[80vh] text-white w-[70%] rounded-lg border-4 border-subyellow bg-[rgba(0,0,0,0.3)]`}
   `,
 };

@@ -41,7 +41,7 @@ export default function StageFooter(props: GwangjustageProps) {
 
 const S = {
   FooterContainer: styled.div`
-    ${tw` bg-mainred rounded-t-[3vh] pt-[3vh]`}
+    ${tw` bg-subpink rounded-t-[3vh] pt-[3vh]`}
   `,
   FooterBox: styled.div`
     ${tw`min-h-[40vh] w-full bg-white rounded-t-[3vh]`}

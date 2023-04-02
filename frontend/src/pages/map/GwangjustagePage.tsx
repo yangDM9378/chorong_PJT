@@ -36,6 +36,6 @@ export default function GwangjustagePage() {
 
 const S = {
   Container: styled.div`
-    ${tw`max-h-[100vh] w-full bg-[#DDDDDD]`}
+    ${tw`max-h-[100vh] w-full bg-maingray`}
   `,
 };
