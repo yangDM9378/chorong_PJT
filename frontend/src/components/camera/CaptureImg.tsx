@@ -31,7 +31,7 @@ export default function CaptureImg() {
 
   let { culturalId, poseId } = location.state;
   culturalId = 3;
-  poseId = 0;
+  poseId = 3;
   console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
@@ -67,7 +67,7 @@ export default function CaptureImg() {
   };
 
   const predict = () => {
-    const URL = 'https://teachablemachine.withgoogle.com/models/0W8H0j0wlf/';
+    const URL = 'https://teachablemachine.withgoogle.com/models/6I9Bye3ym/';
 
     let model: tmPose.CustomPoseNet | null;
     let maxPredictions: number;
@@ -111,12 +111,6 @@ export default function CaptureImg() {
     <div>
       <img src={imgSrc} ref={imgRef} alt="capture img" />
       <div className="flex justify-center gap-10 m-5">
-        <S.Btn>
-          <button type="button" onClick={goBack}>
-            다시 찍기
-          </button>
-        </S.Btn>
-
         {poseCompleted ? (
           <S.Btn>
             <button type="button" onClick={submitImg}>
@@ -124,7 +118,11 @@ export default function CaptureImg() {
             </button>
           </S.Btn>
         ) : (
-          <p />
+          <S.Btn>
+            <button type="button" onClick={goBack}>
+              다시 찍기
+            </button>
+          </S.Btn>
         )}
       </div>
     </div>
@@ -132,8 +130,6 @@ export default function CaptureImg() {
 }
 const S = {
   Btn: styled.button`
-    ${tw`
-    flex overflow-hidden m-1 p-1 border-double border-4 rounded px-8 py-1
-    `}
+    ${tw`w-[45vw] h-[6vh] bg-[#5C1F1F] rounded-full text-white text-[2vh]`}
   `,
 };

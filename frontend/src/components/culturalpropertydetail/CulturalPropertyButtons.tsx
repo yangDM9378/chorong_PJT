@@ -24,7 +24,9 @@ export default function CulturalPropertyButtons() {
     const nameKo = culturalPropertydata?.result.culturalProperty.nameKo;
     navigate(`/quiz/${region}/${nameKo}`);
   };
-  const goCamera = () => {};
+  const goCamera = () => {
+    navigate(`/camera`);
+  };
 
   return (
     <S.Container>

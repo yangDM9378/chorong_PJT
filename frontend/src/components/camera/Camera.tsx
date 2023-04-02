@@ -90,7 +90,18 @@ export default function Camera() {
       </div>
 
       {modalIsOpen && (
-        <ReactModal isOpen={modalIsOpen} onRequestClose={handleClose}>
+        <ReactModal
+          style={{
+            overlay: { backgroundColor: 'transperent' },
+            content: {
+              border: '0px',
+              background: 'transperent',
+            },
+          }}
+          isOpen={modalIsOpen}
+          onRequestClose={handleClose}
+        >
+          {/* <img src="../../../public/pose/manse.png" alt={pose?.poseName} /> */}
           <img src={pose?.posePicture} alt={pose?.poseName} />
         </ReactModal>
       )}
