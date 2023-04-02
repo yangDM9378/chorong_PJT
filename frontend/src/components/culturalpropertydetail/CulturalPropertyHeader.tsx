@@ -17,7 +17,7 @@ export default function CulturalPropertyHeader() {
   const starCnt = starAr + starPose + starQuiz;
 
   const goGps = () => {
-    (window as any).Android.showGps(
+    (window as any).Android.showGPS(
       `${culturalPropertydata?.result.culturalProperty.latitude}|${culturalPropertydata?.result.culturalProperty.longitude}|${culturalPropertydata?.result.culturalProperty.nameKo}|poi`,
     );
   };
@@ -68,9 +68,9 @@ const S = {
     ${tw`font-semibold text-white text-[1.5vh] flex items-center`}
   `,
   Position: styled.div`
-    ${tw`flex flex-col items-center justify-center`}
+    ${tw`flex flex-col items-center justify-center pl-[1vh]`}
   `,
   MapMark: styled.img`
-    ${tw`w-[5vh] h-[4vh] pl-[1vh]`}
+    ${tw`w-[5vh] h-[4vh] `}
   `,
 };

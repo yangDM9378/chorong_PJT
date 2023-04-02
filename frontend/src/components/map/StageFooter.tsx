@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { GwangjustageProps } from '../../types/map';
@@ -9,7 +9,7 @@ export default function StageFooter(props: GwangjustageProps) {
   const { mapDatas } = props;
   const location = useLocation();
   const { stageInfo } = location.state;
-
+  const navigate = useNavigate();
   return (
     <div>
       <S.FooterContainer>
@@ -21,7 +21,14 @@ export default function StageFooter(props: GwangjustageProps) {
           <S.StageDescript>{stageInfo[2]}</S.StageDescript>
           <S.InfoBox>
             {mapDatas?.map((mapData, index) => (
-              <S.CulturalProperty key={mapData.culturalPropertyId}>
+              <S.CulturalProperty
+                key={mapData.culturalPropertyId}
+                onClick={() => {
+                  navigate(
+                    `/culturalpropertydetail/${mapData.culturalPropertyId}`,
+                  );
+                }}
+              >
                 <div>
                   {index + 1}. {mapData.nameKo}
                 </div>

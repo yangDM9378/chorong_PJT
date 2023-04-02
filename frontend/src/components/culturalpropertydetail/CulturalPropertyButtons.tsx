@@ -14,7 +14,7 @@ export default function CulturalPropertyButtons() {
 
   const navigate = useNavigate();
   const goGame = () => {
-    (window as any).Android.showGPS(
+    (window as any).Android.showGame(
       `${localStorage.getItem('accesstoken')}
       ${localStorage.getItem('culturalPropertyId')}`,
     );
