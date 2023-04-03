@@ -63,7 +63,7 @@ export default function Camera() {
         createImageBitmap(blob);
         // const file = new File([blob], 'test2.jpg');
         dispatch(setImg(blob));
-
+        videoRef.current?.pause();
         navigate('/camera/after', {
           state: {
             culturalId: cultural?.culturalPropertyId,
