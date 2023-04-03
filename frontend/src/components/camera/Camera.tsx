@@ -23,9 +23,6 @@ export default function Camera() {
   const pose = value?.result.culturalProperty.pose;
   const cultural = value?.result.culturalProperty;
   const dispatch = useDispatch();
-  const setPlay = () => {
-    videoRef.current?.play();
-  };
   const setCamera = () => {
     setFront((prev) => !prev);
   };
@@ -81,9 +78,6 @@ export default function Camera() {
     <div>
       <video ref={videoRef} />
       <div className="flex justify-center gap-10 m-10">
-        <button type="button" onClick={setPlay}>
-          play
-        </button>
         <CachedIcon fontSize="large" onClick={setCamera} />
 
         <CameraRoundedIcon fontSize="large" onClick={onTakePhotoButtonClick} />
