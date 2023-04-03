@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import tw from 'twin.macro';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { BiPhotoAlbum } from '@react-icons/all-files/bi/BiPhotoAlbum';
+import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut';
 import { getMe } from '../../../api/userApi';
 
 const drift = keyframes`
@@ -83,6 +84,15 @@ export default function Header() {
   const goGallery = () => {
     navigate(`/gallery/${userMe?.userId}`);
   };
+  const logOut = () => {
+    Swal.fire({
+      text: '로그아웃 되었습니다.',
+      confirmButtonColor: 'rgb(0, 170, 255)',
+    }).then(() => {
+      localStorage.removeItem('accesstoken');
+      navigate('/');
+    });
+  };
   return (
     <S.Container>
       {/* <S.BackImage
@@ -108,11 +118,18 @@ export default function Header() {
           top: '12vh',
           left: '10vh',
           border: 'solid 1.5vh #fbfcb9be',
+          width: '8vh',
+          height: '8vh',
         }}
         onClick={goGallery}
       >
         <BiPhotoAlbum />
       </S.GalleryButton>
+      <BiLogOut
+        className="absolute w-[5vh] h-[6vh]"
+        style={{ top: '1vh', left: '41vh', color: '#fbfcb9be' }}
+        onClick={logOut}
+      />
     </S.Container>
   );
 }
@@ -131,6 +148,6 @@ const S = {
     ${tw`w-[60%] h-[80%] flex flex-col items-start justify-center ml-[4vh] p-[1.5vh]`}
   `,
   GalleryButton: styled.div`
-    ${tw`absolute rounded-[100%] bg-white  w-[8vh] h-[8vh] flex items-center justify-center`}
+    ${tw`absolute rounded-[100%] bg-white  flex items-center justify-center`}
   `,
 };

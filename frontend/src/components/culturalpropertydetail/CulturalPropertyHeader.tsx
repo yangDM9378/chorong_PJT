@@ -21,16 +21,19 @@ export default function CulturalPropertyHeader({ isTrue }: IsTrue) {
   const starCnt = starAr + starPose + starQuiz;
 
   const goGps = () => {
-    if (isTrue) {
-      (window as any).Android.showGPS(
-        `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
-      );
-    } else {
-      Swal.fire({
-        text: '문화재에서 너무 먼 거리입니다',
-        confirmButtonColor: 'rgb(0, 170, 255)',
-      });
-    }
+    (window as any).Android.showGPS(
+      `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
+    );
+    // if (isTrue) {
+    //   (window as any).Android.showGPS(
+    //     `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
+    //   );
+    // } else {
+    //   Swal.fire({
+    //     text: '문화재에서 너무 먼 거리입니다',
+    //     confirmButtonColor: 'rgb(0, 170, 255)',
+    //   });
+    // }
   };
 
   return (
