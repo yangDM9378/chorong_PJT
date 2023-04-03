@@ -89,7 +89,7 @@ data class MapArea(
   val locationData: MutableList<LocationData>
 )
 
-class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
+class TrashcanGeoRenderer(val activity: TrashcanGeoActivity, val culturalProperty: String?) :
   SampleRender.Renderer, DefaultLifecycleObserver {
   //<editor-fold desc="ARCore initialization" defaultstate="collapsed">
   companion object {
@@ -102,7 +102,7 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     private const val D2R = Math.PI / 180.0
 
     private const val HOVER_ABOVE_TERRAIN = 0.5  // meters
-    private const val AREA_PROXIMITY_THRESHOLD = 0.3  // kilometers
+    private const val AREA_PROXIMITY_THRESHOLD = 500.0  // kilometers
   }
 
   private lateinit var backgroundRenderer: BackgroundRenderer
@@ -169,8 +169,15 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
       backgroundRenderer.setUseDepthVisualization(render, false)
       backgroundRenderer.setUseOcclusion(render, false)
 
-      processLocationArray("ssafy", activity.resources.getStringArray(R.array.ssafy))
-//      processLocationArray("park_ridge", activity.resources.getStringArray(R.array.park_ridge))
+//      processLocationArray("ssafy", activity.resources.getStringArray(R.array.ssafy))
+      val cpData = activity.resources.getStringArray(R.array.cp)
+      val myInt: Int? = culturalProperty?.toIntOrNull()
+
+      if (myInt != null) {
+        val array = arrayOf(cpData[myInt-1])
+        print(array.toString())
+        processLocationArray("cp${myInt}", array)
+      }
     } catch (e: IOException) {
       Log.e(TAG, "Failed to read a required asset file", e)
     }
@@ -245,6 +252,7 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     // Step 1.1.: Obtain Geospatial information and display it on the map.
     val earth = session.earth
     if (earth?.trackingState == TrackingState.TRACKING) {
+      activity.view.updateStatusTextString("")
       if (areaIndex < 0 && !populating) {
         populating = true
         timer.start()
@@ -257,11 +265,11 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
         heading = cameraGeospatialPose.heading
       )
 
-      if (BuildConfig.BUILD_TYPE.equals("debug")) {
-        activity.view.updateStatusText(earth, cameraGeospatialPose)
-      } else {
-        activity.view.updateStatusTextString("")
-      }
+//      if (BuildConfig.BUILD_TYPE.equals("debug")) {
+//        activity.view.updateStatusText(earth, cameraGeospatialPose)
+//      } else {
+//        activity.view.updateStatusTextString("")
+//      }
     } else if (!BuildConfig.BUILD_TYPE.equals("debug")) {
       activity.view.updateStatusTextString(activity.resources.getString(R.string.calculating))
     }
@@ -306,7 +314,8 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
       lonSum += lon
     }
 
-    mapArea.center = LatLng(latSum / locations.size, lonSum / locations.size)
+//    mapArea.center = LatLng(latSum / locations.size, lonSum / locations.size)
+    mapArea.center = LatLng(latSum, lonSum)
     Log.i(TAG, "$name center ${mapArea.center.latitude} ${mapArea.center.longitude}")
 
     var override = -1

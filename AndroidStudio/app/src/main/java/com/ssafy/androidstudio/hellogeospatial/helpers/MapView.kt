@@ -132,20 +132,37 @@ class MapView(val activity: HelloGeoActivity, val googleMap: GoogleMap) {
     googleMap.addCircle(circleOptions)
   }
 
-  fun generateStars(earth: Earth, meterRadius: Int): Pair<ArrayList<Anchor>, ArrayList<Marker>>{
+  fun generateStars(earth: Earth, meterRadius: Int, culturalProperty: String?): Pair<ArrayList<Anchor>, ArrayList<Marker>>{
     val anchors = arrayListOf<Anchor>()
     val markers = arrayListOf<Marker>()
-    val location = earth.cameraGeospatialPose
+//    val location = earth.cameraGeospatialPose
 
-//    val location = Location("some location").apply {
-////      // 장덕동
-//////      latitude = 35.1936
-//////      longitude = 126.8095
-////
-////      // ssafy logo
+    val location = Location("some location").apply {
+      // 장덕동
+//      latitude = 35.1936
+//      longitude = 126.8095
+
+      // ssafy logo
 //      latitude = 35.205356
 //      longitude = 126.811636
-//    }
+
+      // giseondong
+//      latitude = 35.14891073
+//      longitude = 126.9330876
+
+
+      val myInt: Int? = culturalProperty?.trim()?.toIntOrNull()
+      val cpData = activity.resources.getStringArray(R.array.cp)
+      if (myInt != null) {
+        val cpString = cpData[myInt-1].split("|")
+        latitude = cpString[0].trim().toDouble()
+        longitude = cpString[1].trim().toDouble()
+      }
+
+
+    }
+
+//    35.14891073|126.9330876
     val radiusInDegrees = (meterRadius / 111000f).toDouble()
       for (i in 1..3) {
         var isOutOfBubble = true

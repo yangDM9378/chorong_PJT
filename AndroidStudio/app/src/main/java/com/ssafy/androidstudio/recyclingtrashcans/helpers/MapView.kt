@@ -85,7 +85,7 @@ class MapView(val activity: TrashcanGeoActivity, private val googleMap: GoogleMa
         // Set the camera position with an initial default zoom level.
         setInitialCameraPosition = true
         // 초기 카메라 확대 축소 작을 수록 멀리서 보는 효과가 있음
-        CameraPosition.Builder().zoom(19f).target(position)
+        CameraPosition.Builder().zoom(16f).target(position)
       } else {
         // Set the camera position and keep the same zoom level.
         CameraPosition.Builder()

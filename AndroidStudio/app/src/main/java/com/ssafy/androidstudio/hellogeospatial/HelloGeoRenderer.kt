@@ -224,7 +224,7 @@ class HelloGeoRenderer(val activity: HelloGeoActivity, val accessToken: String?,
         val consoleSwitch: Switch = activity.findViewById(R.id.console_switch)
         val statusText: TextView = activity.findViewById(R.id.statusText)
         val nearestDist = nearestAnchorIndex.second
-        if (nearestDist != null && nearestDist < 30) {
+        if (nearestDist != null && nearestDist < 20) {
           collectButton.visibility = View.VISIBLE
           collectButton.setOnClickListener() {
             collectButton.visibility = View.INVISIBLE
@@ -284,7 +284,7 @@ class HelloGeoRenderer(val activity: HelloGeoActivity, val accessToken: String?,
     val bagTextView: TextView = activity.findViewById(R.id.bag_textview)
     startButton.visibility = View.INVISIBLE
     bagTextView.visibility = View.VISIBLE
-    val result = activity.view.mapView?.generateStars(earth,meterRadius) ?: Pair(arrayListOf(),arrayListOf())
+    val result = activity.view.mapView?.generateStars(earth, meterRadius, culturalProperty) ?: Pair(arrayListOf(),arrayListOf())
     earthAnchors = result.first
     markers = result.second
   }

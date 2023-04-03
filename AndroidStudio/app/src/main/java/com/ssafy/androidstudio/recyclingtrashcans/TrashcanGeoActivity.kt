@@ -38,8 +38,6 @@ import io.reactivex.plugins.RxJavaPlugins
 class TrashcanGeoActivity : AppCompatActivity() {
   companion object {
     private const val TAG = "TrashcanGeoActivity"
-    private const val LOCATIONS_FILE_NAME = "locations_v2_2.xml"
-    private const val LOCATIONS_URL = "https://recyclingtrashcans.github.io/locations_v2.xml"
   }
 
   lateinit var arCoreSessionHelper: ARCoreSessionLifecycleHelper
@@ -53,6 +51,9 @@ class TrashcanGeoActivity : AppCompatActivity() {
     RxJavaPlugins.setErrorHandler {
       Log.e("Error", it.localizedMessage ?: "")
     }
+
+    val intent = getIntent()
+    val culturalProperty = intent.getStringExtra("culturalProperty")
 
 //    // Setup ARCore session lifecycle helper and configuration.
     arCoreSessionHelper = ARCoreSessionLifecycleHelper(this)
@@ -79,7 +80,7 @@ class TrashcanGeoActivity : AppCompatActivity() {
     lifecycle.addObserver(arCoreSessionHelper)
 
     // Set up the Trashcan AR renderer.
-    renderer = TrashcanGeoRenderer(this)
+    renderer = TrashcanGeoRenderer(this, culturalProperty)
     lifecycle.addObserver(renderer)
 
     // Set up Trashcan AR UI.
@@ -96,7 +97,7 @@ class TrashcanGeoActivity : AppCompatActivity() {
     disposable.dispose()
   }
 
-  // Configure the session, setting the desired options according to your usecase.
+  // Configure the session, setting the desired options accordding to your usecase.
   private fun configureSession(session: Session) {
     session.configure(
       session.config.apply {
