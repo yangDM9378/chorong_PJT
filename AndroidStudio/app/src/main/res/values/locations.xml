@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+  <string-array name="cp">
+    <item>35.14891073|126.9330876|광주 지산동 오층석탑|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do;jsessionid=cA4AF0FsZFMtQNMEJdpPbF5dbsoyPi3EtiZRUAQIF2ParIGmxrSKPKUnn84ChWxr.cpawas_servlet_engine1?pageNo=1_1_2_0&amp;ccbaCpno=1122401100000|1</item>
+
+    <item>35.1651012|126.8518525|유촌동석조여래좌상|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?pageNo=1_1_2_0&amp;ccbaCpno=3412400210000|2</item>
+
+    <item>35.1692658|126.997392|원효사 소장 만수사 범종|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=2112400150000&amp;pageNo=1_1_1_1|3</item>
+
+    <item>35.09877561|126.8258313|용두동지석묘|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?pageNo=1_1_2_0&amp;ccbaCpno=3412400060000|4</item>
+
+    <item>35.2207082310709|126.817176116142|취병조형유허비|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?s_kdcd=&amp;s_ctcd=24&amp;ccbaKdcd=21&amp;ccbaAsno=00180000&amp;ccbaCtcd=24&amp;ccbaCpno=2112400180000&amp;ccbaLcto=14&amp;culPageNo=1&amp;header=region&amp;pageNo=1_1_3_0&amp;returnUrl=%2Fheri%2Fcul%2FculSelectRegionList.do&amp;assetnamel=|5</item>
+
+    <item>35.1528764576507|126.673545857742|삼거동고인돌군|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?pageNo=1_1_2_0&amp;ccbaCpno=3412400170000|6</item>
+
+    <item>35.8072408285395|129.212833300472|경주 포석정지|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=1333700010000&amp;pageNo=1_1_2_0|7</item>
+
+    <item>35.834695848054|129.218993693668|경주 첨성대|poi|http://www.heritage.go.kr/heri/cul/culSelectDetail.do?pageNo=1_1_2_0&amp;VdkVgwKey=11%2C00310000%2C37|8</item>
+
+    <item>35.2052455|126.8117768|ssafy|poi|https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp|1111</item>
+  </string-array>
+
   <string-array name="ssafy">
     <item>35.205651|126.811523|215호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_south.html</item>
     <item>35.205589|126.811540|222호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/ssu_south.html</item>
@@ -10,6 +31,7 @@
     <item>35.205121|126.811595|211호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
     <item>35.205200|126.811593|212호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
     <item>35.205289|126.811573|213호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
+    <item>35.2052455|126.811573|213호|poi|https://recyclingtrashcans.github.io//vrview/2020/08/08/s1_north.html</item>
   </string-array>
   <string-array name="park_ridge">
     <item>36.862358|-119.793572|Entrance 1|poi|https://recyclingtrashcans.github.io/</item>

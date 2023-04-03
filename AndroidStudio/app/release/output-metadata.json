@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.androidstudio",
+  "applicationId": "com.ssafy.androidstudio",
   "variantName": "release",
   "elements": [
     {

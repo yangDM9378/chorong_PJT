@@ -33,8 +33,7 @@ import com.ssafy.androidstudio.common.samplerender.SampleRender
 import com.ssafy.androidstudio.common.samplerender.Shader
 import com.ssafy.androidstudio.common.samplerender.arcore.BackgroundRenderer
 import com.ssafy.androidstudio.R
-import java.io.File
-import java.io.FileReader
+import com.ssafy.androidstudio.common.custom.CulturalProperty
 import java.io.IOException
 import java.util.*
 import kotlin.Comparator
@@ -91,7 +90,7 @@ data class MapArea(
   val locationData: MutableList<LocationData>
 )
 
-class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
+class TrashcanGeoRenderer(val activity: TrashcanGeoActivity, val culturalProperty: String?) :
   SampleRender.Renderer, DefaultLifecycleObserver {
   //<editor-fold desc="ARCore initialization" defaultstate="collapsed">
   companion object {
@@ -104,7 +103,7 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     private const val D2R = Math.PI / 180.0
 
     private const val HOVER_ABOVE_TERRAIN = 0.5  // meters
-    private const val AREA_PROXIMITY_THRESHOLD = 0.3  // kilometers
+    private const val AREA_PROXIMITY_THRESHOLD = 500.0  // kilometers
   }
 
   private lateinit var backgroundRenderer: BackgroundRenderer
@@ -122,7 +121,6 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
   private val projectionMatrix = FloatArray(16)
   private val mapAreas: MutableList<MapArea> = emptyList<MapArea>().toMutableList()
   private var areaIndex: Int = -1
-  private var loaded = false
   private var populating = false
   private val timer = object: CountDownTimer(2000, 1000) {
     override fun onTick(millisUntilFinished: Long) {}
@@ -172,8 +170,17 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
       backgroundRenderer.setUseDepthVisualization(render, false)
       backgroundRenderer.setUseOcclusion(render, false)
 
-      processLocationArray("ssafy", activity.resources.getStringArray(R.array.ssafy))
-//      processLocationArray("park_ridge", activity.resources.getStringArray(R.array.park_ridge))
+//      processLocationArray("ssafy", activity.resources.getStringArray(R.array.ssafy))
+
+      val cpData = activity.resources.getStringArray(R.array.cp)
+
+      var resultCP: String = CulturalProperty.getCP(culturalProperty, cpData)
+
+//        val array = arrayOf(cpData[myInt-1])
+//        processLocationArray("cp${myInt}", array)
+      val array = arrayOf(resultCP)
+      processLocationArray("culturalProperty", array)
+
     } catch (e: IOException) {
       Log.e(TAG, "Failed to read a required asset file", e)
     }
@@ -248,7 +255,8 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     // Step 1.1.: Obtain Geospatial information and display it on the map.
     val earth = session.earth
     if (earth?.trackingState == TrackingState.TRACKING) {
-      if (areaIndex < 0 && !populating && loaded) {
+      activity.view.updateStatusTextString("")
+      if (areaIndex < 0 && !populating) {
         populating = true
         timer.start()
       }
@@ -260,11 +268,11 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
         heading = cameraGeospatialPose.heading
       )
 
-      if (BuildConfig.BUILD_TYPE.equals("debug")) {
-        activity.view.updateStatusText(earth, cameraGeospatialPose)
-      } else {
-        activity.view.updateStatusTextString("")
-      }
+//      if (BuildConfig.BUILD_TYPE.equals("debug")) {
+//        activity.view.updateStatusText(earth, cameraGeospatialPose)
+//      } else {
+//        activity.view.updateStatusTextString("")
+//      }
     } else if (!BuildConfig.BUILD_TYPE.equals("debug")) {
       activity.view.updateStatusTextString(activity.resources.getString(R.string.calculating))
     }
@@ -309,7 +317,8 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
       lonSum += lon
     }
 
-    mapArea.center = LatLng(latSum / locations.size, lonSum / locations.size)
+//    mapArea.center = LatLng(latSum / locations.size, lonSum / locations.size)
+    mapArea.center = LatLng(latSum, lonSum)
     Log.i(TAG, "$name center ${mapArea.center.latitude} ${mapArea.center.longitude}")
 
     var override = -1
@@ -341,49 +350,6 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity) :
     } else if (override >= 0) {
       mapAreas[override] = mapArea
     }
-  }
-
-  fun processLocations(locationsFile: File) {
-    if (!locationsFile.exists()) {
-      Log.w(TAG, "Locations file ${locationsFile.path} doesn't exist")
-      loaded = true
-      return
-    }
-
-    val reader = FileReader(locationsFile)
-    val locationsXmlContent = reader.readText()
-    reader.close()
-    val areaMapParts = locationsXmlContent.split("<string-array name=\"")
-    if (areaMapParts.size <= 1) {
-      loaded = true
-      return
-    }
-
-    for (areaMapPart in areaMapParts.subList(1, areaMapParts.size)) {
-      if (areaMapPart.indexOf('"') < 0) {
-        continue
-      }
-
-      val name = areaMapPart.split('"')[0]
-      val areaLocations: MutableList<String> = emptyList<String>().toMutableList()
-      val itemParts = areaMapPart.split("<item>")
-      if (itemParts.size <= 1) {
-        continue
-      }
-
-      for (itemPart in itemParts.subList(1, itemParts.size)) {
-        val itemParts2 = itemPart.split("</item>")
-        if (itemParts2.isNotEmpty() && itemParts2.indexOf(",") >= 0) {
-          areaLocations.add(itemParts2[0])
-        }
-      }
-
-      if (areaLocations.isNotEmpty()) {
-        processLocationArray(name, areaLocations.toTypedArray())
-      }
-    }
-
-    loaded = true
   }
 
   private var earthAnchors: MutableList<Anchor> = emptyList<Anchor>().toMutableList()

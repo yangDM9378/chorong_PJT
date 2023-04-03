@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidStudio</string>
+    <string name="app_name">초롱따라</string>
     <string name="game_view_content_description">Game View</string>
     <string translatable="false" name="geospatial_pose">LAT/LNG: %.6f˚, %.6f˚\n\t\t\tACCURACY: %.2fm\nALTITUDE: %.2fm\n\t\t\tACCURACY: %.2fm\nHEADING: %.1f˚\n\t\t\tACCURACY: %.1f˚</string>
     <string name="earth_state">EarthState: %1$s\nTrackingState: %2$s\n%3$s</string>
@@ -13,4 +13,6 @@
     <string name="no_ar_support">This device does not support AR</string>
     <string name="camera_not_available">Camera not available. Try restarting the app.</string>
     <string name="ar_core_exception">Failed to create AR session: %1$s</string>
+    <string name="start">시작</string>
+    <string name="collect">수집</string>
 </resources>

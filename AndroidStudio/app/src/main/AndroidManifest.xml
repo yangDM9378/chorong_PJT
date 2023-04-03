@@ -6,10 +6,11 @@
     <!--네트워크 상태 퍼미션-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- 카메라 퍼미션 -->
-<!--    <uses-feature android:name="android.hardware.camera" />-->
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CAMERA2" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+<!--    <uses-feature android:name="android.hardware.camera"/>-->
+
     <!-- 5.0 버전 파일업로드 퍼미션 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
     <!-- 외부 저장소 사용 -->
@@ -28,7 +29,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidStudio"
@@ -40,6 +41,12 @@
         <activity
             android:name=".Game"
             android:exported="false" />
+        <activity
+            android:name=".hellogeospatial.HelloGeoActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="locked"/>
         <activity
             android:name=".recyclingtrashcans.TrashcanGeoActivity"
             android:configChanges="orientation|screenSize"
@@ -71,10 +78,10 @@
 
         <meta-data
             android:name="com.google.android.ar.API_KEY"
-            android:value=""/>
+            android:value="@string/GoogleCloudApiKey"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value=""/>
+            android:value="@string/GoogleCloudApiKey"/>
     </application>
 </manifest>

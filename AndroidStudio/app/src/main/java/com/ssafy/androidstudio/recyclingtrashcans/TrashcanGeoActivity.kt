@@ -19,7 +19,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.coroutineScope
 import com.google.ar.core.Config
 import com.google.ar.core.Session
 import com.google.ar.core.exceptions.CameraNotAvailableException
@@ -29,39 +28,21 @@ import com.google.ar.core.exceptions.UnavailableSdkTooOldException
 import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException
 import com.ssafy.androidstudio.recyclingtrashcans.helpers.ARCoreSessionLifecycleHelper
 import com.ssafy.androidstudio.recyclingtrashcans.helpers.GeoPermissionsHelper
-import com.ssafy.androidstudio.recyclingtrashcans.helpers.FileDownloader
 import com.ssafy.androidstudio.recyclingtrashcans.helpers.TrashcanGeoView
 import com.ssafy.androidstudio.common.helpers.FullScreenHelper
 import com.ssafy.androidstudio.common.samplerender.SampleRender
 import com.ssafy.androidstudio.R
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers.*
 import io.reactivex.disposables.Disposables
 import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.coroutineScope
-import java.io.File
-import java.util.concurrent.TimeUnit
-import okhttp3.OkHttpClient
 
 class TrashcanGeoActivity : AppCompatActivity() {
   companion object {
     private const val TAG = "TrashcanGeoActivity"
-    private const val LOCATIONS_FILE_NAME = "locations_v2_2.xml"
-    private const val LOCATIONS_URL = "https://recyclingtrashcans.github.io/locations_v2.xml"
   }
 
   lateinit var arCoreSessionHelper: ARCoreSessionLifecycleHelper
   lateinit var view: TrashcanGeoView
   private lateinit var renderer: TrashcanGeoRenderer
-  private val fileDownloader by lazy {
-    FileDownloader(
-      OkHttpClient.Builder().build()
-    )
-  }
   private var disposable = Disposables.disposed()
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +51,9 @@ class TrashcanGeoActivity : AppCompatActivity() {
     RxJavaPlugins.setErrorHandler {
       Log.e("Error", it.localizedMessage ?: "")
     }
+
+    val intent = getIntent()
+    val culturalProperty = intent.getStringExtra("culturalProperty")
 
 //    // Setup ARCore session lifecycle helper and configuration.
     arCoreSessionHelper = ARCoreSessionLifecycleHelper(this)
@@ -96,7 +80,7 @@ class TrashcanGeoActivity : AppCompatActivity() {
     lifecycle.addObserver(arCoreSessionHelper)
 
     // Set up the Trashcan AR renderer.
-    renderer = TrashcanGeoRenderer(this)
+    renderer = TrashcanGeoRenderer(this, culturalProperty)
     lifecycle.addObserver(renderer)
 
     // Set up Trashcan AR UI.
@@ -106,10 +90,6 @@ class TrashcanGeoActivity : AppCompatActivity() {
 
     // Sets up an example renderer using our TrashcanGeoRenderer.
     SampleRender(view.surfaceView, renderer, assets)
-
-    lifecycle.coroutineScope.launch {
-      downloadLocationsAsync()
-    }
   }
 
   override fun onDestroy() {
@@ -117,31 +97,7 @@ class TrashcanGeoActivity : AppCompatActivity() {
     disposable.dispose()
   }
 
-  private suspend fun downloadLocationsAsync(): Deferred<Int> = coroutineScope {
-    async {
-      var cachedFile = File(cacheDir, LOCATIONS_FILE_NAME)
-
-      disposable = fileDownloader.download(LOCATIONS_URL, cachedFile)
-        .throttleFirst(100, TimeUnit.MILLISECONDS)
-        .toFlowable(BackpressureStrategy.LATEST)
-        .subscribeOn(Schedulers.io())
-        .observeOn(mainThread())
-        .subscribe({
-          Log.i(TAG, "$it% Downloaded")
-        }, {
-          Log.e(TAG, it.localizedMessage, it)
-          cachedFile = File(cacheDir, LOCATIONS_FILE_NAME)
-          renderer.processLocations(cachedFile)
-        }, {
-          Log.i(TAG, "Download Complete")
-          renderer.processLocations(cachedFile)
-        })
-
-      return@async 0
-    }
-  }
-
-  // Configure the session, setting the desired options according to your usecase.
+  // Configure the session, setting the desired options accordding to your usecase.
   private fun configureSession(session: Session) {
     session.configure(
       session.config.apply {
