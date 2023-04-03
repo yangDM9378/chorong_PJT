@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import CulturalPropertyStar from './CulturalPropertyStar';
 
-export default function CulturalPropertyHeader() {
+interface IsTrue {
+  isTrue: boolean;
+}
+export default function CulturalPropertyHeader({ isTrue }: IsTrue) {
   const culturalPropertydata = useSelector<
     AppState,
     CulturalPropertyData | null
@@ -17,9 +21,16 @@ export default function CulturalPropertyHeader() {
   const starCnt = starAr + starPose + starQuiz;
 
   const goGps = () => {
-    (window as any).Android.showGPS(
-      `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
-    );
+    if (isTrue) {
+      (window as any).Android.showGPS(
+        `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
+      );
+    } else {
+      Swal.fire({
+        text: '문화재에서 너무 먼 거리입니다',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
+    }
   };
 
   return (

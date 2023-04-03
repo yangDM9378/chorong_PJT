@@ -1,3 +1,4 @@
+import { div } from '@tensorflow/tfjs-core';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
@@ -18,11 +19,14 @@ export default function GalleryList() {
 
   return (
     <S.Container>
-      {photoList.map((photo, idx) => {
-        // eslint-disable-next-line react/no-array-index-key
-        return <GalleryItem photo={photo} key={idx} />;
-      })}
-      .
+      {photoList.length > 0 ? (
+        photoList.map((photo, idx) => {
+          // eslint-disable-next-line react/no-array-index-key
+          return <GalleryItem photo={photo} key={idx} />;
+        })
+      ) : (
+        <div className="text-center w-[100vw]">사진이 없습니다.</div>
+      )}
     </S.Container>
   );
 }

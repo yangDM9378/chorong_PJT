@@ -13,14 +13,58 @@ import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import { CulturalProperty } from '../../api/culturalpropertydetailApi';
 
 export default function CulturalPropertyPage() {
+  // gps 위치 판별
+  const [isTrue, setIsTrue] = useState(false);
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
         enableHighAccuracy: false,
       },
       userDecisionTimeout: 5000,
+      watchPosition: true,
     });
-  console.log(isGeolocationAvailable, coords, isGeolocationEnabled);
+
+  function distance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
+    const R = 6371; // 지구 반지름 (단위: km)
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // 두 지점 간의 거리 (단위: km)
+    return d * 1000; // 미터로 변환
+  }
+
+  function isWithin500m(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): boolean {
+    const d = distance(lat1, lon1, lat2, lon2);
+    setIsTrue(d <= 50);
+    return d <= 50;
+  }
+
+  useEffect(() => {
+    if (coords && data) {
+      isWithin500m(
+        coords?.latitude,
+        coords?.longitude,
+        data?.result.culturalProperty.latitude,
+        data?.result.culturalProperty.longitude,
+      );
+    }
+  }, [coords]);
 
   const queryClient = useQueryClient();
 
@@ -53,9 +97,9 @@ export default function CulturalPropertyPage() {
   if (data) {
     return (
       <S.Container>
-        <CulturalPropertyHeader />
+        <CulturalPropertyHeader isTrue={isTrue} />
         <CulturalPropertyDescription />
-        <CulturalPropertyButtons />
+        <CulturalPropertyButtons isTrue={isTrue} />
       </S.Container>
     );
   }
