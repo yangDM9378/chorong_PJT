@@ -5,7 +5,10 @@ import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import CulturalPropertyStar from './CulturalPropertyStar';
 
-export default function CulturalPropertyHeader() {
+interface IsTrue {
+  isTrue: boolean;
+}
+export default function CulturalPropertyHeader({ isTrue }: IsTrue) {
   const culturalPropertydata = useSelector<
     AppState,
     CulturalPropertyData | null
@@ -17,9 +20,11 @@ export default function CulturalPropertyHeader() {
   const starCnt = starAr + starPose + starQuiz;
 
   const goGps = () => {
-    (window as any).Android.showGPS(
-      `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
-    );
+    if (isTrue) {
+      (window as any).Android.showGPS(
+        `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
+      );
+    }
   };
 
   return (

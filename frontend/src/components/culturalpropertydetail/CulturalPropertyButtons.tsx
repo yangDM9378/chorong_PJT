@@ -5,7 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 
-export default function CulturalPropertyButtons() {
+interface IsTrue {
+  isTrue: boolean;
+}
+
+export default function CulturalPropertyButtons({ isTrue }: IsTrue) {
   // 페이지 이동
   const culturalPropertydata = useSelector<
     AppState,
@@ -13,10 +17,12 @@ export default function CulturalPropertyButtons() {
   >(({ culturalProperty }) => culturalProperty.value);
   const navigate = useNavigate();
   const goGame = () => {
-    (window as any).Android.showGame(
-      `${localStorage.getItem('accesstoken')}
-      ${localStorage.getItem('culturalPropertyId')}`,
-    );
+    if (isTrue) {
+      (window as any).Android.showGame(
+        `${localStorage.getItem('accesstoken')}
+        ${localStorage.getItem('culturalPropertyId')}`,
+      );
+    }
   };
   const goQuiz = () => {
     const region = culturalPropertydata?.result.culturalProperty.address;
