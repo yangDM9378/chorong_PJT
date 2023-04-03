@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useGeolocated } from 'react-geolocated';
 import { setCulturalProperty } from '../../store/culturalproperty/slice';
 import CulturalPropertyButtons from '../../components/culturalpropertydetail/CulturalPropertyButtons';
 import CulturalPropertyDescription from '../../components/culturalpropertydetail/CulturalPropertyDescription';
@@ -12,6 +13,15 @@ import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import { CulturalProperty } from '../../api/culturalpropertydetailApi';
 
 export default function CulturalPropertyPage() {
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
+  console.log(isGeolocationAvailable, coords, isGeolocationEnabled);
+
   const queryClient = useQueryClient();
 
   const { culturalpropertynum } = useParams<{ culturalpropertynum: string }>();

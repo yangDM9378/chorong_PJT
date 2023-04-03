@@ -18,7 +18,7 @@ export default function CulturalPropertyHeader() {
 
   const goGps = () => {
     (window as any).Android.showGPS(
-      `${culturalPropertydata?.result.culturalProperty.latitude}|${culturalPropertydata?.result.culturalProperty.longitude}|${culturalPropertydata?.result.culturalProperty.nameKo}|poi`,
+      `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
     );
   };
 
