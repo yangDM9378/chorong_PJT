@@ -30,11 +30,9 @@ export default function CaptureImg() {
   const imgSrc = URL.createObjectURL(img!);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const { culturalId, poseId } = location.state;
+  const { culturalId, poseName } = location.state;
 
   const [poseCompleted, setPoseCompleted] = useState(false);
-  const [loading, setLoading] = useState(true);
-
   const submitImg = async (e: any) => {
     e.preventDefault();
     if (img !== undefined) {
@@ -82,30 +80,58 @@ export default function CaptureImg() {
         true,
       );
       const prediction = await model.predict(posenetOutput);
-      setLoading(false);
-      console.log(prediction[poseId - 1].probability);
-      // for (let i = 0; i < maxPredictions; i += 1) {
-      //   const classPrediction = `${prediction[i].className}: ${prediction[
-      //     i
-      //   ].probability.toFixed(2)}`;
-      // }
-      if (prediction[poseId - 1].probability > 0.9) {
-        console.log(prediction[poseId - 1].probability);
-        setPoseCompleted(true);
+      if (!prediction) {
+        return (
+          <div>
+            <span>Loading</span>
+          </div>
+        );
       }
+      for (let i = 0; i < maxPredictions; i += 1) {
+        if (prediction[i].className === poseName) {
+          console.log(prediction[i].probability);
+          if (prediction[i].probability > 0) {
+            setPoseCompleted(true);
+            return (
+              <S.Btn>
+                <button type="button" onClick={submitImg}>
+                  상세페이지
+                </button>
+              </S.Btn>
+            );
+          }
+        }
+        // const classPrediction = `${prediction[i].className}: ${prediction[
+        //   i
+        // ].probability.toFixed(2)}`;
+      }
+      return (
+        <div>
+          <img src={imgSrc} ref={imgRef} alt="capture img" />
+          <div className="flex justify-center gap-10 m-5">
+            {poseCompleted ? (
+              <S.Btn>
+                <button type="button" onClick={submitImg}>
+                  상세페이지
+                </button>
+              </S.Btn>
+            ) : (
+              <S.Btn>
+                <button type="button" onClick={goBack}>
+                  다시 찍기
+                </button>
+              </S.Btn>
+            )}
+          </div>
+        </div>
+      );
     }
     init();
   };
   useEffect(() => {
-    setLoading(true);
     predict();
-    setLoading(false);
     console.log(poseCompleted);
   }, []);
-  if (!poseCompleted) {
-    console.log(loading);
-    return <span>Loading</span>;
-  }
   return (
     <div>
       <img src={imgSrc} ref={imgRef} alt="capture img" />

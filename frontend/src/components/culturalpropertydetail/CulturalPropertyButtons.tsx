@@ -18,6 +18,8 @@ export default function CulturalPropertyButtons({ isTrue }: IsTrue) {
   >(({ culturalProperty }) => culturalProperty.value);
   const navigate = useNavigate();
   const goGame = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    window.location.reload();
     // (window as any).Android.showGame(
     //   `${localStorage.getItem('accesstoken')}
     //   ${localStorage.getItem('culturalPropertyId')}`,

@@ -17,6 +17,7 @@ export default function Camera() {
   const [front, setFront] = useState<boolean>(false);
 
   const [imageCapture, setImageCapture] = useState<ImageCapture>();
+  const [mediaStream, setMediaStream] = useState<MediaStreamTrack[]>();
   const value = useSelector<AppState, CulturalPropertyState['value']>(
     (state) => state.culturalProperty.value,
   );
@@ -48,9 +49,10 @@ export default function Camera() {
 
         videoRef.current.srcObject = stream;
         videoRef.current.play();
-
         const track = stream.getVideoTracks()[0];
         setImageCapture(new ImageCapture(track));
+        setMediaStream(stream.getTracks());
+        console.log(stream);
       })
       .catch(function (err) {
         console.log(`An error occurred: ${err}`);
@@ -63,15 +65,30 @@ export default function Camera() {
         createImageBitmap(blob);
         // const file = new File([blob], 'test2.jpg');
         dispatch(setImg(blob));
-        videoRef.current?.pause();
+      })
+      .then(() => {
+        stopStreamedVideo(videoRef.current);
         navigate('/camera/after', {
           state: {
             culturalId: cultural?.culturalPropertyId,
-            poseId: pose?.poseId,
+            poseName: pose?.poseName,
           },
         });
       })
       .catch((error: Error) => console.error(error));
+  }
+  function stopStreamedVideo(videoElem: any) {
+    const stream = videoElem.srcObject;
+    const tracks = stream.getTracks();
+    console.log(tracks);
+    tracks.forEach((track: any) => {
+      track.stop();
+      track.enabled = false;
+    });
+    console.log(tracks);
+
+    videoElem.srcObject = null;
+    console.log('stop');
   }
 
   return (
@@ -102,8 +119,8 @@ export default function Camera() {
           isOpen={modalIsOpen}
           onRequestClose={handleClose}
         >
-          <img src="/pose/manse.png" alt={pose?.poseName} />
-          {/* <img src={pose?.posePicture} alt={pose?.poseName} /> */}
+          {/* <img src="/pose/manse.png" alt={pose?.poseName} /> */}
+          <img src={pose?.posePicture} alt={pose?.poseName} />
         </ReactModal>
       )}
     </div>
