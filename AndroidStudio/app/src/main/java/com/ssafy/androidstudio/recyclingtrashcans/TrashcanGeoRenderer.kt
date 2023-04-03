@@ -33,6 +33,7 @@ import com.ssafy.androidstudio.common.samplerender.SampleRender
 import com.ssafy.androidstudio.common.samplerender.Shader
 import com.ssafy.androidstudio.common.samplerender.arcore.BackgroundRenderer
 import com.ssafy.androidstudio.R
+import com.ssafy.androidstudio.common.custom.CulturalProperty
 import java.io.IOException
 import java.util.*
 import kotlin.Comparator
@@ -170,14 +171,16 @@ class TrashcanGeoRenderer(val activity: TrashcanGeoActivity, val culturalPropert
       backgroundRenderer.setUseOcclusion(render, false)
 
 //      processLocationArray("ssafy", activity.resources.getStringArray(R.array.ssafy))
-      val cpData = activity.resources.getStringArray(R.array.cp)
-      val myInt: Int? = culturalProperty?.toIntOrNull()
 
-      if (myInt != null) {
-        val array = arrayOf(cpData[myInt-1])
-        print(array.toString())
-        processLocationArray("cp${myInt}", array)
-      }
+      val cpData = activity.resources.getStringArray(R.array.cp)
+
+      var resultCP: String = CulturalProperty.getCP(culturalProperty, cpData)
+
+//        val array = arrayOf(cpData[myInt-1])
+//        processLocationArray("cp${myInt}", array)
+      val array = arrayOf(resultCP)
+      processLocationArray("culturalProperty", array)
+
     } catch (e: IOException) {
       Log.e(TAG, "Failed to read a required asset file", e)
     }

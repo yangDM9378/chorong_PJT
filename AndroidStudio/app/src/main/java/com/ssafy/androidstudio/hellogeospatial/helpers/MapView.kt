@@ -17,6 +17,7 @@ package com.ssafy.androidstudio.hellogeospatial.helpers
 
 import android.graphics.*
 import android.location.Location
+import android.util.Log
 import androidx.annotation.ColorInt
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -25,6 +26,7 @@ import com.google.ar.core.Anchor
 import com.google.ar.core.Earth
 import com.ssafy.androidstudio.hellogeospatial.HelloGeoActivity
 import com.ssafy.androidstudio.R
+import com.ssafy.androidstudio.common.custom.CulturalProperty
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
@@ -150,15 +152,12 @@ class MapView(val activity: HelloGeoActivity, val googleMap: GoogleMap) {
 //      latitude = 35.14891073
 //      longitude = 126.9330876
 
-
-      val myInt: Int? = culturalProperty?.trim()?.toIntOrNull()
       val cpData = activity.resources.getStringArray(R.array.cp)
-      if (myInt != null) {
-        val cpString = cpData[myInt-1].split("|")
-        latitude = cpString[0].trim().toDouble()
-        longitude = cpString[1].trim().toDouble()
-      }
+      var resultCP: String = CulturalProperty.getCP(culturalProperty, cpData)
 
+      val cpString = resultCP.split("|")
+      latitude = cpString[0].trim().toDouble()
+      longitude = cpString[1].trim().toDouble()
 
     }
 
