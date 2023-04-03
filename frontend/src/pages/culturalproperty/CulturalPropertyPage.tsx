@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useGeolocated } from 'react-geolocated';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useGeolocated } from 'react-geolocated';
 import { setCulturalProperty } from '../../store/culturalproperty/slice';
 import CulturalPropertyButtons from '../../components/culturalpropertydetail/CulturalPropertyButtons';
 import CulturalPropertyDescription from '../../components/culturalpropertydetail/CulturalPropertyDescription';
@@ -12,9 +12,17 @@ import CulturalPropertyHeader from '../../components/culturalpropertydetail/Cult
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import { CulturalProperty } from '../../api/culturalpropertydetailApi';
 
+interface Coords {
+  latitude: number | undefined;
+  longitude: number | undefined;
+}
+
+// interface Props {
+//   coords: Coords;
+// }
+
 export default function CulturalPropertyPage() {
-  // gps 위치 판별
-  const [isTrue, setIsTrue] = useState(false);
+  // 현재 gps 가져오기
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
@@ -23,49 +31,6 @@ export default function CulturalPropertyPage() {
       userDecisionTimeout: 5000,
       watchPosition: true,
     });
-
-  function distance(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number,
-  ): number {
-    const R = 6371; // 지구 반지름 (단위: km)
-    const dLat = ((lat2 - lat1) * Math.PI) / 180;
-    const dLon = ((lon2 - lon1) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((lat1 * Math.PI) / 180) *
-        Math.cos((lat2 * Math.PI) / 180) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // 두 지점 간의 거리 (단위: km)
-    return d * 1000; // 미터로 변환
-  }
-
-  function isWithin500m(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number,
-  ): boolean {
-    const d = distance(lat1, lon1, lat2, lon2);
-    setIsTrue(d <= 50);
-    return d <= 50;
-  }
-
-  useEffect(() => {
-    if (coords && data) {
-      isWithin500m(
-        coords?.latitude,
-        coords?.longitude,
-        data?.result.culturalProperty.latitude,
-        data?.result.culturalProperty.longitude,
-      );
-    }
-  }, [coords]);
-
   const queryClient = useQueryClient();
 
   const { culturalpropertynum } = useParams<{ culturalpropertynum: string }>();
@@ -97,9 +62,13 @@ export default function CulturalPropertyPage() {
   if (data) {
     return (
       <S.Container>
-        <CulturalPropertyHeader isTrue={isTrue} />
+        <CulturalPropertyHeader
+          coords={coords ?? { latitude: undefined, longitude: undefined }}
+        />
         <CulturalPropertyDescription />
-        <CulturalPropertyButtons isTrue={isTrue} />
+        <CulturalPropertyButtons
+          coords={coords ?? { latitude: undefined, longitude: undefined }}
+        />
       </S.Container>
     );
   }
