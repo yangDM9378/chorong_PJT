@@ -11,10 +11,12 @@ import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 import { authApi } from '../../libs/axiosConfig';
 import { setStar } from '../../api/quizApi';
+import Loading from '../common/Loading';
 
 export default function CaptureImg() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const goBack = useCallback(() => {
     navigate('/camera');
   }, [navigate]);
@@ -22,7 +24,6 @@ export default function CaptureImg() {
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
-  console.log(img);
   img!.arrayBuffer().then((arrayBuffer) => {
     const blob = new Blob([new Uint8Array(arrayBuffer)], { type: img!.type });
   });
@@ -30,9 +31,9 @@ export default function CaptureImg() {
   const imgRef = useRef<HTMLImageElement>(null);
 
   const { culturalId, poseId } = location.state;
-  console.log(location.state);
 
   const [poseCompleted, setPoseCompleted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const submitImg = async (e: any) => {
     e.preventDefault();
@@ -76,35 +77,35 @@ export default function CaptureImg() {
       model = await tmPose.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
 
-      async function predict2() {
-        if (!model) return;
-
-        const { pose, posenetOutput } = await model.estimatePose(
-          imgRef.current!,
-          true,
-        );
-        const prediction = await model.predict(posenetOutput);
-
+      const { pose, posenetOutput } = await model.estimatePose(
+        imgRef.current!,
+        true,
+      );
+      const prediction = await model.predict(posenetOutput);
+      setLoading(false);
+      console.log(prediction[poseId - 1].probability);
+      // for (let i = 0; i < maxPredictions; i += 1) {
+      //   const classPrediction = `${prediction[i].className}: ${prediction[
+      //     i
+      //   ].probability.toFixed(2)}`;
+      // }
+      if (prediction[poseId - 1].probability > 0.9) {
         console.log(prediction[poseId - 1].probability);
-        // for (let i = 0; i < maxPredictions; i += 1) {
-        //   const classPrediction = `${prediction[i].className}: ${prediction[
-        //     i
-        //   ].probability.toFixed(2)}`;
-        // }
-        if (prediction[poseId - 1].probability > 0.9) {
-          console.log(prediction[poseId - 1].probability);
-          setPoseCompleted(true);
-        }
+        setPoseCompleted(true);
       }
-
-      predict2();
     }
     init();
   };
   useEffect(() => {
+    setLoading(true);
     predict();
+    setLoading(false);
     console.log(poseCompleted);
-  });
+  }, []);
+  if (!poseCompleted) {
+    console.log(loading);
+    return <span>Loading</span>;
+  }
   return (
     <div>
       <img src={imgSrc} ref={imgRef} alt="capture img" />
