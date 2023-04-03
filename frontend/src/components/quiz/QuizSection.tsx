@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 // import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -8,7 +8,12 @@ import tw from 'twin.macro';
 // import { useParams } from 'react-router-dom';
 import QuizProblem from './QuizProblem';
 import { AppState } from '../../store';
-import { QuizState, setCorrectCnt } from '../../store/quiz/slice';
+import {
+  QuizState,
+  setCorrectCnt,
+  setQuizCntInit,
+  setCorrectCntInit,
+} from '../../store/quiz/slice';
 import QuizModal from './QuizModal';
 import { Quiz } from '../../types/quiz';
 // import getQuiz from '../../api/quizApi';
@@ -60,6 +65,12 @@ export default function QuizSection() {
         '광주 지산동 오층석탑은 1962년 12월 20일 국보 16호로 지정되었다.',
     },
   ];
+
+  useEffect(() => {
+    dispatch(setQuizCntInit(0));
+    dispatch(setCorrectCntInit(0));
+  }, []);
+
   const correctCntPlus = useCallback(() => {
     dispatch(setCorrectCnt(1));
   }, [dispatch]);
