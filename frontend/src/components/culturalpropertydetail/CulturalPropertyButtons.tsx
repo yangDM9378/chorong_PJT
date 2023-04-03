@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
@@ -22,6 +23,11 @@ export default function CulturalPropertyButtons({ isTrue }: IsTrue) {
         `${localStorage.getItem('accesstoken')}
         ${localStorage.getItem('culturalPropertyId')}`,
       );
+    } else {
+      Swal.fire({
+        text: '문화재에서 너무 먼 거리입니다',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
     }
   };
   const goQuiz = () => {

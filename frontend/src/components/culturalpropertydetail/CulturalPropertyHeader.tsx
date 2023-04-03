@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
@@ -24,6 +25,11 @@ export default function CulturalPropertyHeader({ isTrue }: IsTrue) {
       (window as any).Android.showGPS(
         `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
       );
+    } else {
+      Swal.fire({
+        text: '문화재에서 너무 먼 거리입니다',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
     }
   };
 

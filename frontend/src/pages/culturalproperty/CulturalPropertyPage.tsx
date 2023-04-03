@@ -56,7 +56,6 @@ export default function CulturalPropertyPage() {
   }
 
   useEffect(() => {
-    console.log(isGeolocationAvailable, isGeolocationEnabled, coords, data);
     if (coords && data) {
       isWithin500m(
         coords?.latitude,
