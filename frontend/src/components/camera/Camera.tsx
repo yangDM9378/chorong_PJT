@@ -77,6 +77,7 @@ export default function Camera() {
   return (
     <div>
       <video ref={videoRef} />
+
       <div className="flex justify-center gap-10 m-10">
         <CachedIcon fontSize="large" onClick={setCamera} />
 
