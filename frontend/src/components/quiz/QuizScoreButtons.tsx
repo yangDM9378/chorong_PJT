@@ -11,22 +11,23 @@ import { setStar } from '../../api/quizApi';
 
 export default function QuizScoreButtons() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   // 맞은 갯수 초기화시 사용
+  const culturalPropertydata = useSelector<
+    AppState,
+    CulturalPropertyData | null
+  >(({ culturalProperty }) => culturalProperty.value);
+
   const correctCnt = useSelector<AppState, QuizState['correctCnt']>(
     (state) => state.quiz.correctCnt,
   );
   // 퀴즈페이지 처음으로 가기
   const goQuiz = useCallback(() => {
-    navigate(-1);
+    navigate(
+      `/quiz/${culturalPropertydata?.result.culturalProperty.address}/${culturalPropertydata?.result.culturalProperty.nameKo}`,
+    );
   }, [navigate]);
-  // 맞은 갯수 초기화 하기
-  const correctCntInit = useCallback(() => {
-    dispatch(setCorrectCnt(-correctCnt));
-  }, [dispatch]);
 
   const returnSolveClick = () => {
-    correctCntInit();
     goQuiz();
   };
 
@@ -43,7 +44,6 @@ export default function QuizScoreButtons() {
   }, [navigate]);
 
   const quizFinish = async () => {
-    correctCntInit();
     if (
       culturalPropertydate?.result.starCountRes.starQuiz === 0 &&
       correctCnt >= 2

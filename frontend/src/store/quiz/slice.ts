@@ -19,14 +19,26 @@ const quizSlice = createSlice({
     setQuizCnt: (state, action: PayloadAction<number>) => {
       state.quizCnt += action.payload;
     },
+    setQuizCntInit: (state, action: PayloadAction<number>) => {
+      state.quizCnt = action.payload;
+    },
     setSelectOption: (state, action: PayloadAction<string>) => {
       state.selectOption = action.payload;
     },
     setCorrectCnt: (state, action: PayloadAction<number>) => {
       state.correctCnt += action.payload;
     },
+    setCorrectCntInit: (state, action: PayloadAction<number>) => {
+      state.correctCnt = action.payload;
+    },
   },
 });
 
-export const { setQuizCnt, setSelectOption, setCorrectCnt } = quizSlice.actions;
+export const {
+  setQuizCnt,
+  setSelectOption,
+  setCorrectCnt,
+  setQuizCntInit,
+  setCorrectCntInit,
+} = quizSlice.actions;
 export default quizSlice.reducer;

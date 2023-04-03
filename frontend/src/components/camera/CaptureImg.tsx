@@ -11,10 +11,12 @@ import { AppState } from '../../store';
 import { CameraState } from '../../store/camera/slice';
 import { authApi } from '../../libs/axiosConfig';
 import { setStar } from '../../api/quizApi';
+import Loading from '../common/Loading';
 
 export default function CaptureImg() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const goBack = useCallback(() => {
     navigate('/camera');
   }, [navigate]);
@@ -22,18 +24,15 @@ export default function CaptureImg() {
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
-  console.log(img);
   img!.arrayBuffer().then((arrayBuffer) => {
     const blob = new Blob([new Uint8Array(arrayBuffer)], { type: img!.type });
   });
   const imgSrc = URL.createObjectURL(img!);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const { culturalId, poseId } = location.state;
-  console.log(location.state);
+  const { culturalId, poseName } = location.state;
 
   const [poseCompleted, setPoseCompleted] = useState(false);
-
   const submitImg = async (e: any) => {
     e.preventDefault();
     if (img !== undefined) {
@@ -76,35 +75,63 @@ export default function CaptureImg() {
       model = await tmPose.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
 
-      async function predict2() {
-        if (!model) return;
-
-        const { pose, posenetOutput } = await model.estimatePose(
-          imgRef.current!,
-          true,
+      const { pose, posenetOutput } = await model.estimatePose(
+        imgRef.current!,
+        true,
+      );
+      const prediction = await model.predict(posenetOutput);
+      if (!prediction) {
+        return (
+          <div>
+            <span>Loading</span>
+          </div>
         );
-        const prediction = await model.predict(posenetOutput);
-
-        console.log(prediction[poseId - 1].probability);
-        // for (let i = 0; i < maxPredictions; i += 1) {
-        //   const classPrediction = `${prediction[i].className}: ${prediction[
-        //     i
-        //   ].probability.toFixed(2)}`;
-        // }
-        if (prediction[poseId - 1].probability > 0.9) {
-          console.log(prediction[poseId - 1].probability);
-          setPoseCompleted(true);
-        }
       }
-
-      predict2();
+      for (let i = 0; i < maxPredictions; i += 1) {
+        if (prediction[i].className === poseName) {
+          console.log(prediction[i].probability);
+          if (prediction[i].probability > 0) {
+            setPoseCompleted(true);
+            return (
+              <S.Btn>
+                <button type="button" onClick={submitImg}>
+                  상세페이지
+                </button>
+              </S.Btn>
+            );
+          }
+        }
+        // const classPrediction = `${prediction[i].className}: ${prediction[
+        //   i
+        // ].probability.toFixed(2)}`;
+      }
+      return (
+        <div>
+          <img src={imgSrc} ref={imgRef} alt="capture img" />
+          <div className="flex justify-center gap-10 m-5">
+            {poseCompleted ? (
+              <S.Btn>
+                <button type="button" onClick={submitImg}>
+                  상세페이지
+                </button>
+              </S.Btn>
+            ) : (
+              <S.Btn>
+                <button type="button" onClick={goBack}>
+                  다시 찍기
+                </button>
+              </S.Btn>
+            )}
+          </div>
+        </div>
+      );
     }
     init();
   };
   useEffect(() => {
     predict();
     console.log(poseCompleted);
-  });
+  }, []);
   return (
     <div>
       <img src={imgSrc} ref={imgRef} alt="capture img" />
