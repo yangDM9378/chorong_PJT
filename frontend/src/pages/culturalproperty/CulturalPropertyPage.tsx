@@ -63,6 +63,7 @@ export default function CulturalPropertyPage() {
         data?.result.culturalProperty.latitude,
         data?.result.culturalProperty.longitude,
       );
+      alert(coords.latitude);
     }
   }, [coords]);
 
