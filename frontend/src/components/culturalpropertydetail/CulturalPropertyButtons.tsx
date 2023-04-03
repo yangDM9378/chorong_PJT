@@ -20,21 +20,21 @@ export default function CulturalPropertyButtons({ isTrue }: IsTrue) {
   const goGame = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     window.location.reload();
-    (window as any).Android.showGame(
-      `${localStorage.getItem('accesstoken')}
-      ${localStorage.getItem('culturalPropertyId')}`,
-    );
-    // if (isTrue) {
-    //   (window as any).Android.showGame(
-    //     `${localStorage.getItem('accesstoken')}
-    //     ${localStorage.getItem('culturalPropertyId')}`,
-    //   );
-    // } else {
-    //   Swal.fire({
-    //     text: '문화재에서 너무 먼 거리입니다',
-    //     confirmButtonColor: 'rgb(0, 170, 255)',
-    //   });
-    // }
+    // (window as any).Android.showGame(
+    //   `${localStorage.getItem('accesstoken')}
+    //   ${localStorage.getItem('culturalPropertyId')}`,
+    // );
+    if (isTrue) {
+      (window as any).Android.showGame(
+        `${localStorage.getItem('accesstoken')}
+        ${localStorage.getItem('culturalPropertyId')}`,
+      );
+    } else {
+      Swal.fire({
+        text: '문화재에서 너무 먼 거리입니다',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
+    }
   };
   const goQuiz = () => {
     const region = culturalPropertydata?.result.culturalProperty.address;
