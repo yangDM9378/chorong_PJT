@@ -62,7 +62,21 @@ export default function StageTheme() {
             <S.BgImg
               style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }}
             />
-            {/* <div style={{ backgroundImage: `url(/main/bg/${index}.jpg)` }} /> */}
+            <img
+              src={
+                stageData.starCount === stageData.stage.targetStarCount
+                  ? `/stage/unlock${stageData.stage.stageId}.png`
+                  : `/stage/lock${stageData.stage.stageId}.png`
+              }
+              alt="캐릭터"
+              style={{
+                position: 'absolute',
+                top: '9vw',
+                left: '70vw',
+                width: '25vw',
+                height: '24vw',
+              }}
+            />
           </S.MainContainer>
           {/* 별 다 획득시
           {stageData.starCount === stageData.stage.targetStarCount && (
@@ -85,13 +99,13 @@ const S = {
     ${tw`py-[3vh] relative`}
   `,
   MainContainer: styled.div`
-    ${tw` mx-[3vw] pl-[5vw] bg-white rounded-[2vh] w-[94vw] pt-[2vh] pb-[3vh] shadow-lg`}
+    ${tw` mx-[3vw] pl-[5vw] bg-white rounded-[2vh] w-[94vw] pt-[2vh] pb-[3vh] shadow-lg `}
   `,
   NameStar: styled.div`
-    ${tw`flex flex-col border-l border-spacing-1 border-solid border-l-black ml-[24vw] pl-[3vw] `}
+    ${tw`flex flex-col border-l border-spacing-1 border-solid border-l-black ml-[24vw] pl-[3vw] relative`}
   `,
   Name: styled.p`
-    ${tw`text-[3vh] font-bold flex`}
+    ${tw`text-[2.5vh] font-bold flex`}
   `,
   Star: styled.div`
     ${tw`flex items-center`}
