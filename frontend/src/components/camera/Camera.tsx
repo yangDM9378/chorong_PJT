@@ -23,6 +23,9 @@ export default function Camera() {
   const pose = value?.result.culturalProperty.pose;
   const cultural = value?.result.culturalProperty;
   const dispatch = useDispatch();
+  const setPlay = () => {
+    videoRef.current?.play();
+  };
   const setCamera = () => {
     setFront((prev) => !prev);
   };
@@ -36,8 +39,8 @@ export default function Camera() {
     navigator.mediaDevices
       .getUserMedia({
         video: {
-          width: { min: 640, ideal: 1920, max: 1920 },
-          height: { min: 400, ideal: 1080 },
+          width: { min: 480, ideal: 640, max: 1920 },
+          height: { min: 320, ideal: 400 },
           aspectRatio: 1.777777778,
           frameRate: { max: 15 },
           facingMode: facing,
@@ -78,6 +81,9 @@ export default function Camera() {
     <div>
       <video ref={videoRef} />
       <div className="flex justify-center gap-10 m-10">
+        <button type="button" onClick={setPlay}>
+          play
+        </button>
         <CachedIcon fontSize="large" onClick={setCamera} />
 
         <CameraRoundedIcon fontSize="large" onClick={onTakePhotoButtonClick} />
