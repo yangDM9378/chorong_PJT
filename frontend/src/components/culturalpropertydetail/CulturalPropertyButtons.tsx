@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
+import isWithin50m from '../../libs/hooks/geolocation';
 
 interface Coords {
   latitude: number | undefined;
@@ -23,23 +24,28 @@ export default function CulturalPropertyButtons({ coords }: Props) {
   >(({ culturalProperty }) => culturalProperty.value);
   const navigate = useNavigate();
   const goGame = () => {
-    console.log(coords.latitude, coords.longitude);
-
-    // (window as any).Android.showGame(
-    //   `${localStorage.getItem('accesstoken')}
-    //   ${localStorage.getItem('culturalPropertyId')}`,
-    // );
-    //   if (isDistance <= 50) {
-    //     (window as any).Android.showGame(
-    //       `${localStorage.getItem('accesstoken')}
-    //       ${localStorage.getItem('culturalPropertyId')}`,
-    //     );
-    //   } else {
-    //     Swal.fire({
-    //       text: '문화재 반경 50m 이내로 접근해주세요.',
-    //       confirmButtonColor: 'rgb(0, 170, 255)',
-    //     });
-    //   }
+    if (
+      coords.latitude &&
+      coords.longitude &&
+      culturalPropertydata?.result.culturalProperty
+    ) {
+      const isTrue = isWithin50m(
+        coords.latitude,
+        coords.longitude,
+        culturalPropertydata.result.culturalProperty.latitude,
+        culturalPropertydata.result.culturalProperty.longitude,
+      );
+      if (isTrue) {
+        (window as any).Android.showGPS(
+          `${culturalPropertydata?.result.culturalProperty.culturalPropertyId}`,
+        );
+      } else {
+        Swal.fire({
+          text: '문화재 반경 50m 이내로 접근해주세요.',
+          confirmButtonColor: 'rgb(0, 170, 255)',
+        });
+      }
+    }
   };
   const goQuiz = () => {
     const region = culturalPropertydata?.result.culturalProperty.address;

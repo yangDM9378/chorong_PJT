@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useGeolocated } from 'react-geolocated';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -17,9 +17,9 @@ interface Coords {
   longitude: number | undefined;
 }
 
-interface Props {
-  coords: Coords;
-}
+// interface Props {
+//   coords: Coords;
+// }
 
 export default function CulturalPropertyPage() {
   // 현재 gps 가져오기

@@ -19,15 +19,15 @@ const distance = (
   return d * 1000; // 미터로 변환
 };
 
-const isWithin500m = (
+const isWithin50m = (
   lat1: number,
   lon1: number,
   lat2: number,
   lon2: number,
 ): boolean => {
   const d = distance(lat1, lon1, lat2, lon2);
-  console.log('거리', d);
+  // console.log('거리', d);
   return d <= 50;
 };
 
-export default { isWithin500m };
+export default isWithin50m;
