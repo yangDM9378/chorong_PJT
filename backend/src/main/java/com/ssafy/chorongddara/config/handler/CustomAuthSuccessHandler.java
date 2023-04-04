@@ -28,6 +28,9 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
     @Autowired
     TokenUtil tokenUtil;
 
+    @Autowired
+    RedisUtil redisUtil;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
@@ -81,7 +84,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         jsonObject.put("refreshToken", refreshToken);
         jsonObject.put("userName", user.getNickname());
 
-        RedisUtil.setDataExpire(refreshToken, user.getEmail(), TokenUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+        redisUtil.setDataExpire(refreshToken, user.getEmail(), TokenUtil.REFRESH_TOKEN_VALIDATION_SECOND);
 
 
         // [STEP4] 구성한 응답 값을 전달합니다.
