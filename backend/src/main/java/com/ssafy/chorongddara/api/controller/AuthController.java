@@ -23,8 +23,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/reissue")
-    public ResponseEntity<ApiResponse<Object>> join(@RequestBody TokenDto tokenDto){
-        TokenDto newTokenDto = authService.reissue(tokenDto);
+    public ResponseEntity<ApiResponse<Object>> join(@RequestBody String refreshToken){
+        TokenDto newTokenDto = authService.reissue(refreshToken);
 
         ApiResponse<Object> ar = ApiResponse.builder()
                 .result(newTokenDto)
