@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { MapContainer, GeoJSON, GeoJSONProps, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import gwangjugeojson from './Gwangju.json';
+import Deagugeojson from './Deagu.json';
 import { Feature, Geometry, GeoJsonObject } from 'geojson';
 import L, { StyleFunction, Icon, LatLngTuple } from 'leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { getMapData } from '../../api/mapApi';
 import { StageProps, MapResult, RegionProperties } from '../../types/map';
 import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
-export default function Gwangjustage(props: StageProps) {
+export default function DeaguStage(props: StageProps) {
   const { mapDatas } = props;
   // 지역별 스타일 지정
   const regionStyle: StyleFunction<any> = (
@@ -24,25 +24,29 @@ export default function Gwangjustage(props: StageProps) {
       fillOpacity: 1,
     };
   };
-
   const navigate = useNavigate();
 
   // 뒤로가기
   const goStage = () => {
     navigate('/stage');
   };
+
   // 마커 클릭시 페이지 이동 ->
   return (
     <div>
       <MapContainer
-        center={[35.16, 126.85]}
-        zoom={10}
-        minZoom={10}
-        maxZoom={10}
+        center={[35.83, 128.57]}
+        zoom={9.7}
+        minZoom={9.7}
+        maxZoom={9.7}
         zoomControl={false}
         dragging={false}
         doubleClickZoom={false}
-        style={{ height: '50vh', width: '100vw' }}
+        style={{
+          height: '50vh',
+          width: '100vw',
+          // backgroundColor: 'lightblue',
+        }}
       >
         <div
           style={{
@@ -57,7 +61,7 @@ export default function Gwangjustage(props: StageProps) {
         </div>
 
         <GeoJSON
-          data={gwangjugeojson as unknown as GeoJsonObject}
+          data={Deagugeojson as unknown as GeoJsonObject}
           style={regionStyle}
         />
         {mapDatas?.map((mapData, index) => {

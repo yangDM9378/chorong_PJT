@@ -3,11 +3,11 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { getMapData } from '../../api/mapApi';
-import GwangjuStage from '../../components/map/GwangjuStage';
+import DeaguStage from '../../components/map/DeaguStage';
 import StageFooter from '../../components/map/StageFooter';
 import { MapResult } from '../../types/map';
 
-export default function GwangjuStagePage() {
+export default function DeaguStagePage() {
   // 데이터 가져오기
   const [mapDatas, setMapDatas] = useState<MapResult[] | null>([]);
   const location = useLocation();
@@ -27,7 +27,7 @@ export default function GwangjuStagePage() {
   return (
     <S.Container>
       <div>
-        <GwangjuStage mapDatas={mapDatas} />
+        <DeaguStage mapDatas={mapDatas} />
       </div>
       <StageFooter mapDatas={mapDatas} />
     </S.Container>

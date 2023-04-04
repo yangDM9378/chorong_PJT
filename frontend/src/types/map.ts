@@ -18,6 +18,6 @@ export interface RegionProperties {
   name: string;
 }
 
-export interface GwangjustageProps {
+export interface StageProps {
   mapDatas: MapResult[] | null;
 }
