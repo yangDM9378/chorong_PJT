@@ -12,7 +12,7 @@ pipeline {
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
-                            configName: 'DeleteImages',
+                            configName: 'chorongddaraDeleteImages',
                             transfers: [
                                 sshTransfer(
                                     cleanRemote: false,
@@ -44,7 +44,7 @@ pipeline {
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
-                            configName: 'Build',
+                            configName: 'chorongddaraBuild',
                             transfers: [
                                 sshTransfer(
                                     cleanRemote: false,
@@ -77,7 +77,7 @@ pipeline {
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
-                            configName: 'Deploy',
+                            configName: 'chorongddaraDeploy',
                             transfers: [
                                 sshTransfer(
                                     cleanRemote: false,
