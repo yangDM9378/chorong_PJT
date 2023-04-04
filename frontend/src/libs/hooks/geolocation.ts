@@ -26,7 +26,7 @@ const isWithin50m = (
   lon2: number,
 ): boolean => {
   const d = distance(lat1, lon1, lat2, lon2);
-  // console.log('거리', d);
+  console.log('거리', d);
   return d <= 50;
 };
 
