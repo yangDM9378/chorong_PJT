@@ -36,7 +36,7 @@ export default function CulturalPropertyButtons({ coords }: Props) {
         culturalPropertydata.result.culturalProperty.longitude,
       );
       if (isTrue) {
-        (window as any).Android.showGPS(
+        (window as any).Android.showGame(
           `${localStorage.getItem('accesstoken')}
           ${localStorage.getItem('culturalPropertyId')}`,
         );
