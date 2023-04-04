@@ -57,5 +57,4 @@ services:
       - "6379:6379"
     volumes:
       - ./redis/data:/data
-    command: redis-server --appendonly yes --replica-read-only no ​
     
