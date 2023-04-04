@@ -19,6 +19,7 @@ pipeline {
                                     excludes: '',
                                     execCommand: '''
                                         sudo docker image prune -a
+                                        y
                                     ''',
                                     execTimeout: 600000,
                                     flatten: false,
