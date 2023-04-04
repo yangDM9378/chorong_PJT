@@ -18,6 +18,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
+                                        sudo docker image prune -a
                                         cd /jenkins/workspace/chorongddara
                                         pwd
                                         sudo docker-compose build
