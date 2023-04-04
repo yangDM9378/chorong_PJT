@@ -49,6 +49,11 @@ export default function CulturalPropertyHeader({ coords }: Props) {
           confirmButtonColor: 'rgb(0, 170, 255)',
         });
       }
+    } else {
+      Swal.fire({
+        text: 'GPS 확인중입니다. ',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
     }
   };
 
