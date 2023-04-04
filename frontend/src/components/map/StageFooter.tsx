@@ -2,10 +2,10 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { GwangjustageProps } from '../../types/map';
+import { StageProps } from '../../types/map';
 import MapStar from './MapStar';
 
-export default function StageFooter(props: GwangjustageProps) {
+export default function StageFooter(props: StageProps) {
   const { mapDatas } = props;
   const location = useLocation();
   const { stageInfo } = location.state;

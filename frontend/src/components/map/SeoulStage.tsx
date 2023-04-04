@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { MapContainer, GeoJSON, GeoJSONProps, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import gwangjugeojson from './Gwangju.json';
+import Seoulgeojson from './Seoul.json';
 import { Feature, Geometry, GeoJsonObject } from 'geojson';
 import L, { StyleFunction, Icon, LatLngTuple } from 'leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { getMapData } from '../../api/mapApi';
 import { StageProps, MapResult, RegionProperties } from '../../types/map';
 import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
-export default function Gwangjustage(props: StageProps) {
+export default function SeoulStage(props: StageProps) {
   const { mapDatas } = props;
   // 지역별 스타일 지정
   const regionStyle: StyleFunction<any> = (
@@ -24,7 +24,6 @@ export default function Gwangjustage(props: StageProps) {
       fillOpacity: 1,
     };
   };
-
   const navigate = useNavigate();
 
   // 뒤로가기
@@ -35,7 +34,7 @@ export default function Gwangjustage(props: StageProps) {
   return (
     <div>
       <MapContainer
-        center={[35.16, 126.85]}
+        center={[37.57, 127.0]}
         zoom={10}
         minZoom={10}
         maxZoom={10}
@@ -55,9 +54,8 @@ export default function Gwangjustage(props: StageProps) {
         >
           <IoIosArrowBack color="#F5F5F5" />
         </div>
-
         <GeoJSON
-          data={gwangjugeojson as unknown as GeoJsonObject}
+          data={Seoulgeojson as unknown as GeoJsonObject}
           style={regionStyle}
         />
         {mapDatas?.map((mapData, index) => {

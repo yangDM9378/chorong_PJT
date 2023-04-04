@@ -8,7 +8,9 @@ import QuizPage from '../pages/quiz/QuizPage';
 import QuizScorePage from '../pages/quiz/QuizScorePage';
 import StagePage from '../pages/stage/StagePage';
 import AfterCameraPage from '../pages/camera/AfterCameraPage';
-import GwangjuStagePage from '../pages/map/GwangjustagePage';
+import GwangjuStagePage from '../pages/map/GwangjuStagePage';
+import DeaguStagePage from '../pages/map/DeaguStagePage';
+import SeoulstagePage from '../pages/map/SeoulStagePage';
 import GalleryPage from '../pages/gallery/GalleryPage';
 import OAuthPage from '../pages/common/OAuthPage';
 import ArPage from '../pages/AR/ArPage';
@@ -23,6 +25,8 @@ const RouterConfig = createBrowserRouter([
       { path: '/oauth2/redirect', element: <OAuthPage /> },
       { path: '/stage', element: <StagePage /> },
       { path: '/map/1', element: <GwangjuStagePage /> },
+      { path: '/map/2', element: <DeaguStagePage /> },
+      { path: '/map/3', element: <SeoulstagePage /> },
       { path: '/camera', element: <CameraPage /> },
       { path: '/camera/after', element: <AfterCameraPage /> },
       { path: '/gallery/:userId', element: <GalleryPage /> },
