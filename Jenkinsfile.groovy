@@ -18,8 +18,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
-                                        sudo docker image prune -a
-                                        y
+                                        sudo docker image prune -af
                                     ''',
                                     execTimeout: 600000,
                                     flatten: false,
