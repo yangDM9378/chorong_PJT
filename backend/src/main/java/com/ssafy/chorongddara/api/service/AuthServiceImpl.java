@@ -24,15 +24,12 @@ public class AuthServiceImpl implements AuthService {
     RedisUtil redisUtil;
 
     @Override
-        public TokenDto reissue(TokenDto tokenDto) {
+        public TokenDto reissue(String refreshToken) {
         /*
          *  accessToken 은 JWT Filter 에서 검증되고 옴
          * */
-        String originAccessToken = tokenDto.getAccessToken();
-        String originRefreshToken = tokenDto.getRefreshToken();
-
         // refreshToken 검증
-        String refreshTokenFlag = redisUtil.getData(originRefreshToken);
+        String refreshTokenFlag = redisUtil.getData(refreshToken);
 
         //refreshToken 검증하고 상황에 맞는 오류를 내보낸다.
         if (refreshTokenFlag == null) {
@@ -40,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 5. 새로운 토큰 생성
-        String email = tokenUtil.getUserIdFromToken(originAccessToken);
+        String email = tokenUtil.getUserIdFromToken(refreshToken);
 
         Optional<User> getUser = userService.getUserByEmail(email);
         User user = getUser.orElseThrow(()->new RuntimeException("잘못된 유저 정보"));
@@ -51,10 +48,8 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(newRefreshToken)
                 .build();
 
-        log.debug("refresh Origin = {}",originRefreshToken);
-        log.debug("refresh New = {} ",newRefreshToken);
         // 6. 저장소 정보 업데이트 (dirtyChecking으로 업데이트)
-        redisUtil.setDataExpire(newRefreshToken, user.getEmail(), tokenUtil.getExpiration(originRefreshToken, TokenUtil.REFRESH_TOKEN_NAME));
+        redisUtil.setDataExpire(newRefreshToken, user.getEmail(), tokenUtil.getExpiration(refreshToken, TokenUtil.REFRESH_TOKEN_NAME));
 
         // 토큰 발급
         return newTokenDto;
