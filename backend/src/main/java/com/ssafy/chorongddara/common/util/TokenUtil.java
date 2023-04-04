@@ -40,6 +40,9 @@ public class TokenUtil {
     @Value("${spring.jwt.refreshSecret}")
     private String REFRESH_TOKEN_SECRET_KEY;
 
+    @Autowired
+    RedisUtil redisUtil;
+
 //    public static UserService userService;
 //
 //    @Autowired
@@ -132,7 +135,7 @@ public class TokenUtil {
 
             Claims claims = getClaimsFormToken(token);
 
-            String TokenDataFromRedis = RedisUtil.getData(token);
+            String TokenDataFromRedis = redisUtil.getData(token);
 
             if(TokenDataFromRedis != null && TokenDataFromRedis.equals("logout")) {
                 log.info("로그아웃된 토큰입니다.");
@@ -333,14 +336,14 @@ public class TokenUtil {
             throw new RuntimeException("잘못된 토큰 정보입니다.");
         }
 
-        String refreshToken = RedisUtil.getData(tokenDto.getRefreshToken());
+        String refreshToken = redisUtil.getData(tokenDto.getRefreshToken());
 
         if(!refreshToken.equals(null)) {
-            RedisUtil.deleteData(refreshToken);
+            redisUtil.deleteData(refreshToken);
         }
 
         // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
         Long expiration = getExpiration(tokenDto.getAccessToken(), ACCESS_TOKEN_NAME);
-        RedisUtil.setDataExpire(tokenDto.getAccessToken(), "logout", expiration);
+        redisUtil.setDataExpire(tokenDto.getAccessToken(), "logout", expiration);
     }
 }

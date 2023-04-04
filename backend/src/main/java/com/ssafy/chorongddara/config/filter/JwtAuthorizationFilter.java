@@ -84,7 +84,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 if (tokenUtil.isValidToken(token)) {
 
                     // (추가) Redis 에 해당 accessToken logout 여부 확인
-                    String isLogout = (String)RedisUtil.getData(token);
+                    String isLogout = (String)redisUtil.getData(token);
 
                     if(ObjectUtils.isEmpty(isLogout)) {
                         // [STEP4] 토큰을 기반으로 사용자 아이디를 반환 받는 메서드
