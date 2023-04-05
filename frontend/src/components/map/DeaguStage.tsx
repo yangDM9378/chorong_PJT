@@ -45,7 +45,7 @@ export default function DeaguStage(props: StageProps) {
         style={{
           height: '50vh',
           width: '100vw',
-          // backgroundColor: 'lightblue',
+          backgroundColor: '#F5F5F5',
         }}
       >
         <div
@@ -57,7 +57,7 @@ export default function DeaguStage(props: StageProps) {
           }}
           onClick={goStage}
         >
-          <IoIosArrowBack color="#F5F5F5" />
+          <IoIosArrowBack color="#ffcdf3" />
         </div>
 
         <GeoJSON

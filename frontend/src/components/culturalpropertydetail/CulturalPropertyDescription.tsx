@@ -66,22 +66,8 @@ export default function CulturalPropertyDescription() {
             {culturalPropertydata?.result.culturalProperty.description}
           </S.Description>
         )}
-        {/* {starCnt < 0 ? (
-        <S.Description>
-          {culturalPropertydata?.result.culturalProperty.hiddenDescription}
-        </S.Description>
-      ) : (
-        <S.Box>
-          <S.HiddenDescription>
-            {culturalPropertydata?.result.culturalProperty.hiddenDescription}
-          </S.HiddenDescription>
-          <S.Lock>
-            <BiLock className="w-[5vh] h-[5vh]" />
-          </S.Lock> 
-        </S.Box>
-      )} */}
         {tabNumber === 2 &&
-          (starCnt > 0 ? (
+          (starCnt > 1 ? (
             <S.Description>
               {culturalPropertydata?.result.culturalProperty.hiddenDescription}
             </S.Description>

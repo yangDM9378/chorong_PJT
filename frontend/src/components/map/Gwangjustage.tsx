@@ -42,7 +42,7 @@ export default function GwangjuStage(props: StageProps) {
         zoomControl={false}
         dragging={false}
         doubleClickZoom={false}
-        style={{ height: '50vh', width: '100vw' }}
+        style={{ height: '50vh', width: '100vw', backgroundColor: '#F5F5F5' }}
       >
         <div
           style={{
@@ -53,7 +53,7 @@ export default function GwangjuStage(props: StageProps) {
           }}
           onClick={goStage}
         >
-          <IoIosArrowBack color="#F5F5F5" />
+          <IoIosArrowBack color="#ffcdf3" />
         </div>
 
         <GeoJSON

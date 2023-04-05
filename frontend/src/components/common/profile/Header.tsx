@@ -127,7 +127,7 @@ export default function Header() {
       </S.GalleryButton>
       <BiLogOut
         className="absolute w-[5vh] h-[6vh]"
-        style={{ top: '1vh', left: '41vh', color: '#fbfcb9be' }}
+        style={{ top: '2vh', right: '6vw', color: '#fbfcb9be' }}
         onClick={logOut}
       />
     </S.Container>
