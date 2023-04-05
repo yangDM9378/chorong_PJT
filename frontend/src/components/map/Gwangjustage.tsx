@@ -10,7 +10,7 @@ import { getMapData } from '../../api/mapApi';
 import { StageProps, MapResult, RegionProperties } from '../../types/map';
 import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
-export default function Gwangjustage(props: StageProps) {
+export default function GwangjuStage(props: StageProps) {
   const { mapDatas } = props;
   // 지역별 스타일 지정
   const regionStyle: StyleFunction<any> = (
