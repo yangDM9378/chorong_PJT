@@ -132,29 +132,42 @@ public class CulturalPropertyServiceImpl implements CulturalPropertyService {
                     .build();
         }
 
+        boolean updated = false;    // 별이 수정되었는지를 확인하는 메소드
+
         if (starType.equals("pose")) {
+            if(star.getStarPose() == 0) {
+                updated = true;
+            }
             star.completePose();
         } else if (starType.equals("quiz")) {
+            if(star.getStarQuiz() == 0) {
+                updated = true;
+            }
             star.completeQuiz();
         } else if (starType.equals("ar")) {
+            if(star.getStarAr() == 0) {
+                updated = true;
+            }
             star.completeAr();
         }
 
-        starRepository.save(star);
+        if(updated) {
+            starRepository.save(star);
 
-        UserStage userStage = userStageRepository.findByUser_UserIdAndStage_StageId(userId, culturalProperty.getStage().getStageId())
-                .orElse(null);
+            UserStage userStage = userStageRepository.findByUser_UserIdAndStage_StageId(userId, culturalProperty.getStage().getStageId())
+                    .orElse(null);
 
-        if(userStage == null) {
-            userStage = UserStage.builder()
-                    .user(user)
-                    .stage(culturalProperty.getStage())
-                    .starCount(1)
-                    .build();
-        } else {
-            userStage.increaseStarCount();
+            if (userStage == null) {
+                userStage = UserStage.builder()
+                        .user(user)
+                        .stage(culturalProperty.getStage())
+                        .starCount(1)
+                        .build();
+            } else {
+                userStage.increaseStarCount();
+            }
+
+            userStageRepository.save(userStage);
         }
-
-        userStageRepository.save(userStage);
     }
 }
