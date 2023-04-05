@@ -13,7 +13,7 @@ export default function Home() {
   const token = localStorage.getItem('accesstoken');
   const openModalSignIn = () => {
     if (token) {
-      navigate('/stage');
+      navigate('/stage/');
     } else {
       setModalSignIn(true);
     }

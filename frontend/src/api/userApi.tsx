@@ -13,9 +13,14 @@ export async function signUp(data: SignUpData): Promise<void> {
 export async function signIn(data: SignInData): Promise<string | null> {
   try {
     const response = await authApi.post('/users/login', data);
-    return response.data.accessToken;
+    if (response.data.resultCode === 9999) {
+      return null;
+    }
+    const { accessToken, refreshToken } = response.data;
+    localStorage.setItem('accesstoken', accessToken);
+    localStorage.setItem('refreshtoken', refreshToken);
+    return response.data;
   } catch (error) {
-    console.error(error);
     return null;
   }
 }

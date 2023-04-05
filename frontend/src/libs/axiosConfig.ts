@@ -17,7 +17,7 @@ authApi.interceptors.request.use(
   (config) => {
     // 요청이 전달되기 전에 작업 수행
     const accesstoken = localStorage.getItem('accesstoken');
-
+    const refreshtoken = localStorage.getItem('refreshtoken');
     if (accesstoken !== 'undefined') {
       config.headers.Authorization = accesstoken
         ? `Bearer ${accesstoken}`
@@ -33,15 +33,15 @@ authApi.interceptors.request.use(
 
 authApi.interceptors.response.use(
   (response) => {
-    if (response.data.code === 'G002') {
-      Swal.fire({
-        text: '로그아웃 되었습니다.',
-        confirmButtonColor: 'rgb(0, 170, 255)',
-      }).then(() => {
-        localStorage.removeItem('accesstoken');
-        window.location.href = '/';
-      });
-    }
+    // if (response.data.code === 'G002') {
+    //   Swal.fire({
+    //     text: '로그아웃 되었습니다.',
+    //     confirmButtonColor: 'rgb(0, 170, 255)',
+    //   }).then(() => {
+    //     localStorage.removeItem('accesstoken');
+    //     window.location.href = '/';
+    //   });
+    // }
 
     return response;
   },

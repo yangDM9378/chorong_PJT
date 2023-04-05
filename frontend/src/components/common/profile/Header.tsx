@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import tw from 'twin.macro';
 import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BiPhotoAlbum } from '@react-icons/all-files/bi/BiPhotoAlbum';
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import { BiLogOut } from '@react-icons/all-files/bi/BiLogOut';
 import { getMe } from '../../../api/userApi';
 
@@ -71,7 +72,7 @@ export default function Header() {
   useEffect(() => {
     const getMeData = async () => {
       const response = await getMe();
-      if (response) {
+      if (response?.result) {
         const { userId, email, nickname } = response.result;
         setUserMe({ userId, email, nickname });
       }
@@ -90,8 +91,14 @@ export default function Header() {
       confirmButtonColor: 'rgb(0, 170, 255)',
     }).then(() => {
       localStorage.removeItem('accesstoken');
+      localStorage.removeItem('refreshtoken');
       navigate('/');
     });
+  };
+  // 갤러리 들어갔을때랑 stage일때 컴포넌트 다르게 띄우기
+  const { pathname } = useLocation();
+  const goStage = () => {
+    navigate('/stage/');
   };
   return (
     <S.Container>
@@ -125,11 +132,20 @@ export default function Header() {
       >
         <BiPhotoAlbum />
       </S.GalleryButton>
-      <BiLogOut
-        className="absolute w-[5vh] h-[6vh]"
-        style={{ top: '2vh', right: '6vw', color: '#fbfcb9be' }}
-        onClick={logOut}
-      />
+      {pathname === '/stage/' && (
+        <BiLogOut
+          className="absolute w-[5vh] h-[5vh]"
+          style={{ top: '2vh', right: '6vw', color: '#fbfcb9be' }}
+          onClick={logOut}
+        />
+      )}
+      {pathname !== `/stage/` && (
+        <IoIosArrowBack
+          className="absolute w-[5vh] h-[5vh]"
+          style={{ top: '2vh', left: '4vw', color: '#fbfcb9be' }}
+          onClick={goStage}
+        />
+      )}
     </S.Container>
   );
 }
