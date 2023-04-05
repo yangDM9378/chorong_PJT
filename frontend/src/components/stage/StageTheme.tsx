@@ -64,7 +64,7 @@ export default function StageTheme() {
             />
             <img
               src={
-                stageData.starCount === stageData.stage.targetStarCount
+                stageData.starCount >= stageData.stage.targetStarCount
                   ? `/stage/unlock${stageData.stage.stageId}.png`
                   : `/stage/lock${stageData.stage.stageId}.png`
               }
