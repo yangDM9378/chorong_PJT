@@ -45,6 +45,12 @@ dependencies {
 
     // simple 추가  // Google Simple JSON
     implementation "com.googlecode.json-simple:json-simple:1.1.1"
+
+    // Spring Batch & Scheduling
+    implementation("org.springframework.boot:spring-boot-starter-batch")
+    implementation("org.springframework.boot:spring-boot-starter-quartz")
+
+    testImplementation 'org.springframework.batch:spring-batch-test'
 }
 
 tasks.named('test') {
