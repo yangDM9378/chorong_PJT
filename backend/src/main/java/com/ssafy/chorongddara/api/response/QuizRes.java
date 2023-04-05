@@ -1,12 +1,13 @@
 package com.ssafy.chorongddara.api.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class QuizRes {
     private String question;
     private List<String> options;
