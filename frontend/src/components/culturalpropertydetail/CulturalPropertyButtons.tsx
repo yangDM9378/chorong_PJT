@@ -59,7 +59,31 @@ export default function CulturalPropertyButtons({ coords }: Props) {
     navigate(`/quiz/${region}/${nameKo}`);
   };
   const goCamera = () => {
-    navigate(`/camera`);
+    if (
+      coords.latitude &&
+      coords.longitude &&
+      culturalPropertydata?.result.culturalProperty
+    ) {
+      const isTrue = isWithin50m(
+        coords.latitude,
+        coords.longitude,
+        culturalPropertydata.result.culturalProperty.latitude,
+        culturalPropertydata.result.culturalProperty.longitude,
+      );
+      if (isTrue) {
+        navigate(`/camera`);
+      } else {
+        Swal.fire({
+          text: `포즈 촬영 진행을 위해 문화재 반경 50m 이내로 접근해주세요.`,
+          confirmButtonColor: 'rgb(0, 170, 255)',
+        });
+      }
+    } else {
+      Swal.fire({
+        text: 'GPS 확인중입니다. ',
+        confirmButtonColor: 'rgb(0, 170, 255)',
+      });
+    }
   };
   return (
     <S.Container>

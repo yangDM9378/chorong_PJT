@@ -4,6 +4,7 @@
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import Swal from 'sweetalert2';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +44,7 @@ export default function SignInModal({
   // 로그인 성공시 main으로 이동
   const navigate = useNavigate();
   const gomain = useCallback(() => {
-    navigate('/stage');
+    navigate('/stage/');
   }, [navigate]);
 
   // 로그인 통신부분
@@ -53,11 +54,15 @@ export default function SignInModal({
         email: formData.email,
         password: formData.password,
       };
-      const accesstoken = await signIn(data);
-      if (accesstoken) {
-        localStorage.setItem('accesstoken', accesstoken);
+      const signInResponse = await signIn(data);
+      if (signInResponse) {
         gomain();
         close();
+      } else {
+        Swal.fire({
+          text: '아이디 비번이 일치하지 않았습니다.',
+          confirmButtonColor: 'rgb(0, 170, 255)',
+        });
       }
     },
     [close],
@@ -123,7 +128,7 @@ export default function SignInModal({
         </form>
         <div className="text-center">
           <a href={kakaoOauth}>
-            <Button className="bg-yellow-300 my-4">카카오 로그인 </Button>
+            <Button className="my-4 bg-yellow-300">카카오 로그인 </Button>
           </a>
         </div>
         <div className="text-center">
@@ -151,5 +156,5 @@ const customStyles = {
 };
 
 const Button = styled.button`
-  ${tw`w-64 py-3 text-xl text-white  rounded-2xl`}
+  ${tw`w-64 py-3 text-xl text-white rounded-2xl`}
 `;

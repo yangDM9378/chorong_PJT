@@ -29,7 +29,7 @@ export default function GwangjuStage(props: StageProps) {
 
   // 뒤로가기
   const goStage = () => {
-    navigate('/stage');
+    navigate('/stage/');
   };
   // 마커 클릭시 페이지 이동 ->
   return (
@@ -44,18 +44,11 @@ export default function GwangjuStage(props: StageProps) {
         doubleClickZoom={false}
         style={{ height: '50vh', width: '100vw', backgroundColor: '#F5F5F5' }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            top: '2vh',
-            left: '4vw',
-            fontSize: '4vh',
-          }}
+        <IoIosArrowBack
+          className="absolute w-[5vh] h-[5vh]"
+          style={{ top: '2vh', left: '4vw', color: '#ffcdf3' }}
           onClick={goStage}
-        >
-          <IoIosArrowBack color="#ffcdf3" />
-        </div>
-
+        />
         <GeoJSON
           data={gwangjugeojson as unknown as GeoJsonObject}
           style={regionStyle}

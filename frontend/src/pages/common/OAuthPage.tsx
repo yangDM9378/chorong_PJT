@@ -17,7 +17,7 @@ export default function OAuthPage() {
 
   useEffect(() => {
     if (token) {
-      navigate('/stage');
+      navigate('/stage/');
     }
   }, [token]);
 
