@@ -93,7 +93,7 @@ export default function Camera() {
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div>
       <div
         style={{
           display: 'flex',
@@ -105,11 +105,20 @@ export default function Camera() {
       </div>
 
       <div className="flex justify-center gap-10 m-10">
-        <CachedIcon fontSize="large" onClick={setCamera} />
+        <CachedIcon
+          fontSize="large"
+          style={{ color: '#ffcdf3' }}
+          onClick={setCamera}
+        />
 
-        <CameraRoundedIcon fontSize="large" onClick={onTakePhotoButtonClick} />
+        <CameraRoundedIcon
+          fontSize="large"
+          style={{ color: '#ffcdf3' }}
+          onClick={onTakePhotoButtonClick}
+        />
         <InfoOutlinedIcon
           fontSize="large"
+          style={{ color: '#ffcdf3' }}
           onClick={() => {
             setModalIsOpen(true);
           }}
@@ -121,31 +130,34 @@ export default function Camera() {
           style={{
             overlay: { backgroundColor: 'transparent' },
             content: {
-              position: 'absolute',
               zIndex: 0,
-              border: '2px solid black',
+              border: '2px solid',
+              borderColor: '#ffcdf3',
+              borderRadius: '10px',
               background: 'transparent',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+              top: '1%',
+              left: 'auto',
+              right: '1%',
+              bottom: 'auto',
+              width: '20%',
+              height: 'auto',
             },
           }}
           isOpen={modalIsOpen}
           // onRequestClose={handleClose}
         >
-          <div>
-            <S.ModalClose
-              type="button"
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'black',
-              }}
-              onClick={handleClose}
-            >
-              X
-            </S.ModalClose>
-            <img src={pose?.posePicture} alt={pose?.poseName} />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <img
+              src={pose?.posePicture}
+              alt={pose?.poseName}
+              style={{ width: '10vw', height: 'auto' }}
+            />
           </div>
         </ReactModal>
       )}
@@ -153,8 +165,8 @@ export default function Camera() {
   );
 }
 
-const S = {
-  ModalClose: styled.button`
-    ${tw``}
-  `,
-};
+// const S = {
+//   ModalClose: styled.button`
+//     ${tw``}
+//   `,
+// };
