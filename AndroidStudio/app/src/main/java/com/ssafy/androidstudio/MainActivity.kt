@@ -73,9 +73,7 @@ class MainActivity : AppCompatActivity() {
             settings.builtInZoomControls = false
             settings.databaseEnabled = true
             settings.setGeolocationEnabled(true)
-            settings.loadWithOverviewMode = true
             settings.allowFileAccess = true
-            settings.setGeolocationEnabled(true)
             // JavaScript 인터페이스 활성화
             addJavascriptInterface(WebAppInterface(this@MainActivity), "Android")
         }
