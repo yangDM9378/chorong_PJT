@@ -33,8 +33,7 @@ class SuccessfulFragment(val accessToken: String?, val culturalProperty: String?
                             "=====나의 기록=====\n" +
                             "이동한 거리: $elapsedDist 미터\n" +
                             "걸린 시간: $elapsedTime\n\n" +
-                            "같이 문화재 탐방을 해봐요!\nhttps://j8c101.p.ssafy.io/" +
-                            "$accessToken                       $culturalProperty"
+                            "같이 문화재 탐방을 해봐요!\nhttps://j8c101.p.ssafy.io/"
                     )
                     startActivity(Intent.createChooser(share, "share"))
                     it.onBackPressed()
