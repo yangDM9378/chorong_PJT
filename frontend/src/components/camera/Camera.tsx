@@ -2,7 +2,8 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
-
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { useDispatch, useSelector } from 'react-redux';
 import CameraRoundedIcon from '@mui/icons-material/CameraRounded';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -92,8 +93,16 @@ export default function Camera() {
   }
 
   return (
-    <div>
-      <video ref={videoRef} />
+    <div style={{ position: 'relative' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <video ref={videoRef} width="100%" height="80%" />
+      </div>
 
       <div className="flex justify-center gap-10 m-10">
         <CachedIcon fontSize="large" onClick={setCamera} />
@@ -110,23 +119,42 @@ export default function Camera() {
       {modalIsOpen && (
         <ReactModal
           style={{
-            overlay: { backgroundColor: 'transperent' },
+            overlay: { backgroundColor: 'transparent' },
             content: {
-              border: '0px',
-              background: 'transperent',
+              position: 'absolute',
+              zIndex: 0,
+              border: '2px solid black',
+              background: 'transparent',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
             },
           }}
           isOpen={modalIsOpen}
-          onRequestClose={handleClose}
+          // onRequestClose={handleClose}
         >
-          {/* <img src="/pose/manse.png" alt={pose?.poseName} /> */}
-          <img src={pose?.posePicture} alt={pose?.poseName} />
+          <div>
+            <S.ModalClose
+              type="button"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'black',
+              }}
+              onClick={handleClose}
+            >
+              X
+            </S.ModalClose>
+            <img src={pose?.posePicture} alt={pose?.poseName} />
+          </div>
         </ReactModal>
       )}
     </div>
   );
 }
 
-// export default function Camera() {
-//   return <div>Camera</div>;
-// }
+const S = {
+  ModalClose: styled.button`
+    ${tw``}
+  `,
+};
