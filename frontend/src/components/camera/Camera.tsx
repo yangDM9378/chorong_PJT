@@ -101,10 +101,10 @@ export default function Camera() {
           alignItems: 'center',
         }}
       >
-        <video ref={videoRef} width="100%" height="80%" />
+        <video ref={videoRef} width="100%" height="75%" />
       </div>
 
-      <div className="flex justify-center gap-10 m-10">
+      <div className="flex justify-center gap-12 m-8">
         <CachedIcon
           fontSize="large"
           style={{ color: '#ffcdf3' }}
@@ -139,7 +139,7 @@ export default function Camera() {
               left: 'auto',
               right: '1%',
               bottom: 'auto',
-              width: '20%',
+              width: '30%',
               height: 'auto',
             },
           }}
