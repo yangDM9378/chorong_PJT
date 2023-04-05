@@ -132,7 +132,7 @@ export default function Camera() {
             content: {
               zIndex: 0,
               border: '2px solid',
-              borderColor: '#ffcdf3',
+              borderColor: '#00aaff',
               borderRadius: '10px',
               background: 'transparent',
               top: '1%',
@@ -144,7 +144,7 @@ export default function Camera() {
             },
           }}
           isOpen={modalIsOpen}
-          // onRequestClose={handleClose}
+          onRequestClose={handleClose}
         >
           <div
             style={{

@@ -2,10 +2,10 @@
 import tw from 'twin.macro';
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
-import { QuizState, setCorrectCnt } from '../../store/quiz/slice';
+import { QuizState } from '../../store/quiz/slice';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import { setStar } from '../../api/quizApi';
 
