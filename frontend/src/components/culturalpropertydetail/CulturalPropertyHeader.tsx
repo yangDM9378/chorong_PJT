@@ -21,7 +21,14 @@ interface Props {
 export default function CulturalPropertyHeader({ coords }: Props) {
   const navigate = useNavigate();
   const goMap = () => {
-    navigate(`/stage/`);
+    const stageInfo = [
+      localStorage.getItem('stageId'),
+      localStorage.getItem('stageName'),
+      localStorage.getItem('description'),
+    ];
+    navigate(`/map/${Number(localStorage.getItem('stageId'))}`, {
+      state: { stageInfo },
+    });
   };
   const culturalPropertydata = useSelector<
     AppState,

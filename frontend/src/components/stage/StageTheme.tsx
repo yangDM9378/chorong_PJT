@@ -33,6 +33,9 @@ export default function StageTheme() {
 
   const navigate = useNavigate();
   const goMap = (stageInfo: [number, string, string]) => {
+    localStorage.setItem('stageId', stageInfo[0].toString());
+    localStorage.setItem('stageName', stageInfo[1]);
+    localStorage.setItem('description', stageInfo[2]);
     navigate(`/map/${stageInfo[0]}`, { state: { stageInfo } });
   };
 
