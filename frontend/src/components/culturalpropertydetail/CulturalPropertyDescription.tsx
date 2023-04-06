@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { useSelector } from 'react-redux';
@@ -21,19 +21,17 @@ export default function CulturalPropertyDescription() {
     AppState,
     CulturalPropertyData | null
   >(({ culturalProperty }) => culturalProperty.value);
-  const starAr = culturalPropertydata?.result.starCountRes.starAr
-    ? culturalPropertydata?.result.starCountRes.starAr
-    : 0;
 
-  const starPose = culturalPropertydata?.result.starCountRes.starAr
-    ? culturalPropertydata?.result.starCountRes.starPose
-    : 0;
-
-  const starQuiz = culturalPropertydata?.result.starCountRes.starQuiz
-    ? culturalPropertydata?.result.starCountRes.starQuiz
-    : 0;
-
-  const starCnt = starAr + starPose + starQuiz;
+  const [starCnt, setStarCnt] = useState(0);
+  useState();
+  useEffect(() => {
+    const cnt =
+      (culturalPropertydata?.result.starCountRes.starAr || 0) +
+      (culturalPropertydata?.result.starCountRes.starPose || 0) +
+      (culturalPropertydata?.result.starCountRes.starQuiz || 0);
+    console.log(cnt);
+    setStarCnt(cnt);
+  }, [culturalPropertydata]);
 
   return (
     <S.Container>
