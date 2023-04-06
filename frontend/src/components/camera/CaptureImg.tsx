@@ -64,7 +64,7 @@ export default function CaptureImg() {
   };
 
   const predict = () => {
-    const URL = 'https://teachablemachine.withgoogle.com/models/6I9Bye3ym/';
+    const URL = 'https://teachablemachine.withgoogle.com/models/dLnNLi8hl/';
 
     let model: tmPose.CustomPoseNet | null;
     let maxPredictions: number;
