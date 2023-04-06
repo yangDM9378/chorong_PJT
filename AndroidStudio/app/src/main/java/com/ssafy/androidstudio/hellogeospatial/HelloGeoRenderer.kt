@@ -224,7 +224,7 @@ class HelloGeoRenderer(val activity: HelloGeoActivity, val accessToken: String?,
         val consoleSwitch: Switch = activity.findViewById(R.id.console_switch)
         val statusText: TextView = activity.findViewById(R.id.statusText)
         val nearestDist = nearestAnchorIndex.second
-        if (nearestDist != null && nearestDist < 20) {
+        if (nearestDist != null && nearestDist < 25) {
           collectButton.visibility = View.VISIBLE
           collectButton.setOnClickListener() {
             collectButton.visibility = View.INVISIBLE
