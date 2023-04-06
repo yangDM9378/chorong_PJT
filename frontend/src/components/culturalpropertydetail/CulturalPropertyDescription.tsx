@@ -29,7 +29,6 @@ export default function CulturalPropertyDescription() {
       (culturalPropertydata?.result.starCountRes.starAr || 0) +
       (culturalPropertydata?.result.starCountRes.starPose || 0) +
       (culturalPropertydata?.result.starCountRes.starQuiz || 0);
-    console.log(cnt);
     setStarCnt(cnt);
   }, [culturalPropertydata]);
 
