@@ -78,13 +78,6 @@ export default function StageTheme() {
               }}
             />
           </S.MainContainer>
-          {/* 별 다 획득시
-          {stageData.starCount === stageData.stage.targetStarCount && (
-            <div>
-              <img src="/main/star.png" alt="/main/star.png" />
-              <p>Clear</p>
-            </div>
-          )} */}
         </S.StageTheme>
       ))}
     </S.Container>

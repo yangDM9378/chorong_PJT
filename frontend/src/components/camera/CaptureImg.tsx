@@ -54,6 +54,7 @@ export default function CaptureImg() {
             });
         });
       });
+
       const starData = {
         culturalPropertyId: culturalId,
         starType: 'pose',
@@ -89,7 +90,6 @@ export default function CaptureImg() {
       }
       for (let i = 0; i < maxPredictions; i += 1) {
         if (prediction[i].className === poseName) {
-          console.log(prediction[i].probability);
           if (prediction[i].probability > 0) {
             setPoseCompleted(true);
             return (
@@ -101,9 +101,6 @@ export default function CaptureImg() {
             );
           }
         }
-        // const classPrediction = `${prediction[i].className}: ${prediction[
-        //   i
-        // ].probability.toFixed(2)}`;
       }
       return (
         <div>

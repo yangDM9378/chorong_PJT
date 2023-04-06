@@ -164,9 +164,3 @@ export default function Camera() {
     </div>
   );
 }
-
-// const S = {
-//   ModalClose: styled.button`
-//     ${tw``}
-//   `,
-// };
