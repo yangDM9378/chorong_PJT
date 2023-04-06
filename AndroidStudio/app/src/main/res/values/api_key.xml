@@ -15,5 +15,6 @@
    limitations under the License.
 -->
 <resources>
-  <string translatable="false" name="GoogleCloudApiKey"></string>
+  <string translatable="false" name="GoogleCloudApiKey">
+  </string>
 </resources>

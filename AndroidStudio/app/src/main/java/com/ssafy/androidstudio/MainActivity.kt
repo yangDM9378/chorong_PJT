@@ -97,10 +97,10 @@ class MainActivity : AppCompatActivity() {
                         if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
                         }
-                        if (previousePage) {
-                            webview.reload()
-                            previousePage = false
-                        }
+//                        if (previousePage) {
+//                            webview.reload()
+//                            previousePage = false
+//                        }
                     }
                     if (url.equals("https://j8c101.p.ssafy.io/pose/pose_mansae.png")){
                         previousePage = true
