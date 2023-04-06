@@ -40,7 +40,7 @@ const Box = styled.div`
 const Wave = styled.div`
   opacity: 0.4;
   position: absolute;
-  top: 7.5vh;
+  top: 6.5vh;
   left: 31vh;
   background: #0af;
   width: 56vh;
@@ -155,7 +155,7 @@ const S = {
     ${tw`relative h-[35%] `}
   `,
   BackImage: styled.div`
-    ${tw`h-[90%]  relative overflow-hidden `}
+    ${tw`h-[90%] relative overflow-hidden `}
   `,
   NameCircle: styled.div`
     ${tw`absolute rounded-[100%] bg-[rgba(255, 205, 243, 0.9);] w-[20vh] h-[20vh] flex flex-col items-center justify-center text-white  `}
