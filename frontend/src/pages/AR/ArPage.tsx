@@ -20,7 +20,6 @@ export default function ArPage() {
           ),
           starType: 'ar',
         };
-        console.log(starData);
         await setarStar(starData);
         await goCulturalPropertyDetail();
       } catch (error) {

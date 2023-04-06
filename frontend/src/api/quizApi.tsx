@@ -1,9 +1,11 @@
 import { authApi } from '../libs/axiosConfig';
 import { QuizStar } from '../types/quiz';
 
-export const getQuiz = async (region?: string, nameKo?: string) => {
-  const { data } = await authApi.get(`quiz/${region}/${nameKo}`);
-  return data;
+export const getQuiz = async (culturalPropertyId?: number) => {
+  const {
+    data: { result },
+  } = await authApi.get(`quiz/${culturalPropertyId}`);
+  return result;
 };
 
 export const setStar = async (data: QuizStar) => {

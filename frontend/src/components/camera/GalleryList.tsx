@@ -14,7 +14,6 @@ function GalleryList() {
     e.preventDefault();
     const getPicture = async () => {
       const response = await getGalleryData();
-      console.log(response);
       if (response) {
         setPicture(response.result);
       }
