@@ -24,15 +24,15 @@ export default function CaptureImg() {
   const img = useSelector<AppState, CameraState['img']>(
     (state) => state.camera.img,
   );
-  img!.arrayBuffer().then((arrayBuffer) => {
-    const blob = new Blob([new Uint8Array(arrayBuffer)], { type: img!.type });
-  });
-  const imgSrc = URL.createObjectURL(img!);
+  const imgSrc = img ? URL.createObjectURL(img) : '';
   const imgRef = useRef<HTMLImageElement>(null);
 
   const { culturalId, poseName } = location.state;
 
   const [poseCompleted, setPoseCompleted] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const submitImg = async (e: any) => {
     e.preventDefault();
     if (img !== undefined) {
@@ -64,13 +64,19 @@ export default function CaptureImg() {
     await navigate(`/culturalpropertydetail/${culturalId}`);
   };
 
-  const predict = () => {
+  useEffect(() => {
     const URL = 'https://teachablemachine.withgoogle.com/models/dLnNLi8hl/';
 
     let model: tmPose.CustomPoseNet | null;
     let maxPredictions: number;
 
     async function init() {
+      if (!img) {
+        return;
+      }
+
+      setIsLoading(true); // 로딩 상태 설정
+
       const modelURL = `${URL}model.json`;
       const metadataURL = `${URL}metadata.json`;
       model = await tmPose.load(modelURL, metadataURL);
@@ -81,70 +87,42 @@ export default function CaptureImg() {
         true,
       );
       const prediction = await model.predict(posenetOutput);
+
       if (!prediction) {
-        return (
-          <div>
-            <span>Loading</span>
-          </div>
-        );
-      }
-      for (let i = 0; i < maxPredictions; i += 1) {
-        if (prediction[i].className === poseName) {
-          if (prediction[i].probability > 0) {
+        setShowButton(true);
+      } else {
+        for (let i = 0; i < maxPredictions; i += 1) {
+          if (
+            prediction[i].className === poseName &&
+            prediction[i].probability > 0
+          ) {
             setPoseCompleted(true);
-            return (
-              <S.Btn>
-                <button type="button" onClick={submitImg}>
-                  상세페이지
-                </button>
-              </S.Btn>
-            );
+            setShowButton(true);
+            break;
+          } else {
+            setShowButton(true);
           }
         }
       }
-      return (
-        <div>
-          <img src={imgSrc} ref={imgRef} alt="capture img" />
-          <div className="flex justify-center gap-10 m-5">
-            {poseCompleted ? (
-              <S.Btn>
-                <button type="button" onClick={submitImg}>
-                  상세페이지
-                </button>
-              </S.Btn>
-            ) : (
-              <S.Btn>
-                <button type="button" onClick={goBack}>
-                  다시 찍기
-                </button>
-              </S.Btn>
-            )}
-          </div>
-        </div>
-      );
+
+      setIsLoading(false); // 로딩 상태 해제
     }
+
     init();
-  };
-  useEffect(() => {
-    predict();
-    console.log(poseCompleted);
-  }, []);
+  }, [img, poseName]);
+
   return (
     <div>
       <img src={imgSrc} ref={imgRef} alt="capture img" />
       <div className="flex justify-center gap-10 m-5">
-        {poseCompleted ? (
-          <S.Btn>
-            <button type="button" onClick={submitImg}>
-              상세페이지
-            </button>
-          </S.Btn>
+        {isLoading ? (
+          <Loading /> // 로딩 컴포넌트 렌더링
         ) : (
-          <S.Btn>
-            <button type="button" onClick={goBack}>
-              다시 찍기
-            </button>
-          </S.Btn>
+          showButton && (
+            <S.Btn type="button" onClick={poseCompleted ? submitImg : goBack}>
+              {poseCompleted ? '상세페이지' : '다시 찍기'}
+            </S.Btn>
+          )
         )}
       </div>
     </div>
