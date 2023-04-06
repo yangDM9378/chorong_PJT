@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import { AppState } from '../../store';
 import { CulturalPropertyData } from '../../types/culturalpropertytype';
 import CulturalPropertyStar from './CulturalPropertyStar';
@@ -17,6 +19,10 @@ interface Props {
 }
 
 export default function CulturalPropertyHeader({ coords }: Props) {
+  const navigate = useNavigate();
+  const goMap = () => {
+    navigate(`/stage/`);
+  };
   const culturalPropertydata = useSelector<
     AppState,
     CulturalPropertyData | null
@@ -71,6 +77,11 @@ export default function CulturalPropertyHeader({ coords }: Props) {
             backgroundColor: 'rgba(0,0,0,0.3)',
           }}
         >
+          <IoIosArrowBack
+            className="absolute w-[5vh] h-[5vh]"
+            style={{ top: '2vh', left: '4vw', color: '#ffcdf3' }}
+            onClick={goMap}
+          />
           <CulturalPropertyStar starCnt={starCnt} />
           <S.InfoContainer>
             <S.Name>

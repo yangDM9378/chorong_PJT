@@ -69,7 +69,7 @@ export default function Camera() {
       })
       .then(() => {
         stopStreamedVideo(videoRef.current);
-        navigate('/camera/after', {
+        navigate('/camera/after/', {
           state: {
             culturalId: cultural?.culturalPropertyId,
             poseName: pose?.poseName,

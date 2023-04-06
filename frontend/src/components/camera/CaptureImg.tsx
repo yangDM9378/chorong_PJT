@@ -18,7 +18,7 @@ export default function CaptureImg() {
   const location = useLocation();
 
   const goBack = useCallback(() => {
-    navigate('/camera');
+    navigate('/camera/');
   }, [navigate]);
 
   const img = useSelector<AppState, CameraState['img']>(

@@ -32,7 +32,7 @@ export default function StageTheme() {
   }, []);
 
   const navigate = useNavigate();
-  const goStage = (stageInfo: [number, string, string]) => {
+  const goMap = (stageInfo: [number, string, string]) => {
     navigate(`/map/${stageInfo[0]}`, { state: { stageInfo } });
   };
 
@@ -42,7 +42,7 @@ export default function StageTheme() {
         <S.StageTheme
           key={stageData.stage.stageId}
           onClick={() =>
-            goStage([
+            goMap([
               stageData.stage.stageId,
               stageData.stage.stageName,
               stageData.stage.description,

@@ -49,7 +49,7 @@ export default function quizModal({
   // 결과보기 페이지로 이동하기
   const navigate = useNavigate();
   const quizScore = useCallback(() => {
-    navigate('/quizscore', { replace: true });
+    navigate('/quizscore/', { replace: true });
   }, [navigate]);
 
   // 결과보기 페이지로 이동시 dispatch값 초기화 시키기

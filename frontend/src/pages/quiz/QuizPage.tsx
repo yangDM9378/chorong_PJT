@@ -1,12 +1,25 @@
 import React from 'react';
 import tw from 'twin.macro';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import QuizHeader from '../../components/quiz/QuizHeader';
 import QuizSection from '../../components/quiz/QuizSection';
 
 export default function QuizPage() {
+  const navigate = useNavigate();
+  const goCulturalpropertydetail = () => {
+    navigate(
+      `/culturalpropertydetail/${localStorage.getItem('culturalPropertyId')}`,
+    );
+  };
   return (
     <S.QuizRed>
+      <IoIosArrowBack
+        className="absolute w-[5vh] h-[5vh]"
+        style={{ top: '2vh', left: '4vw', color: '#ffcdf3' }}
+        onClick={goCulturalpropertydetail}
+      />
       <S.QuizGray>
         <S.QuizWhite>
           <QuizHeader />
