@@ -71,7 +71,7 @@ export default function StageTheme() {
               alt="캐릭터"
               style={{
                 position: 'absolute',
-                top: '9vw',
+                top: '8vw',
                 left: '70vw',
                 width: '25vw',
                 height: '24vw',
