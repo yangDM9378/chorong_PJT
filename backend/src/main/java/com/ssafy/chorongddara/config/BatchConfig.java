@@ -33,7 +33,7 @@ public class BatchConfig {
     @Autowired
     private QuizService quizService;
 
-    @Bean
+    @Bean(name = "job")
     public Job job() {
         Job job = jobBuilderFactory.get("job")
                 .start(step())
@@ -48,16 +48,16 @@ public class BatchConfig {
                 .tasklet((contribution, chunkContext) -> {
                     log.info("Step 시작");
 
-                    // 문화재 읽어오기
-                    List<CulturalProperty> culturalPropertyList = culturalPropertyRepository.findAll();
-
-                    for(CulturalProperty culturalProperty : culturalPropertyList) {
-                        // 기존에 존재하는 퀴즈 삭제 후에
-                        quizService.deleteQuiz(culturalProperty.getCulturalPropertyId());
-
-                        // 새로운 퀴즈 생성 및 캐시 저장
-                        quizService.saveQuiz(culturalProperty);
-                    }
+//                    // 문화재 읽어오기
+//                    List<CulturalProperty> culturalPropertyList = culturalPropertyRepository.findAll();
+//
+//                    for(CulturalProperty culturalProperty : culturalPropertyList) {
+//                        // 기존에 존재하는 퀴즈 삭제 후에
+//                        quizService.deleteQuiz(culturalProperty.getCulturalPropertyId());
+//
+//                        // 새로운 퀴즈 생성 및 캐시 저장
+//                        quizService.saveQuiz(culturalProperty);
+//                    }
 
                     return RepeatStatus.FINISHED;
                 })
