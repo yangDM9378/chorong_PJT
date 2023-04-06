@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Builder
 public class Quiz {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quizId;
 
     @ManyToOne(fetch = FetchType.LAZY)
