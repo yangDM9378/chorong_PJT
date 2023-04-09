@@ -8,6 +8,7 @@ import com.ssafy.chorongddara.db.entity.CulturalProperty;
 import com.ssafy.chorongddara.db.entity.Quiz;
 import com.ssafy.chorongddara.db.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,9 @@ public class QuizServiceImpl implements QuizService {
 
     @Autowired
     private QuizRepository quizRepository;
+
+    @Value("${chatgpt.key}")
+    private String apiKey;
 
     @Override
     public List<QuizRes> getQuiz(Integer culturalPropertyId) {
@@ -51,7 +55,6 @@ public class QuizServiceImpl implements QuizService {
 
     public void saveQuiz(CulturalProperty culturalProperty) throws JsonProcessingException {
         // JSON 데이터를 맵 형태로 생성
-        String apiKey = "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";
         String preText = "이제부터 문화재에 관해 질문을 할껀데 아래의 JSON 형식으로 대답해줘\n" +
                 "{\n" +
                 "\"questions\": [\n" +
