@@ -116,7 +116,7 @@ public class TokenUtil {
         try {
             System.out.println(token);
 
-            Claims claims = getClaimsFormToken(token);
+            Claims claims = getClaimsFromToken(token);
 
             String TokenDataFromRedis = RedisUtil.getData(token);
 
@@ -154,16 +154,15 @@ public class TokenUtil {
     }
 
     public Long getExpiration(String token, String type) {
-
         if(type.equals(ACCESS_TOKEN_NAME)) {
             // accessToken 남은 유효시간
-            Date expiration = Jwts.parserBuilder().setSigningKey(ACCESS_TOKEN_SECRET_KEY).build().parseClaimsJws(token).getBody().getExpiration();
+            Date expiration = Jwts.parserBuilder().setSigningKey(DatatypeConverter.parseBase64Binary(ACCESS_TOKEN_SECRET_KEY)).build().parseClaimsJws(token).getBody().getExpiration();
             // 현재 시간
             Long now = new Date().getTime();
             return (expiration.getTime() - now);
         } else {
             // accessToken 남은 유효시간
-            Date expiration = Jwts.parserBuilder().setSigningKey(REFRESH_TOKEN_SECRET_KEY).build().parseClaimsJws(token).getBody().getExpiration();
+            Date expiration = Jwts.parserBuilder().setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_TOKEN_SECRET_KEY)).build().parseClaimsJws(token).getBody().getExpiration();
             // 현재 시간
             Long now = new Date().getTime();
             return (expiration.getTime() - now);
@@ -233,10 +232,29 @@ public class TokenUtil {
      * @param token : 토큰
      * @return Claims : Claims
      */
-    private Claims getClaimsFormToken(String token) {
+    private Claims getClaimsFromToken(String token) {
         try {
             return Jwts.parserBuilder().setSigningKey(DatatypeConverter.parseBase64Binary(ACCESS_TOKEN_SECRET_KEY)).build()
                     .parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            log.debug("클레임을 가져오는 중 에러 발생");
+
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    /**
+     * 리프래시 토큰 정보를 기반으로 Claims 정보를 반환받는 메서드
+     *
+     * @param refreshToken : 리프래시 토큰
+     * @return Claims : Claims
+     */
+    private Claims getClaimsFromRefreshToken(String refreshToken) {
+        try {
+            return Jwts.parserBuilder().setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_TOKEN_SECRET_KEY)).build()
+                    .parseClaimsJws(refreshToken).getBody();
         } catch (Exception e) {
             log.debug("클레임을 가져오는 중 에러 발생");
 
@@ -253,8 +271,17 @@ public class TokenUtil {
      * @return String : 사용자 아이디
      */
     public String getUserIdFromToken(String token) {
+<<<<<<< Updated upstream
         Claims claims = getClaimsFormToken(token);
         log.debug("-------------------------------------------------- claim = " + claims);
+=======
+        Claims claims = getClaimsFromToken(token);
+        return claims.get("userId").toString();
+    }
+
+    public String getUserIdFromRefreshToken(String refreshToken) {
+        Claims claims = getClaimsFromRefreshToken(refreshToken);
+>>>>>>> Stashed changes
         return claims.get("userId").toString();
     }
 

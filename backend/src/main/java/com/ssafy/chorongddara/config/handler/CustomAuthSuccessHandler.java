@@ -83,7 +83,6 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
         RedisUtil.setDataExpire(refreshToken, user.getEmail(), TokenUtil.REFRESH_TOKEN_VALIDATION_SECOND);
 
-
         // [STEP4] 구성한 응답 값을 전달합니다.
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
