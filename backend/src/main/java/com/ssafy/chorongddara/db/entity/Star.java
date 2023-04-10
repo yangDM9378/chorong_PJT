@@ -1,9 +1,7 @@
 package com.ssafy.chorongddara.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -12,6 +10,8 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@DynamicInsert
 @DynamicUpdate
 public class Star {
     @Id
@@ -22,13 +22,25 @@ public class Star {
 
     private Integer starQuiz;
 
-    private Integer starReview;
+    private Integer starAr;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "culturalPropertyId")
+    @JoinColumn(name = "cultural_property_id")
     private CulturalProperty culturalProperty;
+
+    public void completePose() {
+        this.starPose = 1;
+    }
+
+    public void completeQuiz() {
+        this.starQuiz = 1;
+    }
+
+    public void completeAr() {
+        this.starAr = 1;
+    }
 }

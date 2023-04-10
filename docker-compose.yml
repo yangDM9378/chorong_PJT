@@ -9,6 +9,9 @@ services:
     volumes:
       - /app/node_modules
       - ./frontend:/app
+      - /home/ubuntu/chorongddara/upload/:/home/ubuntu/chorongddara/upload/
+    ports:
+      - "3000:3000"
     stdin_open: true
 
   nginx:
@@ -16,16 +19,23 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./nginx
+    container_name: nginx
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
-      - "3000:80"
+      - "80:80"
+      - "443:443"
 
   backend:
     build:
       dockerfile: Dockerfile
       context: ./backend
     container_name: backend
+    ports:
+      - "8080:8080"
     volumes:
       - ./backend:/app
+      - /home/ubuntu/chorongddara/upload/:/home/ubuntu/chorongddara/upload/
 
   mysql:
     build: ./mysql
@@ -45,4 +55,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    volumes:
+      - ./redis/data:/data
     

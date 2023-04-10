@@ -5,7 +5,12 @@ import com.ssafy.chorongddara.config.filter.JwtAuthorizationFilter;
 import com.ssafy.chorongddara.config.handler.CustomAuthFailureHandler;
 import com.ssafy.chorongddara.config.handler.CustomAuthSuccessHandler;
 import com.ssafy.chorongddara.config.handler.CustomAuthenticationProvider;
+import com.ssafy.chorongddara.config.oauth2.CustomOAuth2UserService;
+import com.ssafy.chorongddara.config.oauth2.cookie.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.ssafy.chorongddara.config.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.ssafy.chorongddara.config.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +39,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
+
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+    @Autowired
+    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    @Autowired
+    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+//    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+//    private final JwtExceptionFilter jwtExceptionFilter;
+//    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     /**
      * 1. 정적 자원(Resource)에 대해서 인증된 사용자가  정적 자원의 접근에 대해 ‘인가’에 대한 설정을 담당하는 메서드이다.
@@ -78,7 +95,23 @@ class SecurityConfig {
                 .formLogin().disable()
 
                 // [STEP6] Spring Security Custom Filter Load - Form '인증'에 대해서 사용
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
+                .oauth2Login()
+                .authorizationEndpoint().baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
+
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
         // [STEP7] 최종 구성한 값을 사용함.
         return http.build();

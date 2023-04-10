@@ -24,9 +24,10 @@ module.exports = {
   },
   rules: {
     'no-use-before-define': 'off',
-    '@typescript-eslint/no-use-before-define': 'warn',
+    '@typescript-eslint/no-use-before-define': ['warn', { variables: false }],
     'no-param-reassign': 0,
     'react/react-in-jsx-scope': 'off',
+    'react/jsx-no-bind': 'off',
     'react/jsx-filename-extension': [
       1,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },

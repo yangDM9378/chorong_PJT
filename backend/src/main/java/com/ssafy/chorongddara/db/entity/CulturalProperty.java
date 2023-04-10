@@ -29,43 +29,21 @@ public class CulturalProperty {
     @Column(nullable = false)
     private String address;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String hiddenDescription;
 
     private String image;
 
-    private String type;
+    private String pinImage;
 
-    public void changeNameKo(String nameKo) {
-        this.nameKo = nameKo;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stage_id")
+    private Stage stage;
 
-    public void changeNameCh(String nameCh) {
-        this.nameCh = nameCh;
-    }
-
-    public void changeLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void changeLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public void changeAddress(String address) {
-        this.address = address;
-    }
-
-    public void changeDescription(String description) {
-        this.description = description;
-    }
-
-    public void changeImage(String image) {
-        this.image = image;
-    }
-
-    public void changeType(String type) {
-        this.type = type;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pose_id")
+    private Pose pose;
 }

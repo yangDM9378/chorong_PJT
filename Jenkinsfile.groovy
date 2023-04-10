@@ -7,6 +7,38 @@ pipeline {
                 echo 'Preparing..'
             }
         }
+        stage('DeleteImages') {
+            steps {
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: 'chorongddaraDeploy',
+                            transfers: [
+                                sshTransfer(
+                                    cleanRemote: false,
+                                    excludes: '',
+                                    execCommand: '''
+                                        sudo docker image prune -af
+                                    ''',
+                                    execTimeout: 600000,
+                                    flatten: false,
+                                    makeEmptyDirs: false,
+                                    noDefaultExcludes: false,
+                                    patternSeparator: '[, ]+',
+                                    remoteDirectory: '',
+                                    remoteDirectorySDF: false,
+                                    removePrefix: '',
+                                    sourceFiles: 'chorongddara/**/*'
+                                )
+                            ],
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false,
+                            verbose: false
+                        )
+                    ]
+                )
+            }
+        }
         stage('Build') {
             steps {
                 sshPublisher(
@@ -19,10 +51,9 @@ pipeline {
                                     excludes: '',
                                     execCommand: '''
                                         cd /jenkins/workspace/chorongddara
-                                        pwd
                                         sudo docker-compose build
                                     ''',
-                                    execTimeout: 120000,
+                                    execTimeout: 600000,
                                     flatten: false,
                                     makeEmptyDirs: false,
                                     noDefaultExcludes: false,
@@ -30,7 +61,7 @@ pipeline {
                                     remoteDirectory: '',
                                     remoteDirectorySDF: false,
                                     removePrefix: 'chorongddara',
-                                    sourceFiles: 'chorongddara/**/*'
+                                    sourceFiles: 'chorongddara/README.md'
                                 )
                             ],
                             usePromotionTimestamp: false,
@@ -53,7 +84,6 @@ pipeline {
                                     excludes: '',
                                     execCommand: '''
                                         cd /jenkins/workspace/chorongddara
-                                        pwd
                                         sudo docker-compose up -d
                                     ''',
                                     execTimeout: 120000,
@@ -64,7 +94,7 @@ pipeline {
                                     remoteDirectory: '',
                                     remoteDirectorySDF: false,
                                     removePrefix: 'chorongddara',
-                                    sourceFiles: 'chorongddara/**/*')
+                                    sourceFiles: 'chorongddara/README.md')
                             ],
                             usePromotionTimestamp: false,
                             useWorkspaceInPromotion: false,
