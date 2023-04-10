@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 5. 새로운 토큰 생성
-        String email = tokenUtil.getUserIdFromToken(refreshToken);
+        String email = tokenUtil.getUserIdFromRefreshToken(refreshToken);
 
         Optional<User> getUser = userService.getUserByEmail(email);
         User user = getUser.orElseThrow(()->new RuntimeException("잘못된 유저 정보"));

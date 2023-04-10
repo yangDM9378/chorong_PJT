@@ -1,18 +1,14 @@
 package com.ssafy.chorongddara.api.controller;
 
 import com.ssafy.chorongddara.api.dto.TokenDto;
-import com.ssafy.chorongddara.api.request.UserJoinReq;
-import com.ssafy.chorongddara.api.request.UserUpdateReq;
 import com.ssafy.chorongddara.api.service.AuthService;
-import com.ssafy.chorongddara.api.service.UserService;
 import com.ssafy.chorongddara.common.codes.SuccessCode;
 import com.ssafy.chorongddara.common.response.ApiResponse;
-import com.ssafy.chorongddara.common.util.TokenUtil;
-import com.ssafy.chorongddara.db.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -23,7 +19,9 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/reissue")
-    public ResponseEntity<ApiResponse<Object>> join(@RequestBody String refreshToken){
+    public ResponseEntity<ApiResponse<Object>> join(@RequestBody Map<String,String> refreshTokenBody){
+        String refreshToken = refreshTokenBody.get("refreshToken");
+
         TokenDto newTokenDto = authService.reissue(refreshToken);
 
         ApiResponse<Object> ar = ApiResponse.builder()
