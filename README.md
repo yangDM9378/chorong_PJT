@@ -1,7 +1,7 @@
 # 📢 초롱따라
-<img src="./img/logo.png"  width="300" height="150"/>
+<img src="./img/logo.png"  width="450" height="450"/>
 > ## 주제 <br>
-> [개요] 온/오프라인 병행가능한 언어치료 수업 플랫폼
+> <p>[개요] 온/오프라인 병행가능한 언어치료 수업 플랫폼</p>
 > ChatGPT를 활용한 문화재 퀴즈/Teachable Machine을 활용한 포즈 사진 찍기/AR 기술을 활용한 문화재 게임을 통한 **문화재 탐방 서비스**입니다.
 >
 > <p>[기간] 2023.02.20 ~ 2023.04.07 (7주)</p>
@@ -31,16 +31,10 @@
 - typescript
 - Node 16.18.0
 - React 18.2.0
-- Redux
-- React-query
-- tailwind
-- Styled-components
 
 #### **Android**
 - Android 13
 - API 33
-- google.ar:core:1.35.0
-
 #### **CI/CD**
 - AWS EC2 (Ubuntu 20.04 LTS)
 - Docker 23.0.1
@@ -57,6 +51,8 @@
 
 > ## ✔️ 디자인 프로토타입
 ![prototype](./img/prototype.png)
+
+<br />
 
 > ## ✔️ ERD
 
