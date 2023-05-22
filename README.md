@@ -1,5 +1,6 @@
 # 📢 초롱따라
-<img src="./img/logo.png"  width="450" height="450"/>
+
+<img src="./img/logo.png"  width="200" height="200" />
 
  <br/>
 
